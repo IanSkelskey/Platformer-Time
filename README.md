@@ -1,6 +1,10 @@
 # Platformer-Time
 
+<<<<<<< HEAD
 Platformer Time is a project I am working on to practice
+=======
+![A screenshot of platformer time!](https://github.com/IanSkelskey/Platformer-Time/blob/master/screenshots/screen0.png)
+>>>>>>> ba9b2a659879b491797800511f8ab115eca804d8
 
 ## Compatibility:
 - Mac, PC, and Linux
