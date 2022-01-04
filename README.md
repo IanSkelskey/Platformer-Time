@@ -1,5 +1,7 @@
 # Platformer-Time
 
+Platformer Time is a project I am working on to practice
+
 ## Compatibility:
 - Mac, PC, and Linux
 - (iOS and Android Coming Soon!)

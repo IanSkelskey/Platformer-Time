@@ -91,7 +91,7 @@ function Hero:update(dt)
       end
 
     -- Keyboard input logic
-    if love.keyboard.wasPressed('space') then
+    if love.keyboard.wasPressed('up') then
       if self.state ~= 'jump' then -- Can only jump if you're not already jumping
         self.dy = -4
       end
