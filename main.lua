@@ -26,16 +26,6 @@ gFonts = {
     ['large'] = love.graphics.newFont('fonts/font.ttf', 32)
 }
 
--- Table of character sprites
-gChars = {
-    ['finn'] = love.graphics.newImage('images/FinnSprite.png')
-}
-
-
-gCharFrames = {
-    ['finn'] = GenerateQuads(gChars['finn'], 32, 32)
-}
-
 local background = love.graphics.newImage('images/TEST SKY 1.png')
 local ground = love.graphics.newImage('images/ground.png')
 local tree = love.graphics.newImage('images/tree tile 1.png')
