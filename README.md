@@ -1,5 +1,7 @@
 # Platformer-Time
 
+![A screenshot of platformer time!](https://github.com/IanSkelskey/Platformer-Time/blob/master/screenshots/screen0.png)
+
 ## Compatibility:
 - Mac, PC, and Linux
 - (iOS and Android Coming Soon!)
