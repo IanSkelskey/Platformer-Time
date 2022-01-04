@@ -29,8 +29,11 @@ gFonts = {
 local background = love.graphics.newImage('images/TEST SKY 1.png')
 local ground = love.graphics.newImage('images/ground.png')
 local tree = love.graphics.newImage('images/tree tile 1.png')
+local portal = love.graphics.newImage('images/portal.png')
+local cube = love.graphics.newImage('images/friendcube.png')
 
 function love.load()
+
     -- initialize our nearest-neighbor filter
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
@@ -59,6 +62,12 @@ end
 function love.keypressed(key)
     -- add to our table of keys pressed this frame
     love.keyboard.keysPressed[key] = true
+
+    if key == "f11" then
+      fullscreen = not fullscreen
+      love.window.setFullscreen(fullscreen, fstype)
+      love.resize(love.graphics.getDimensions())
+    end
 
     if key == 'escape' then
         love.event.quit()
@@ -101,8 +110,13 @@ end
 function displayFPS()
     -- simple FPS display across all states
     love.graphics.setFont(gFonts['small'])
-    love.graphics.setColor(0, 1, 0, 1)
+    love.graphics.setColor(0, 0, 0, 1)
     love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 15, 5)
+
+    love.graphics.print('Hero dx: ' .. tostring(hero.dx), 15, 15)
+    love.graphics.print('Hero dy: ' .. tostring(hero.dy), 15, 25)
+
+
 end
 
 function love.draw()
@@ -111,8 +125,10 @@ function love.draw()
     love.graphics.draw(background, 0, 0)
     love.graphics.draw(ground, 0, VIRTUAL_HEIGHT - 16)
     love.graphics.draw(tree, 0, VIRTUAL_HEIGHT - 48)
+    love.graphics.draw(portal, VIRTUAL_WIDTH - 32, VIRTUAL_HEIGHT - 48)
+    love.graphics.draw(cube, 32, VIRTUAL_HEIGHT - 40)
     hero:render()
     love.graphics.printf('Its Platformer Time!', 0, 64, VIRTUAL_WIDTH, 'center')
-    -- displayFPS()
+    displayFPS()
     push:finish()
 end

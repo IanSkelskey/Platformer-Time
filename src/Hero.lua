@@ -23,6 +23,7 @@ function Hero:init()
     self.height = 32
 
     self.current_frame = 1
+    self.dx = 0
     self.dy = 0
 
     self.state = 'idle'
@@ -30,7 +31,8 @@ function Hero:init()
 
     self.animations = {
       ['idle'] = newAnimation(love.graphics.newImage("images/finn_idle.png"), 32, 32, 2.5),
-      ['run'] = newAnimation(love.graphics.newImage("images/finn_run.png"), 32, 32, 1)
+      ['run'] = newAnimation(love.graphics.newImage("images/finn_run.png"), 32, 32, 1),
+      ['jump'] = newAnimation(love.graphics.newImage("images/finn_jump.png"), 32, 32, 1)
     }
 
 end
@@ -69,31 +71,48 @@ end
 function Hero:update(dt)
 
     -- Temporary way to stop at floor of 'level'
-      if self.y > VIRTUAL_HEIGHT - 40 then
+      if self.y > VIRTUAL_HEIGHT - 40 then -- Below the ground
         self.dy = 0
         self.y = VIRTUAL_HEIGHT - 40
+      elseif self.y == VIRTUAL_HEIGHT - 40 then -- On the ground
+        self.dy = 0
       else
-        self.dy = self.dy + GRAVITY * dt
+        self.dy = self.dy + GRAVITY * dt -- Above the ground (room to fall)
+      end
+
+      if self.dy < 0 then
+        self.state = 'jump'
+        updateAnimation(self.animations['jump'], dt)
+      end
+
+      if self.dx == 0 and self.dy == 0 then
+        self.state = 'idle'
+        updateAnimation(self.animations['idle'], dt)
       end
 
     -- Keyboard input logic
     if love.keyboard.wasPressed('space') then
-      self.state = 'jump'
+      if self.state ~= 'jump' then -- Can only jump if you're not already jumping
         self.dy = -4
+      end
     elseif love.keyboard.isDown('right') then
-      self.state = 'run'
+      self.dx = HERO_SPEED
+      if self.dy == 0 then
+        self.state = 'run'
+      end
       self.direction = 1
         self.x = self.x + HERO_SPEED*dt
         updateAnimation(self.animations['run'], dt)
     elseif love.keyboard.isDown('left') then
-      self.state = 'run'
+      self.dx = -HERO_SPEED
+      if self.dy == 0 then
+        self.state = 'run'
+      end
       self.direction = -1
         self.x = self.x - HERO_SPEED*dt
         updateAnimation(self.animations['run'], dt)
     else
-      -- No input means idle character
-      self.state = 'idle'
-      updateAnimation(self.animations['idle'], dt)
+      self.dx = 0
 
     end
 
@@ -105,6 +124,8 @@ function Hero:render()
     renderAnimation(self.animations['idle'], self.x, self.y, self.direction)
   elseif self.state == 'run' then
     renderAnimation(self.animations['run'], self.x, self.y, self.direction)
+  elseif self.state == 'jump' then
+    renderAnimation(self.animations['jump'], self.x, self.y, self.direction)
   end
 end
 
@@ -112,7 +133,10 @@ end
 function newAnimation(image, width, height, duration)
     local animation = {}
     animation.spriteSheet = image;
-    animation.quads = {};
+    animation.quads = {}
+
+    -- Added attributes for frame width and height
+    -- This is used when mirroring sprites for changing direction
     animation.frame_width = width
     animation.frame_height = height
 
@@ -128,7 +152,8 @@ function newAnimation(image, width, height, duration)
     return animation
 end
 
-
+-- Supplemental functions based on material from:
+-- https://love2d.org/wiki/Tutorial:Animation
 function renderAnimation(animation, x, y, direction)
   if direction == -1 then
     x = x + animation.frame_width
