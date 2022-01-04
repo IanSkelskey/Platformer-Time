@@ -9,7 +9,7 @@
 Hero = Class{}
 
 -- Constants that define a hero
-local HERO_SPEED = 100
+local HERO_SPEED = 80
 local GRAVITY = 20
 
 function Hero:init()
@@ -65,9 +65,7 @@ end
 
 function Hero:update(dt)
 
-
-
-
+    -- Temporary way to stop at floor of 'level'
       if self.y > VIRTUAL_HEIGHT - 40 then
         self.dy = 0
         self.y = VIRTUAL_HEIGHT - 40
@@ -75,6 +73,7 @@ function Hero:update(dt)
         self.dy = self.dy + GRAVITY * dt
       end
 
+    -- Keyboard input logic
     if love.keyboard.wasPressed('space') then
       self.state = 'jump'
         self.dy = -4
@@ -111,6 +110,8 @@ function newAnimation(image, width, height, duration)
     local animation = {}
     animation.spriteSheet = image;
     animation.quads = {};
+    animation.frame_width = width
+    animation.frame_height = height
 
     for y = 0, image:getHeight() - height, height do
         for x = 0, image:getWidth() - width, width do
@@ -127,7 +128,7 @@ end
 
 function renderAnimation(animation, x, y, direction)
   if direction == -1 then
-    x = x + 32
+    x = x + animation.frame_width
   end
   local spriteNum = math.floor(animation.currentTime / animation.duration * #animation.quads) + 1
     love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], x, y, 0, direction, 1)

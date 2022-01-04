@@ -38,6 +38,7 @@ gCharFrames = {
 
 local background = love.graphics.newImage('images/TEST SKY 1.png')
 local ground = love.graphics.newImage('images/ground.png')
+local tree = love.graphics.newImage('images/tree tile 1.png')
 
 
 
@@ -120,6 +121,7 @@ function love.draw()
     push:start()
     love.graphics.draw(background, 0, 0)
     love.graphics.draw(ground, 0, VIRTUAL_HEIGHT - 16)
+    love.graphics.draw(tree, 0, VIRTUAL_HEIGHT - 48)
     hero:render()
     love.graphics.printf('Its Platformer Time!', 0, 64, VIRTUAL_WIDTH, 'center')
     displayFPS()
