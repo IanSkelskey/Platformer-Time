@@ -129,6 +129,11 @@ function Hero:render()
   end
 end
 
+--[[
+  Consider creating animate.lua to encapsulate the functionality below
+    and separate it from Hero functions...
+]]
+
 -- newAnimation() from https://love2d.org/wiki/Tutorial:Animation
 function newAnimation(image, width, height, duration)
     local animation = {}
@@ -152,7 +157,7 @@ function newAnimation(image, width, height, duration)
     return animation
 end
 
--- Supplemental functions based on material from:
+-- Supplemental functions written by me and based on material from:
 -- https://love2d.org/wiki/Tutorial:Animation
 function renderAnimation(animation, x, y, direction)
   if direction == -1 then
