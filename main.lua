@@ -14,8 +14,8 @@ require 'src/Dependencies'
 VIRTUAL_WIDTH = 256
 VIRTUAL_HEIGHT = 144
 
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 720
+WINDOW_WIDTH = 256
+WINDOW_HEIGHT = 144
 
 hero = Hero()
 
@@ -112,6 +112,6 @@ function love.draw()
     love.graphics.draw(tree, 0, VIRTUAL_HEIGHT - 48)
     hero:render()
     love.graphics.printf('Its Platformer Time!', 0, 64, VIRTUAL_WIDTH, 'center')
-    displayFPS()
+    -- displayFPS()
     push:finish()
 end
