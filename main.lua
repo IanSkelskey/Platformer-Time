@@ -14,8 +14,8 @@ require 'src/Dependencies'
 VIRTUAL_WIDTH = 256
 VIRTUAL_HEIGHT = 144
 
-WINDOW_WIDTH = 256
-WINDOW_HEIGHT = 144
+WINDOW_WIDTH = 1280
+WINDOW_HEIGHT = 720
 
 hero = Hero()
 
@@ -107,6 +107,7 @@ end
 
 function love.draw()
     push:start()
+    love.graphics.setFont(gFonts['small'])
     love.graphics.draw(background, 0, 0)
     love.graphics.draw(ground, 0, VIRTUAL_HEIGHT - 16)
     love.graphics.draw(tree, 0, VIRTUAL_HEIGHT - 48)

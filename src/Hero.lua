@@ -28,8 +28,11 @@ function Hero:init()
     self.state = 'idle'
     self.direction = 1  -- to the right
 
-    idle_animation = newAnimation(love.graphics.newImage("images/finn_idle.png"), 32, 32, 2.5)
-    run_animation = newAnimation(love.graphics.newImage("images/finn_run.png"), 32, 32, 1)
+    self.animations = {
+      ['idle'] = newAnimation(love.graphics.newImage("images/finn_idle.png"), 32, 32, 2.5),
+      ['run'] = newAnimation(love.graphics.newImage("images/finn_run.png"), 32, 32, 1)
+    }
+
 end
 
 
@@ -81,16 +84,16 @@ function Hero:update(dt)
       self.state = 'run'
       self.direction = 1
         self.x = self.x + HERO_SPEED*dt
-        updateAnimation(run_animation, dt)
+        updateAnimation(self.animations['run'], dt)
     elseif love.keyboard.isDown('left') then
       self.state = 'run'
       self.direction = -1
         self.x = self.x - HERO_SPEED*dt
-        updateAnimation(run_animation, dt)
+        updateAnimation(self.animations['run'], dt)
     else
       -- No input means idle character
       self.state = 'idle'
-      updateAnimation(idle_animation, dt)
+      updateAnimation(self.animations['idle'], dt)
 
     end
 
@@ -99,9 +102,9 @@ end
 
 function Hero:render()
   if self.state == 'idle' then
-    renderAnimation(idle_animation, self.x, self.y, self.direction)
+    renderAnimation(self.animations['idle'], self.x, self.y, self.direction)
   elseif self.state == 'run' then
-    renderAnimation(run_animation, self.x, self.y, self.direction)
+    renderAnimation(self.animations['run'], self.x, self.y, self.direction)
   end
 end
 
