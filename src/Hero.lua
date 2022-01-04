@@ -26,6 +26,7 @@ function Hero:init()
     self.dy = 0
 
     self.state = 'idle'
+    self.direction = 1  -- to the right
 
     idle_animation = newAnimation(love.graphics.newImage("images/finn_idle.png"), 32, 32, 2.5)
     run_animation = newAnimation(love.graphics.newImage("images/finn_run.png"), 32, 32, 1)
@@ -79,15 +80,19 @@ function Hero:update(dt)
         self.dy = -4
     elseif love.keyboard.isDown('right') then
       self.state = 'run'
+      self.direction = 1
         self.x = self.x + HERO_SPEED*dt
         updateAnimation(run_animation, dt)
     elseif love.keyboard.isDown('left') then
       self.state = 'run'
+      self.direction = -1
         self.x = self.x - HERO_SPEED*dt
+        updateAnimation(run_animation, dt)
     else
       -- No input means idle character
       self.state = 'idle'
       updateAnimation(idle_animation, dt)
+
     end
 
     self.y = self.y + self.dy
@@ -95,9 +100,9 @@ end
 
 function Hero:render()
   if self.state == 'idle' then
-    renderAnimation(idle_animation, self.x, self.y)
+    renderAnimation(idle_animation, self.x, self.y, self.direction)
   elseif self.state == 'run' then
-    renderAnimation(run_animation, self.x, self.y)
+    renderAnimation(run_animation, self.x, self.y, self.direction)
   end
 end
 
@@ -120,9 +125,12 @@ function newAnimation(image, width, height, duration)
 end
 
 
-function renderAnimation(animation, x, y)
+function renderAnimation(animation, x, y, direction)
+  if direction == -1 then
+    x = x + 32
+  end
   local spriteNum = math.floor(animation.currentTime / animation.duration * #animation.quads) + 1
-    love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], x, y, 0, 1)
+    love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], x, y, 0, direction, 1)
 end
 
 function updateAnimation(animation, dt)

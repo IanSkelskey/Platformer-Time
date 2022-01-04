@@ -1,14 +1,14 @@
 # Platformer-Time
 
 ## Compatibility:
-- Mac, PC, and Linux 
+- Mac, PC, and Linux
 - (iOS and Android Coming Soon!)
 
 ## Download and Install Instructions:
 
 ## Testers:
 
-@Tymelus (https://www.youtube.com/channel/UC6Ou77qQLGzmsDJxBm96tiA)
+- @Tymelus (https://www.youtube.com/channel/UC6Ou77qQLGzmsDJxBm96tiA)
 
 ## Resources:
 
