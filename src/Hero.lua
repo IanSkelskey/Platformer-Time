@@ -31,8 +31,13 @@ function Hero:init()
 
     self.animations = {
       ['idle'] = newAnimation(love.graphics.newImage("images/finn_idle.png"), 32, 32, 2.5),
-      ['run'] = newAnimation(love.graphics.newImage("images/finn_run.png"), 32, 32, 1),
-      ['jump'] = newAnimation(love.graphics.newImage("images/finn_jump.png"), 32, 32, 1)
+      ['run'] = newAnimation(love.graphics.newImage("images/finn_run.png"), 32, 32, .7),
+      ['jump'] = newAnimation(love.graphics.newImage("images/finn_jump.png"), 32, 32, 1),
+      ['attack'] = newAnimation(love.graphics.newImage("images/finn_attack.png"), 32, 32, .5),
+      ['hurt'] = newAnimation(love.graphics.newImage("images/finn_hurt.png"), 32, 32, .3),
+      ['death'] = newAnimation(love.graphics.newImage("images/finn_death.png"), 32, 32, .7),
+      ['turn'] = newAnimation(love.graphics.newImage("images/finn_turn.png"), 32, 32, .7),
+      ['spin'] = newAnimation(love.graphics.newImage("images/finn_spin.png"), 32, 32, .7)
     }
 
 end
@@ -116,6 +121,25 @@ function Hero:update(dt)
 
     end
 
+    -- Tests for remaining Animations
+
+    if love.keyboard.isDown('space') then
+      self.state = 'attack'
+      updateAnimation(self.animations['attack'], dt)
+    elseif love.keyboard.isDown('h') then
+      self.state = 'hurt'
+      updateAnimation(self.animations['hurt'], dt)
+    elseif love.keyboard.isDown('d') then
+      self.state = 'death'
+      updateAnimation(self.animations['death'], dt)
+    elseif love.keyboard.isDown('t') then
+      self.state = 'turn'
+      updateAnimation(self.animations['turn'], dt)
+    elseif love.keyboard.isDown('s') then
+      self.state = 'spin'
+      updateAnimation(self.animations['spin'], dt)
+    end
+
     self.y = self.y + self.dy
 end
 
@@ -126,6 +150,16 @@ function Hero:render()
     renderAnimation(self.animations['run'], self.x, self.y, self.direction)
   elseif self.state == 'jump' then
     renderAnimation(self.animations['jump'], self.x, self.y, self.direction)
+  elseif self.state == 'attack' then
+    renderAnimation(self.animations['attack'], self.x, self.y, self.direction)
+  elseif self.state == 'hurt' then
+    renderAnimation(self.animations['hurt'], self.x, self.y, self.direction)
+  elseif self.state == 'death' then
+    renderAnimation(self.animations['death'], self.x, self.y, self.direction)
+  elseif self.state == 'turn' then
+    renderAnimation(self.animations['turn'], self.x, self.y, self.direction)
+  elseif self.state == 'spin' then
+    renderAnimation(self.animations['spin'], self.x, self.y, self.direction)
   end
 end
 
