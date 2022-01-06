@@ -113,22 +113,22 @@ function displayFPS()
     love.graphics.setColor(0, 0, 0, 1)
     love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 15, 5)
 
-    love.graphics.print('Hero dx: ' .. tostring(hero.dx), 15, 15)
-    love.graphics.print('Hero dy: ' .. tostring(hero.dy), 15, 25)
+    love.graphics.print('Hero dx: ' .. tostring(hero.speeds.dx), 15, 15)
+    love.graphics.print('Hero dy: ' .. tostring(hero.speeds.dy), 15, 25)
 
 
 end
 
 function love.draw()
     push:start()
-    love.graphics.setFont(gFonts['small'])
+    love.graphics.setFont(gFonts['medium'])
     love.graphics.draw(background, 0, 0)
     love.graphics.draw(ground, 0, VIRTUAL_HEIGHT - 16)
     love.graphics.draw(tree, 0, VIRTUAL_HEIGHT - 48)
     love.graphics.draw(portal, VIRTUAL_WIDTH - 32, VIRTUAL_HEIGHT - 48)
     love.graphics.draw(cube, 32, VIRTUAL_HEIGHT - 40)
     hero:render()
-    love.graphics.printf('Its Platformer Time!', 0, 64, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf('Its Platformer Time!', 0, 32, VIRTUAL_WIDTH, 'center')
     displayFPS()
     push:finish()
 end

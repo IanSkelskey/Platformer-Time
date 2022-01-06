@@ -8,6 +8,8 @@
 
 Hero = Class{}
 
+local Timer = require 'lib/hump.timer'
+
 -- Constants that define a hero
 local HERO_SPEED = 80
 local GRAVITY = 20
@@ -23,8 +25,10 @@ function Hero:init()
     self.height = 32
 
     self.current_frame = 1
-    self.dx = 0
-    self.dy = 0
+    -- self.dx = 0
+    -- self.dy = 0
+
+    self.speeds = {dx = 0, dy = 0}
 
     self.state = 'idle'
     self.direction = 1  -- to the right
@@ -36,7 +40,7 @@ function Hero:init()
       ['attack'] = newAnimation(love.graphics.newImage("images/finn_attack.png"), 32, 32, .5),
       ['hurt'] = newAnimation(love.graphics.newImage("images/finn_hurt.png"), 32, 32, .3),
       ['death'] = newAnimation(love.graphics.newImage("images/finn_death.png"), 32, 32, .7),
-      ['turn'] = newAnimation(love.graphics.newImage("images/finn_turn.png"), 32, 32, .7),
+      ['skid'] = newAnimation(love.graphics.newImage("images/finn_turn.png"), 32, 32, .4),
       ['spin'] = newAnimation(love.graphics.newImage("images/finn_spin.png"), 32, 32, .7)
     }
 
@@ -75,73 +79,99 @@ end
 
 function Hero:update(dt)
 
+      Timer.update(dt)
+
     -- Temporary way to stop at floor of 'level'
       if self.y > VIRTUAL_HEIGHT - 40 then -- Below the ground
-        self.dy = 0
+        self.speeds.dy = 0
         self.y = VIRTUAL_HEIGHT - 40
       elseif self.y == VIRTUAL_HEIGHT - 40 then -- On the ground
-        self.dy = 0
+        self.speeds.dy = 0
       else
-        self.dy = self.dy + GRAVITY * dt -- Above the ground (room to fall)
+        self.speeds.dy = self.speeds.dy + GRAVITY * dt -- Above the ground (room to fall)
       end
 
-      if self.dy < 0 then
+      self.x = self.x + self.speeds.dx*dt
+
+      if self.speeds.dy < 0 then
         self.state = 'jump'
-        updateAnimation(self.animations['jump'], dt)
       end
 
-      if self.dx == 0 and self.dy == 0 then
+      if self.speeds.dx == 0 and self.speeds.dy == 0 then
         self.state = 'idle'
-        updateAnimation(self.animations['idle'], dt)
       end
 
     -- Keyboard input logic
     if love.keyboard.wasPressed('up') then
       if self.state ~= 'jump' then -- Can only jump if you're not already jumping
-        self.dy = -4
+        self.speeds.dy = -4
       end
     elseif love.keyboard.isDown('right') then
-      self.dx = HERO_SPEED
-      if self.dy == 0 then
+      self.speeds.dx = HERO_SPEED
+      if self.speeds.dy == 0 then
         self.state = 'run'
       end
       self.direction = 1
-        self.x = self.x + HERO_SPEED*dt
-        updateAnimation(self.animations['run'], dt)
     elseif love.keyboard.isDown('left') then
-      self.dx = -HERO_SPEED
-      if self.dy == 0 then
+      self.speeds.dx = -HERO_SPEED
+      if self.speeds.dy == 0 then
         self.state = 'run'
       end
       self.direction = -1
-        self.x = self.x - HERO_SPEED*dt
-        updateAnimation(self.animations['run'], dt)
     else
-      self.dx = 0
-
+      --self.speeds.dx = 0
     end
+
+
 
     -- Tests for remaining Animations
 
     if love.keyboard.isDown('space') then
       self.state = 'attack'
-      updateAnimation(self.animations['attack'], dt)
     elseif love.keyboard.isDown('h') then
       self.state = 'hurt'
-      updateAnimation(self.animations['hurt'], dt)
     elseif love.keyboard.isDown('d') then
       self.state = 'death'
-      updateAnimation(self.animations['death'], dt)
     elseif love.keyboard.isDown('t') then
-      self.state = 'turn'
-      updateAnimation(self.animations['turn'], dt)
+      self.state = 'skid'
     elseif love.keyboard.isDown('s') then
       self.state = 'spin'
-      updateAnimation(self.animations['spin'], dt)
     end
 
-    self.y = self.y + self.dy
+    self.y = self.y + self.speeds.dy
+
+
+    function love.keyreleased(key)
+      if key == 'right' then
+        self.state = 'skid'
+        Timer.tween(.4, self.speeds, {dx = 0}, 'quad', function() self.speeds.dx = 0 end)
+      elseif key == 'left' then
+        self.state = 'skid'
+
+        Timer.tween(.4, self.speeds, {dx = 0}, 'quad', function() self.speeds.dx = 0 end)
+      end
+    end
+
+    if self.state == 'idle' then
+      updateAnimation(self.animations['idle'], dt)
+    elseif self.state == 'run' then
+      updateAnimation(self.animations['run'], dt)
+    elseif self.state == 'jump' then
+      updateAnimation(self.animations['jump'], dt)
+    elseif self.state == 'attack' then
+      updateAnimation(self.animations['attack'], dt)
+    elseif self.state == 'hurt' then
+      updateAnimation(self.animations['hurt'], dt)
+    elseif self.state == 'death' then
+      updateAnimation(self.animations['death'], dt)
+    elseif self.state == 'skid' then
+      updateAnimation(self.animations['skid'], dt)
+    elseif self.state == 'spin' then
+    updateAnimation(self.animations['spin'], dt)
+    end
 end
+
+
 
 function Hero:render()
   if self.state == 'idle' then
@@ -156,8 +186,8 @@ function Hero:render()
     renderAnimation(self.animations['hurt'], self.x, self.y, self.direction)
   elseif self.state == 'death' then
     renderAnimation(self.animations['death'], self.x, self.y, self.direction)
-  elseif self.state == 'turn' then
-    renderAnimation(self.animations['turn'], self.x, self.y, self.direction)
+  elseif self.state == 'skid' then
+    renderAnimation(self.animations['skid'], self.x, self.y, self.direction)
   elseif self.state == 'spin' then
     renderAnimation(self.animations['spin'], self.x, self.y, self.direction)
   end
