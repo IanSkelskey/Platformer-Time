@@ -45,14 +45,19 @@ function Hero:init()
     self.speeds = {dx = 0, dy = 0}
 
     -- Player starts in an idle state and facing to the right
+    -- Store states in a table or... use a statemachine file... statemachine is probably better
     self.state = 'idle'
+    -- self.previous state
+
+
+
     self.direction = 1  -- to the right
 
     -- Table that stores animations consider reorganizing
     --  - Store in a single sprite sheet and slice with quads (see Util.lua)
     self.animations = {
       ['idle'] = newAnimation(love.graphics.newImage("images/finn_idle.png"), 32, 32, 2.5),
-      ['walk'] = newAnimation(love.graphics.newImage("images/finn_walk.png"), 32, 32, .7),
+      ['walk'] = newAnimation(love.graphics.newImage("images/finn_walk.png"), 32, 32, 1),
       ['run'] = newAnimation(love.graphics.newImage("images/finn_run.png"), 32, 32, .7),
       ['jump'] = newAnimation(love.graphics.newImage("images/finn_jump.png"), 32, 32, 1),
       -- ['jump-anticip'] = newAnimation(love.graphics.newImage("images/finn_jump_anticip.png"), 32, 32, .07),
@@ -79,10 +84,10 @@ function Hero:update(dt)
 
     -- Temporary way to stop at floor of 'level'
     -- need to define actual collision
-      if self.y > VIRTUAL_HEIGHT - 40 then -- Below the ground
+      if self.y > VIRTUAL_HEIGHT - 42 then -- Below the ground
         self.speeds.dy = 0
-        self.y = VIRTUAL_HEIGHT - 40
-      elseif self.y == VIRTUAL_HEIGHT - 40 then -- On the ground
+        self.y = VIRTUAL_HEIGHT - 42
+      elseif self.y == VIRTUAL_HEIGHT - 42 then -- On the ground
         self.speeds.dy = 0
       else
         -- Apply gravity always
@@ -111,10 +116,9 @@ function Hero:update(dt)
         self.sounds['jump']:play()
         self.speeds.dy = JUMP_SPEED
       end
-    end
 
     -- Use the arrow keys to move right and left
-    if love.keyboard.isDown('right') then
+    elseif love.keyboard.isDown('right') then
       local wait = 0
       if self.state ~= 'skid' then
         if self.direction == -1 then
@@ -139,7 +143,6 @@ function Hero:update(dt)
           end
         end
       end)
-
 
     elseif love.keyboard.isDown('left') then
       local wait = 0
