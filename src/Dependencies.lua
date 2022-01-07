@@ -19,6 +19,13 @@ require 'src/Hero'
 -- of differing sizes for paddles, balls, bricks, etc.
 require 'src/Util'
 
+-- Hump.timer library for timer and tweening
+-- may require local timers for different objects. For now its here, and global
+-- Research other Hump libraries.
+--
+-- https://github.com/vrld/hump/blob/master/timer.lua
+Timer = require 'lib/hump.timer'
+
 -- each of the individual states our game can be in at once; each state has
 -- its own update and render methods that can be called by our state machine
 -- each frame, to avoid bulky code in main.lua
