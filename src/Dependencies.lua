@@ -13,7 +13,7 @@ push = require 'lib/push'
 Class = require 'lib/class'
 
 -- a few global constants, centralized
-require 'src/Hero'
+require 'src/Hero/Hero'
 
 -- utility functions, mainly for splitting our sprite sheet into various Quads
 -- of differing sizes for paddles, balls, bricks, etc.
@@ -26,7 +26,15 @@ require 'src/Util'
 -- https://github.com/vrld/hump/blob/master/timer.lua
 Timer = require 'lib/hump.timer'
 
--- each of the individual states our game can be in at once; each state has
--- its own update and render methods that can be called by our state machine
--- each frame, to avoid bulky code in main.lua
--- require 'src/states/BaseState'
+require 'src/Animation'
+
+-- StateMachine from GD50 Source Materials
+require 'lib/StateMachine'
+
+require 'src/Hero/states/BaseState'
+require 'src/Hero/states/IdleState'
+require 'src/Hero/states/JumpState'
+require 'src/Hero/states/RunState'
+require 'src/Hero/states/SkidState'
+require 'src/Hero/states/SprintState'
+require 'src/Hero/states/WalkState'

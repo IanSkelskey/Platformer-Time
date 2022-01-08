@@ -115,6 +115,8 @@ function displayFPS()
 
     love.graphics.print('Hero dx: ' .. tostring(hero.speeds.dx), 15, 15)
     love.graphics.print('Hero dy: ' .. tostring(hero.speeds.dy), 15, 25)
+    love.graphics.print('Hero x: ' .. tostring(hero.x), 15, 45)
+    love.graphics.print('Hero y: ' .. tostring(hero.y), 15, 55)
 
 
 end
@@ -127,8 +129,9 @@ function love.draw()
     love.graphics.draw(tree, 0, VIRTUAL_HEIGHT - 48)
     love.graphics.draw(portal, VIRTUAL_WIDTH - 32, VIRTUAL_HEIGHT - 48)
     love.graphics.draw(cube, 32, VIRTUAL_HEIGHT - 40)
-    hero:render()
+
     love.graphics.printf('Its Platformer Time!', 0, 32, VIRTUAL_WIDTH, 'center')
+    hero:render()
     displayFPS()
     push:finish()
 end
