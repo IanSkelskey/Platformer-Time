@@ -49,9 +49,11 @@ function StateMachine:init(states)
 end
 
 function StateMachine:change(stateName, enterParams)
+	self.previous = self.current
 	assert(self.states[stateName]) -- state must exist!
 	self.current:exit()
 	self.current = self.states[stateName]()
+	print(self.current)
 	self.current:enter(enterParams)
 end
 

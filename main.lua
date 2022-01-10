@@ -26,6 +26,10 @@ gFonts = {
     ['large'] = love.graphics.newFont('fonts/font.ttf', 32)
 }
 
+gSounds = {
+  ['theme'] = love.audio.newSource('sounds/AdventureTime.mp3', 'static')
+}
+
 local background = love.graphics.newImage('images/TEST SKY 1.png')
 local ground = love.graphics.newImage('images/ground.png')
 local tree = love.graphics.newImage('images/tree tile 1.png')
@@ -34,6 +38,7 @@ local cube = love.graphics.newImage('images/friendcube.png')
 
 function love.load()
 
+    gSounds['theme']:play()
     -- initialize our nearest-neighbor filter
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
@@ -117,6 +122,7 @@ function displayFPS()
     love.graphics.print('Hero dy: ' .. tostring(hero.speeds.dy), 15, 25)
     love.graphics.print('Hero x: ' .. tostring(hero.x), 15, 45)
     love.graphics.print('Hero y: ' .. tostring(hero.y), 15, 55)
+    love.graphics.print('Hero state: ' .. tostring(heroState.current.NAME), 15, 65)
 
 
 end

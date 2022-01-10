@@ -18,16 +18,6 @@
 
 Hero = Class{}
 
--- Constants that define a hero
--- Physics constants
-local WALK_SPEED = 40
-local RUN_SPEED = 80
-local JUMP_SPEED = -4.5
-local GRAVITY = 20
--- Collision boundaries
-local BOUNDING_WIDTH = 12
-local BOUNDING_HEIGHT = 16
-
 function Hero:init()
     -- initialize our nearest-neighbor filter
     love.graphics.setDefaultFilter('nearest', 'nearest')
@@ -64,7 +54,9 @@ function Hero:init()
     heroState:change('idle', {
         x = self.x,
         y = self.y,
-        direction = self.direction
+        direction = self.direction,
+        dx = self.dx,
+        dy = self.dy
     })
 
 
@@ -105,21 +97,6 @@ function Hero:update(dt)
 
   -- Update global timer found in dependencies. This is used for timing and tweening
   Timer.update(dt)
-
-  -- Temporary way to stop at floor of 'level'
-  -- need to define actual collision
-  if self.y > VIRTUAL_HEIGHT - 42 then -- Below the ground
-    self.speeds.dy = 0
-    self.y = VIRTUAL_HEIGHT - 42
-  elseif self.y == VIRTUAL_HEIGHT - 42 then -- On the ground
-    self.speeds.dy = 0
-  else
-    -- Apply gravity always
-    self.speeds.dy = self.speeds.dy + GRAVITY * dt -- Above the ground (room to fall)
-  end
-
-  -- Update x position based on dx and dt
-  self.x = self.x + self.speeds.dx*dt
 
 
 --[[    OLD HERO:UPDATE
