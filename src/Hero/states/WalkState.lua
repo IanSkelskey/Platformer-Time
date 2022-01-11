@@ -61,7 +61,7 @@ function WalkState:update(dt)
   end
 
 
-  local function love.keyreleased(key)
+  function love.keyreleased(key)
     if key == 'right' and self.direction == 1 then
       if love.keyboard.isDown('left') then
         self.direction = -1

@@ -2,11 +2,27 @@
 -- Physics constants
 local WALK_SPEED = 40
 local RUN_SPEED = 80
-local JUMP_SPEED = -4.5
+-- local JUMP_SPEED = -4.5  --NOW IN JumpState
 local GRAVITY = 20
 -- Collision boundaries
 local BOUNDING_WIDTH = 12
 local BOUNDING_HEIGHT = 16
+
+function roundPositionX(coordinate)
+  if hero.direction == 1 then
+    return math.ceil(coordinate)
+  else
+    return math.floor(coordinate)
+  end
+end
+
+function roundPositionY(coordinate)
+  if hero.speeds.dy < 0 then
+    return math.ceil(coordinate)
+  else
+    return math.floor(coordinate)
+  end
+end
 
 function updatePhysics(char, curr_state, dt)
 
@@ -23,11 +39,12 @@ function updatePhysics(char, curr_state, dt)
   end
 
 
-  -- Update x position based on dx and dt
-  char.x = char.x + char.speeds.dx*dt
-  -- and for y direction
-  char.y = char.y + char.speeds.dy
 
+
+  -- Update x position based on dx and dt
+  char.x = roundPositionX(char.x + char.speeds.dx*dt)
+  -- and for y direction
+  char.y = roundPositionY(char.y + char.speeds.dy)
 
 
   -- Make State Match Hero

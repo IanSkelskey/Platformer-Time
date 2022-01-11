@@ -8,7 +8,7 @@
 
 JumpState = Class{__includes = BaseState}
 
-local JUMP_SPEED = -4.5
+local JUMP_SPEED = -6
 
 local jump_anim = newAnimation(love.graphics.newImage("images/finn_jump.png"), 32, 32, 1)
 
