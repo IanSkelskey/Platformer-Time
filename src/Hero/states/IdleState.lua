@@ -34,33 +34,7 @@ function IdleState:update(dt)
 
   updatePhysics(hero, self, dt)
 
-  if love.keyboard.wasPressed('right') then
-
-    heroState:change('walk', {
-        x = self.x,
-        y = self.y,
-        direction = 1,
-        dx = self.dx,
-        dy = self.dy
-    })
-
-
-  elseif love.keyboard.wasPressed('left') then
-
-    heroState:change('walk', {
-        x = self.x,
-        y = self.y,
-        direction = -1
-    })
-
-  elseif love.keyboard.wasPressed('up') then
-    heroState:change('jump', {
-      x = self.x,
-      y = self.y,
-      direction = self.direction,
-      dx = 0
-    })
-  end
+  updateControls()
 end
 
 function IdleState:render()

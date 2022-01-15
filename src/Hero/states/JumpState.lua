@@ -38,13 +38,8 @@ function JumpState:update(dt)
   updatePhysics(hero, self, dt)
   updateAnimation(jump_anim, dt)
 
-  if self.dy == 0 then
-    heroState:change(heroState.previous.NAME, {
-      x = self.x,
-      y = self.y,
-      direction = self.direction
-    })
-  end
+  updateControls()
+
 end
 
 function JumpState:render()

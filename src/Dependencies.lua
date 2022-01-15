@@ -15,6 +15,7 @@ Class = require 'lib/class'
 -- a few global constants, centralized
 require 'src/Hero/Hero'
 require 'src/Hero/HeroPhysics'
+require 'src/Hero/HeroControls'
 -- utility functions, mainly for splitting our sprite sheet into various Quads
 -- of differing sizes for paddles, balls, bricks, etc.
 require 'src/Util'
