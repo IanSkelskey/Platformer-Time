@@ -318,3 +318,8 @@ end
 function Hero:jumps()
 
 end
+
+function Hero:changeDirection()
+  self.direction = self.direction * -1
+  print('Hero changed x-direction.')
+end

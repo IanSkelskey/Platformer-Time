@@ -18,3 +18,12 @@ function BaseState:enter() end
 function BaseState:exit() end
 function BaseState:update(dt) end
 function BaseState:render() end
+
+function BaseState:matchStateToHero(char)
+  self.x = char.x
+  self.y = char.y
+
+  self.dx = char.speeds.dx
+  self.dy = char.speeds.dy
+  self.direction = char.direction
+end

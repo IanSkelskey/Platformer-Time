@@ -28,8 +28,10 @@ function WalkState:update(dt)
 
   updateAnimation(walk_anim, dt)
   updatePhysics(hero, self, dt)
-  updateControls()
+  walkControls()
+  handleKeyReleases()
 
+  BaseState:matchStateToHero(hero)
 end
 
 function WalkState:render()

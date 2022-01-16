@@ -31,8 +31,10 @@ function RunState:update(dt)
   updatePhysics(hero, self, dt)
   updateAnimation(run_anim, dt)
 
-  updateControls()
+  runControls()
+  handleKeyReleases()
 
+  BaseState:matchStateToHero(hero)
 end
 
 function RunState:render()

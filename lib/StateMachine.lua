@@ -53,7 +53,7 @@ function StateMachine:change(stateName, enterParams)
 	assert(self.states[stateName]) -- state must exist!
 	self.current:exit()
 	self.current = self.states[stateName]()
-	print(self.current)
+	print(self.current.NAME)
 	self.current:enter(enterParams)
 end
 

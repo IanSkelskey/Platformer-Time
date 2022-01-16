@@ -17,11 +17,7 @@ function IdleState:init()
 end
 
 function IdleState:enter(params)
-  self.x = params.x
-  self.y = params.y
-  self.dx = params.dx
-  self.dy = params.dy
-  self.direction = params.direction
+
 end
 
 function IdleState:exit()
@@ -34,7 +30,11 @@ function IdleState:update(dt)
 
   updatePhysics(hero, self, dt)
 
-  updateControls()
+  idleControls()
+  handleKeyReleases()
+
+  BaseState:matchStateToHero(hero)
+
 end
 
 function IdleState:render()

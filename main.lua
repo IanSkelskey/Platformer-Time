@@ -30,7 +30,7 @@ gSounds = {
   ['theme'] = love.audio.newSource('sounds/AdventureTime.mp3', 'static')
 }
 
-local background = love.graphics.newImage('images/TEST SKY 1.png')
+local background = love.graphics.newImage('images/TEST SKY 2 candy variant.png')
 local ground = love.graphics.newImage('images/ground.png')
 local tree = love.graphics.newImage('images/tree tile 1.png')
 local portal = love.graphics.newImage('images/portal.png')
@@ -112,17 +112,18 @@ end
     Renders the current FPS.
     Renders the current FPS.draw
 ]]
-function displayFPS()
+function debugMode()
     -- simple FPS display across all states
     love.graphics.setFont(gFonts['small'])
     love.graphics.setColor(0, 0, 0, 1)
     love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 15, 5)
+    love.graphics.print('Hero state: ' .. tostring(heroState.current.NAME), 15, 15)
 
-    love.graphics.print('Hero dx: ' .. tostring(hero.speeds.dx), 15, 15)
-    love.graphics.print('Hero dy: ' .. tostring(hero.speeds.dy), 15, 25)
-    love.graphics.print('Hero x: ' .. tostring(hero.x), 15, 45)
-    love.graphics.print('Hero y: ' .. tostring(hero.y), 15, 55)
-    love.graphics.print('Hero state: ' .. tostring(heroState.current.NAME), 15, 65)
+    love.graphics.print('Hero dx: ' .. tostring(hero.speeds.dx), 108, 5)
+    love.graphics.print('Hero dy: ' .. tostring(math.ceil(hero.speeds.dy)), 108, 15)
+    love.graphics.print('Hero x: ' .. tostring(hero.x), 170, 5)
+    love.graphics.print('Hero y: ' .. tostring(hero.y), 170, 15)
+
 
 
 end
@@ -132,12 +133,12 @@ function love.draw()
     love.graphics.setFont(gFonts['medium'])
     love.graphics.draw(background, 0, 0)
     love.graphics.draw(ground, 0, VIRTUAL_HEIGHT - 16)
-    love.graphics.draw(tree, 0, VIRTUAL_HEIGHT - 48)
-    love.graphics.draw(portal, VIRTUAL_WIDTH - 32, VIRTUAL_HEIGHT - 48)
-    love.graphics.draw(cube, 32, VIRTUAL_HEIGHT - 40)
+    --love.graphics.draw(tree, 0, VIRTUAL_HEIGHT - 48)
+    --love.graphics.draw(portal, VIRTUAL_WIDTH - 32, VIRTUAL_HEIGHT - 48)
+    --love.graphics.draw(cube, 32, VIRTUAL_HEIGHT - 40)
 
-    love.graphics.printf('Its Platformer Time!', 0, 32, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf('Its Platformer Time!', 0, 52, VIRTUAL_WIDTH, 'center')
     hero:render()
-    displayFPS()
+    debugMode()
     push:finish()
 end
