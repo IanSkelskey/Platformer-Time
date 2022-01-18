@@ -33,7 +33,7 @@ function IdleState:update(dt)
   idleControls()
   handleKeyReleases()
 
-  BaseState:matchStateToHero(hero)
+  BaseState:matchStateToHero(hero) -- Move to heroPhysics?
 
 end
 
