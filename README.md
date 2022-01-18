@@ -16,5 +16,8 @@ Platformer Time is a project I am working on to practice platformer mechanics.
 
 ## Resources:
 
-Finn Character Sprite and Animations:
+- Finn Character Sprite and Animations:
 https://lhteam.itch.io/finn-sprite
+
+- Chest and Candy
+https://greatdocbrown.itch.io/coins-gems-etc
