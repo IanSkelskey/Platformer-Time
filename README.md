@@ -2,7 +2,7 @@
 
 Platformer Time is a project I am working on to practice platformer mechanics.
 
-![A screenshot of platformer time!](https://github.com/IanSkelskey/Platformer-Time/blob/master/screenshots/screen0.png)
+![A screenshot of platformer time!](https://github.com/IanSkelskey/Platformer-Time/blob/Hero_Refactor_2/screenshots/demo_screen.png)
 
 ## Compatibility:
 - Mac, PC, and Linux
@@ -16,5 +16,6 @@ Platformer Time is a project I am working on to practice platformer mechanics.
 
 ## Resources:
 
-Finn Character Sprite and Animations:
-https://lhteam.itch.io/finn-sprite
+- Finn Character Sprite and Animations (https://lhteam.itch.io/finn-sprite)
+
+- Chest and Candy (https://greatdocbrown.itch.io/coins-gems-etc)
