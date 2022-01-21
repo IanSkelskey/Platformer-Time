@@ -19,6 +19,8 @@ WINDOW_HEIGHT = 720
 
 hero = Hero()
 
+Map = STI('maps/map.lua')
+
 -- Table of fonts
 gFonts = {
     ['small'] = love.graphics.newFont('fonts/font.ttf', 8),
@@ -38,7 +40,7 @@ local cube = love.graphics.newImage('images/friendcube.png')
 
 function love.load()
 
-    gSounds['theme']:play()
+    --gSounds['theme']:play()
     -- initialize our nearest-neighbor filter
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
@@ -132,7 +134,8 @@ function love.draw()
     push:start()
     love.graphics.setFont(gFonts['medium'])
     love.graphics.draw(background, 0, 0)
-    love.graphics.draw(ground, 0, VIRTUAL_HEIGHT - 16)
+    Map:draw(0, 0, 1, 1)
+    -- love.graphics.draw(ground, 0, VIRTUAL_HEIGHT - 16)
     --love.graphics.draw(tree, 0, VIRTUAL_HEIGHT - 48)
     --love.graphics.draw(portal, VIRTUAL_WIDTH - 32, VIRTUAL_HEIGHT - 48)
     --love.graphics.draw(cube, 32, VIRTUAL_HEIGHT - 40)

@@ -19,3 +19,7 @@ Platformer Time is a project I am working on to practice platformer mechanics.
 - Finn Character Sprite and Animations (https://lhteam.itch.io/finn-sprite)
 
 - Chest and Candy (https://greatdocbrown.itch.io/coins-gems-etc)
+
+- Nature Platformer Tileset (https://rottingpixels.itch.io/nature-platformer-tileset)
+
+- Tiled Implementation (https://github.com/karai17/Simple-Tiled-Implementation)

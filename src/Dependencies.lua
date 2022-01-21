@@ -12,6 +12,8 @@ push = require 'lib/push'
 -- https://github.com/vrld/hump/blob/master/class.lua
 Class = require 'lib/class'
 
+STI = require 'lib/sti'
+
 -- a few global constants, centralized
 require 'src/Hero/Hero'
 require 'src/Hero/HeroPhysics'
