@@ -12,12 +12,19 @@ Platformer Time is a project I am working on to practice platformer mechanics.
 
 ## Dev Team:
 
+- @IanSkelskey
+  - Project Manager
+  - Lead Coder
+  - Creative Director
+  - Concept Art
+  - Sprite Art
+
 - @Tymelus (https://www.youtube.com/channel/UC6Ou77qQLGzmsDJxBm96tiA)
   - Concept Art
   - Sprite Art
   - Level Design
   - Play Tester
-  
+
 ## Resources:
 
 - Finn Character Sprite and Animations (https://lhteam.itch.io/finn-sprite)
