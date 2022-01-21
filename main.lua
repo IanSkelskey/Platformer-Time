@@ -32,7 +32,7 @@ gSounds = {
   ['theme'] = love.audio.newSource('sounds/AdventureTime.mp3', 'static')
 }
 
-local background = love.graphics.newImage('images/TEST SKY 2 candy variant.png')
+local background = love.graphics.newImage('images/TEST SKY 2.png')
 local ground = love.graphics.newImage('images/ground.png')
 local tree = love.graphics.newImage('images/tree tile 1.png')
 local portal = love.graphics.newImage('images/portal.png')
@@ -126,17 +126,15 @@ function debugMode()
     love.graphics.print('Hero x: ' .. tostring(hero.x), 170, 5)
     love.graphics.print('Hero y: ' .. tostring(hero.y), 170, 15)
 
-
-
 end
 
 function love.draw()
     push:start()
     love.graphics.setFont(gFonts['medium'])
     love.graphics.draw(background, 0, 0)
-    Map:draw(0, 0, 1, 1)
-    -- love.graphics.draw(ground, 0, VIRTUAL_HEIGHT - 16)
-    --love.graphics.draw(tree, 0, VIRTUAL_HEIGHT - 48)
+    Map:draw(-16, 16, 1, 1)
+    love.graphics.draw(ground, 0, VIRTUAL_HEIGHT - 16)
+    love.graphics.draw(tree, 0, VIRTUAL_HEIGHT - 48)
     --love.graphics.draw(portal, VIRTUAL_WIDTH - 32, VIRTUAL_HEIGHT - 48)
     --love.graphics.draw(cube, 32, VIRTUAL_HEIGHT - 40)
 
