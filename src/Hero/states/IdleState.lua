@@ -17,7 +17,7 @@ function IdleState:init()
 end
 
 function IdleState:enter(params)
-
+  self.direction = params.direction
 end
 
 function IdleState:exit()
