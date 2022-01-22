@@ -38,10 +38,6 @@ gSounds = {
 }
 
 local background = love.graphics.newImage('images/TEST SKY 2.png')
-local ground = love.graphics.newImage('images/ground.png')
-local tree = love.graphics.newImage('images/tree tile 1.png')
-local portal = love.graphics.newImage('images/portal.png')
-local cube = love.graphics.newImage('images/friendcube.png')
 
 function love.load()
     --gSounds['theme']:play()
@@ -142,13 +138,9 @@ function love.draw()
     love.graphics.draw(background, 0, 0)
     -- Draw Map on Top of Background
     Map:draw(0, 0, 1, 1)
-    --love.graphics.draw(ground, 0, VIRTUAL_HEIGHT - 16)
-    --love.graphics.draw(tree, 0, VIRTUAL_HEIGHT - 48)
-    --love.graphics.draw(portal, VIRTUAL_WIDTH - 32, VIRTUAL_HEIGHT - 48)
-    --love.graphics.draw(cube, 32, VIRTUAL_HEIGHT - 40)
 
-    love.graphics.printf('Its Platformer Time!', 0, 52, VIRTUAL_WIDTH, 'center')
+    --love.graphics.printf('Its Platformer Time!', 0, 52, VIRTUAL_WIDTH, 'center')
     hero:render()
-    debugMode()
+    --debugMode()
     push:finish()
 end

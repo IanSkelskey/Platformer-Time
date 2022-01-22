@@ -26,8 +26,7 @@ end
 
 function updatePhysics(char, curr_state, dt)
 
-  -- Apply gravity always
-  char.speeds.dy = char.speeds.dy + GRAVITY * dt -- Above the ground (room to fall)
+
 
   -- Update x position based on dx and dt
   char.physics.body:setX(roundPositionX(char.physics.body:getX() + char.speeds.dx*dt))
@@ -42,7 +41,8 @@ function updatePhysics(char, curr_state, dt)
   elseif curr_state.NAME == 'run' then
     char.speeds.dx = char.direction * RUN_SPEED
   elseif curr_state.NAME == 'jump' then
-
+    -- Apply gravity always
+    char.speeds.dy = char.speeds.dy + GRAVITY * dt -- Above the ground (room to fall)
   end
 
 

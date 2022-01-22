@@ -22,19 +22,21 @@ function Hero:init()
     -- initialize our nearest-neighbor filter
     love.graphics.setDefaultFilter('nearest', 'nearest')
     -- self.image = gCharFrames['finn'][1]
-    self.x = 0
-    self.y = 0
+
 
     -- Consider adding acceleration and friction
 
     self.width = 32
     self.height = 32
 
+    self.x = 96 + self.width/2
+    self.y = 0 + self.height/2
+
     self.current_frame = 1
     -- self.dx = 0
     -- self.dy = 0
 
-    self.speeds = {dx = 0, dy = 0}
+    self.speeds = {dx = 0, dy = 5}
 
     -- Player starts in an idle state and facing to the right
     -- Store states in a table or... use a statemachine file... statemachine is probably better
@@ -48,7 +50,7 @@ function Hero:init()
     self.physics = {}
     self.physics.body = love.physics.newBody(World, self.x, self.y, 'dynamic')
     self.physics.body:setFixedRotation(true)
-    self.physics.shape = love.physics.newRectangleShape(self.width, self.height)
+    self.physics.shape = love.physics.newRectangleShape(14, 22)
     self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
 
     -- initialize state machine with all state-returning functions
@@ -73,9 +75,9 @@ end
 function Hero:update(dt)
 
   heroState:update(dt)
+
   self:syncPhysics()
 
-  --LEGACY PHSYICS
   updatePhysics(hero, heroState.current, dt)
 
   -- reset keys pressed
