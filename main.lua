@@ -17,13 +17,14 @@ VIRTUAL_HEIGHT = 144
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 
-Map = STI('maps/map.lua', {'box2d'})
+Map = STI('maps/collision_test.lua', {'box2d'})
 World = love.physics.newWorld(0,0)
 Map:box2d_init(World)
+-- Map.layers.Solids.visible = false
 
 hero = Hero()
 
--- Map.layers.solid.visible = false
+
 
 -- Table of fonts
 gFonts = {
@@ -129,6 +130,8 @@ function debugMode()
     love.graphics.print('Hero dy: ' .. tostring(math.ceil(hero.speeds.dy)), 108, 15)
     love.graphics.print('Hero x: ' .. tostring(hero.x), 170, 5)
     love.graphics.print('Hero y: ' .. tostring(hero.y), 170, 15)
+    love.graphics.print('Body x: ' .. tostring(hero.physics.body:getX()), 170, 25)
+    love.graphics.print('Body y: ' .. tostring(hero.physics.body:getY()), 170, 35)
 
 end
 

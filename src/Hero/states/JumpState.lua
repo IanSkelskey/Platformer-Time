@@ -41,5 +41,5 @@ function JumpState:update(dt)
 end
 
 function JumpState:render()
-  renderAnimation(jump_anim, hero.x, hero.y, hero.direction)
+  renderAnimation(jump_anim, hero.x - hero.width/2, hero.y - hero.height/2, hero.direction)
 end

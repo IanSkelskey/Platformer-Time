@@ -30,9 +30,9 @@ function updatePhysics(char, curr_state, dt)
   char.speeds.dy = char.speeds.dy + GRAVITY * dt -- Above the ground (room to fall)
 
   -- Update x position based on dx and dt
-  char.x = roundPositionX(char.x + char.speeds.dx*dt)
+  char.physics.body:setX(roundPositionX(char.x + char.speeds.dx*dt))
   -- and for y direction
-  char.y = roundPositionY(char.y + char.speeds.dy)
+  char.physics.body:setY(roundPositionY(char.y + char.speeds.dy))
 
 
   if curr_state.NAME == 'walk' then

@@ -22,8 +22,8 @@ function Hero:init()
     -- initialize our nearest-neighbor filter
     love.graphics.setDefaultFilter('nearest', 'nearest')
     -- self.image = gCharFrames['finn'][1]
-    self.x = VIRTUAL_WIDTH / 2 - 16
-    self.y = VIRTUAL_HEIGHT / 2 - 16
+    self.x = 0
+    self.y = 0
 
     -- Consider adding acceleration and friction
 
@@ -61,13 +61,7 @@ function Hero:init()
         ['skid'] = function() return SkidState() end
     }
 
-    heroState:change('idle', {
-        x = self.x,
-        y = self.y,
-        direction = self.direction,
-        dx = self.dx,
-        dy = self.dy
-    })
+    heroState:change('idle')
 
 end
 

@@ -33,5 +33,5 @@ function RunState:update(dt)
 end
 
 function RunState:render()
-  renderAnimation(run_anim, hero.x, hero.y, hero.direction)
+  renderAnimation(run_anim, hero.x - hero.width/2, hero.y - hero.height/2, hero.direction)
 end

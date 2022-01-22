@@ -36,5 +36,5 @@ function IdleState:update(dt)
 end
 
 function IdleState:render()
-  renderAnimation(idle_anim, hero.x, hero.y, hero.direction)
+  renderAnimation(idle_anim, hero.x - hero.width/2, hero.y - hero.height/2, hero.direction)
 end

@@ -15,7 +15,7 @@ function WalkState:init()
 end
 
 function WalkState:enter(params)
-  
+
 end
 
 function WalkState:exit()
@@ -32,5 +32,5 @@ function WalkState:update(dt)
 end
 
 function WalkState:render()
-  renderAnimation(walk_anim, hero.x, hero.y, hero.direction)
+  renderAnimation(walk_anim, hero.x - hero.width/2, hero.y - hero.height/2, hero.direction)
 end
