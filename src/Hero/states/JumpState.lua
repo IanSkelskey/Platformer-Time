@@ -22,10 +22,7 @@ end
 function JumpState:enter(params)
   self.sounds['jump']:stop()
   self.sounds['jump']:play()
-  self.x = params.x
-  self.y = params.y
-  self.dx = params.dx
-  self.direction = params.direction
+
   hero.y = hero.y - 1
   hero.speeds.dy = JUMP_SPEED
 end
@@ -35,7 +32,6 @@ function JumpState:exit()
 end
 
 function JumpState:update(dt)
-  updatePhysics(hero, self, dt)
   updateAnimation(jump_anim, dt)
 
   jumpControls()
@@ -45,5 +41,5 @@ function JumpState:update(dt)
 end
 
 function JumpState:render()
-  renderAnimation(jump_anim, self.x, self.y, self.direction)
+  renderAnimation(jump_anim, hero.x, hero.y, hero.direction)
 end

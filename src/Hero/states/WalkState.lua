@@ -15,9 +15,7 @@ function WalkState:init()
 end
 
 function WalkState:enter(params)
-  self.x = params.x
-  self.y = params.y
-  self.direction = params.direction
+  
 end
 
 function WalkState:exit()
@@ -27,7 +25,6 @@ end
 function WalkState:update(dt)
 
   updateAnimation(walk_anim, dt)
-  updatePhysics(hero, self, dt)
   walkControls()
   handleKeyReleases()
 
@@ -35,5 +32,5 @@ function WalkState:update(dt)
 end
 
 function WalkState:render()
-  renderAnimation(walk_anim, self.x, self.y, self.direction)
+  renderAnimation(walk_anim, hero.x, hero.y, hero.direction)
 end

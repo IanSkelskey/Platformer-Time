@@ -17,9 +17,13 @@ VIRTUAL_HEIGHT = 144
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 
+Map = STI('maps/map.lua', {'box2d'})
+World = love.physics.newWorld(0,0)
+Map:box2d_init(World)
+
 hero = Hero()
 
-Map = STI('maps/map.lua')
+-- Map.layers.solid.visible = false
 
 -- Table of fonts
 gFonts = {
@@ -39,7 +43,6 @@ local portal = love.graphics.newImage('images/portal.png')
 local cube = love.graphics.newImage('images/friendcube.png')
 
 function love.load()
-
     --gSounds['theme']:play()
     -- initialize our nearest-neighbor filter
     love.graphics.setDefaultFilter('nearest', 'nearest')
@@ -105,6 +108,7 @@ function love.mouse.wasPressed(button)
 end
 
 function love.update(dt)
+    World:update(dt)
     hero:update(dt)
     love.keyboard.keysPressed = {}
     love.mouse.buttonsPressed = {}
@@ -131,10 +135,12 @@ end
 function love.draw()
     push:start()
     love.graphics.setFont(gFonts['medium'])
+    -- Draw Background Layer
     love.graphics.draw(background, 0, 0)
-    Map:draw(-16, 16, 1, 1)
-    love.graphics.draw(ground, 0, VIRTUAL_HEIGHT - 16)
-    love.graphics.draw(tree, 0, VIRTUAL_HEIGHT - 48)
+    -- Draw Map on Top of Background
+    Map:draw(0, 0, 1, 1)
+    --love.graphics.draw(ground, 0, VIRTUAL_HEIGHT - 16)
+    --love.graphics.draw(tree, 0, VIRTUAL_HEIGHT - 48)
     --love.graphics.draw(portal, VIRTUAL_WIDTH - 32, VIRTUAL_HEIGHT - 48)
     --love.graphics.draw(cube, 32, VIRTUAL_HEIGHT - 40)
 

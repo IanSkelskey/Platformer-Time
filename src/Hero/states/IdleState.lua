@@ -17,7 +17,7 @@ function IdleState:init()
 end
 
 function IdleState:enter(params)
-  self.direction = params.direction
+
 end
 
 function IdleState:exit()
@@ -28,8 +28,6 @@ function IdleState:update(dt)
 
   updateAnimation(idle_anim, dt)
 
-  updatePhysics(hero, self, dt)
-
   idleControls()
   handleKeyReleases()
 
@@ -38,5 +36,5 @@ function IdleState:update(dt)
 end
 
 function IdleState:render()
-  renderAnimation(idle_anim, self.x, self.y, self.direction)
+  renderAnimation(idle_anim, hero.x, hero.y, hero.direction)
 end

@@ -16,11 +16,7 @@ function RunState:init()
 end
 
 function RunState:enter(params)
-  self.x = params.x
-  self.y = params.y
-  self.direction = params.direction
-  self.dx = params.dx
-  self.dy = params.dy
+
 end
 
 function RunState:exit()
@@ -28,7 +24,6 @@ function RunState:exit()
 end
 
 function RunState:update(dt)
-  updatePhysics(hero, self, dt)
   updateAnimation(run_anim, dt)
 
   runControls()
@@ -38,5 +33,5 @@ function RunState:update(dt)
 end
 
 function RunState:render()
-  renderAnimation(run_anim, self.x, self.y, self.direction)
+  renderAnimation(run_anim, hero.x, hero.y, hero.direction)
 end
