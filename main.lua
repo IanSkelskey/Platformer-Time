@@ -17,10 +17,10 @@ VIRTUAL_HEIGHT = 144
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 
-Map = STI('maps/collision_test.lua', {'box2d'})
+Map = STI('maps/collision_exam.lua', {'box2d'})
 World = love.physics.newWorld(0,0)
 Map:box2d_init(World)
--- Map.layers.Solids.visible = false
+Map.layers.Solids.visible = false
 
 hero = Hero()
 
