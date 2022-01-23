@@ -8,6 +8,8 @@
     Platformer Time is a way for me to practice developing platformers.
 ]]
 
+
+
 require 'src/Dependencies'
 
 -- virtual resolution dimensions
@@ -20,11 +22,13 @@ WINDOW_HEIGHT = 720
 Map = STI('maps/collision_exam.lua', {'box2d'})
 World = love.physics.newWorld(0,0)
 Map:box2d_init(World)
-Map.layers.Solids.visible = false
+if debug_active then
+  Map.layers.Solids.visible = false
+else
+  Map.layers.Solids.visible = false
+end
 
 hero = Hero()
-
-
 
 -- Table of fonts
 gFonts = {
@@ -76,6 +80,8 @@ function love.keypressed(key)
       love.resize(love.graphics.getDimensions())
     end
 
+    -- Add Debug Keybind?
+
     if key == 'escape' then
         love.event.quit()
     end
@@ -118,9 +124,9 @@ end
 function debugMode()
     -- simple FPS display across all states
     love.graphics.setFont(gFonts['small'])
-    love.graphics.setColor(0, 0, 0, 1)
+    love.graphics.setColor(1, 0, 0, 1)
     love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 15, 5)
-    love.graphics.print('Hero state: ' .. tostring(heroState.current.NAME), 15, 15)
+    love.graphics.print('Hero state: ' .. tostring(hero.states.current.NAME), 15, 15)
 
     love.graphics.print('Hero dx: ' .. tostring(hero.speeds.dx), 108, 5)
     love.graphics.print('Hero dy: ' .. tostring(math.ceil(hero.speeds.dy)), 108, 15)
@@ -128,7 +134,7 @@ function debugMode()
     love.graphics.print('Hero y: ' .. tostring(hero.y), 170, 15)
     love.graphics.print('Body x: ' .. tostring(hero.physics.body:getX()), 170, 25)
     love.graphics.print('Body y: ' .. tostring(hero.physics.body:getY()), 170, 35)
-
+    love.graphics.setColor(1, 1, 1, 1)
 end
 
 function love.draw()
@@ -141,6 +147,9 @@ function love.draw()
 
     --love.graphics.printf('Its Platformer Time!', 0, 52, VIRTUAL_WIDTH, 'center')
     hero:render()
-    --debugMode()
+
+    if debug_active then
+      debugMode()
+    end
     push:finish()
 end

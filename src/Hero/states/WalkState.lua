@@ -23,9 +23,6 @@ end
 
 function WalkState:update(dt)
 
-  walkControls()
-  handleKeyReleases()
-
 end
 
 function WalkState:render()

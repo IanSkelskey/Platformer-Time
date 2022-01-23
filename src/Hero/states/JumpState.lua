@@ -32,9 +32,6 @@ end
 
 function JumpState:update(dt)
 
-  jumpControls()
-  handleKeyReleases()
-
 end
 
 function JumpState:render()

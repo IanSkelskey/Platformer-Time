@@ -1,27 +1,41 @@
 local curr_state = nil
 local prev_state = nil
 
-function idleControls()
+function heroControls()
   trackStates()
+  if curr_state.NAME == 'idle' then
+    idleControls()
+  elseif curr_state.NAME == 'walk' then
+    walkControls()
+  elseif curr_state.NAME == 'run' then
+    runControls()
+  elseif curr_state.NAME == 'jump' then
+    jumpControls()
+  end
+
+  handleKeyReleases()
+
+end
+
+function idleControls()
   -- IDLESTATE KEYBOARD CONTROLS
   if love.keyboard.wasPressed('right') then
     hero.direction = 1
-    heroState:change('walk')
+    hero.states:change('walk')
 
   elseif love.keyboard.wasPressed('left') then
 
     hero.direction = -1
-    heroState:change('walk')
+    hero.states:change('walk')
 
   elseif love.keyboard.wasPressed('up') then
 
-    heroState:change('jump')
+    hero.states:change('jump')
   end
 
 end
 
 function walkControls()
-  trackStates()
   -- WALKSTATE KEYBOARD CONTROLS
 
   if love.keyboard.isDown('left') and hero.direction == 1 and not love.keyboard.isDown('right') then
@@ -35,25 +49,24 @@ function walkControls()
   -- if we somehow get to the walk state and neither left or right is pressed,
   -- leave the walk state.
   if not love.keyboard.isDown('left') and not love.keyboard.isDown('right') then
-    heroState:change('idle')
+    hero.states:change('idle')
   end
 
   if love.keyboard.wasPressed('lshift') or love.keyboard.isDown('lshift') then
-    heroState:change('run')
+    hero.states:change('run')
   elseif love.keyboard.wasPressed('up') then
-    heroState:change('jump')
+    hero.states:change('jump')
   end
 
 end
 
 function runControls()
-  trackStates()
   -- RUNSTATE KEYBOARD CONTROLS
   if not love.keyboard.isDown('lshift') then
-    heroState:change('walk')
+    hero.states:change('walk')
   end
   if not love.keyboard.isDown('left') and not love.keyboard.isDown('right') then
-    heroState:change('idle')
+    hero.states:change('idle')
   end
   if love.keyboard.isDown('left') and hero.direction == 1 and not love.keyboard.isDown('right') then
     hero.direction = -1
@@ -62,20 +75,18 @@ function runControls()
     hero.direction = 1
   end
   if love.keyboard.wasPressed('up') then
-    heroState:change('jump')
+    hero.states:change('jump')
   end
 end
 
 function jumpControls()
-  trackStates()
   -- JUMPSTATE KEYBOARD CONTROLS
-  if hero.dy == 0 and hero.y == VIRTUAL_HEIGHT - 42 then
-    heroState:change(prev_state.NAME)
+  if love.keyboard.wasPressed('up') then
+    hero.states:change(prev_state.NAME)
   end
 end
 
 function handleKeyReleases()
-
 -- KEY RELEASED FUNCTIONALITY
   function love.keyreleased(key)
 
@@ -86,13 +97,13 @@ function handleKeyReleases()
         if love.keyboard.isDown('left') then
           hero.direction = -1
         else
-          heroState:change('idle')
+          hero.states:change('idle')
         end
       elseif key == 'left' and hero.direction == -1 then
         if love.keyboard.isDown('right') then
           hero.direction = 1
         else
-          heroState:change('idle')
+          hero.states:change('idle')
         end
       end
     elseif curr_state.NAME == 'run' then
@@ -101,16 +112,16 @@ function handleKeyReleases()
         if love.keyboard.isDown('left') then
           hero.direction = -1
         else
-          heroState:change('idle')
+          hero.states:change('idle')
         end
       elseif key == 'left' and hero.direction == -1 then
         if love.keyboard.isDown('right') then
           hero.direction = 1
         else
-          heroState:change('idle')
+          hero.states:change('idle')
         end
       elseif key == 'lshift' then
-        heroState:change('walk')
+        hero.states:change('walk')
       end
     elseif curr_state.NAME == 'jump' then
 
@@ -121,6 +132,6 @@ function handleKeyReleases()
 end
 
 function trackStates()
-  curr_state = heroState.current
-  prev_state = heroState.previous
+  curr_state = hero.states.current
+  prev_state = hero.states.previous
 end

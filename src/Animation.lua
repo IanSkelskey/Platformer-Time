@@ -31,7 +31,7 @@ end
 -- https://love2d.org/wiki/Tutorial:Animation
 function renderAnimation(animation, x, y, direction)
   if direction == -1 then
-    x = x + animation.frame_width - 5
+    x = x + animation.frame_width - 4
   end
   local spriteNum = math.floor(animation.currentTime / animation.duration * #animation.quads) + 1
     love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], x, y, 0, direction, 1)

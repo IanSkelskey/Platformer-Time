@@ -32,6 +32,9 @@ function updatePhysics(char, curr_state, dt)
   -- and for y direction
   char.physics.body:setY(roundPositionY(char.physics.body:getY() + char.speeds.dy))
 
+  char.x = roundPositionX(char.x)
+  char.y = roundPositionY(char.y)
+
 
   if curr_state.NAME == 'walk' then
     char.speeds.dx = char.direction * WALK_SPEED

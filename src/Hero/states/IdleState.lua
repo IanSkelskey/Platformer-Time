@@ -23,10 +23,6 @@ end
 
 function IdleState:update(dt)
 
-
-  idleControls()
-  handleKeyReleases()
-
 end
 
 function IdleState:render()

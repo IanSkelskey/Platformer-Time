@@ -24,9 +24,6 @@ end
 
 function RunState:update(dt)
 
-  runControls()
-  handleKeyReleases()
-
 end
 
 function RunState:render()
