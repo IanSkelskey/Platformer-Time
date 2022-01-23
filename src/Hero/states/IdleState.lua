@@ -8,12 +8,9 @@
 
 IdleState = Class{__includes = BaseState}
 
-local idle_anim = newAnimation(love.graphics.newImage("images/finn_idle.png"), 32, 32, 2.5)
-
-
-
 function IdleState:init()
   self.NAME = 'idle'
+  self.animation = newAnimation(love.graphics.newImage("images/finn_idle.png"), 32, 32, 2.5)
 end
 
 function IdleState:enter(params)
@@ -26,15 +23,12 @@ end
 
 function IdleState:update(dt)
 
-  updateAnimation(idle_anim, dt)
 
   idleControls()
   handleKeyReleases()
 
-  BaseState:matchStateToHero(hero) -- Move to heroPhysics?
-
 end
 
 function IdleState:render()
-  renderAnimation(idle_anim, hero.x - hero.width/2, hero.y - hero.height/2, hero.direction)
+
 end

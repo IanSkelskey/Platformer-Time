@@ -8,6 +8,7 @@ local GRAVITY = 20
 local BOUNDING_WIDTH = 12
 local BOUNDING_HEIGHT = 16
 
+-- Rounding functions to avoid weird bluring from fractional x and y values
 function roundPositionX(coordinate)
   if hero.direction == 1 then
     return math.ceil(coordinate)
@@ -24,10 +25,8 @@ function roundPositionY(coordinate)
   end
 end
 
+-- Physics for the hero are defined here.
 function updatePhysics(char, curr_state, dt)
-
-
-
   -- Update x position based on dx and dt
   char.physics.body:setX(roundPositionX(char.physics.body:getX() + char.speeds.dx*dt))
   -- and for y direction

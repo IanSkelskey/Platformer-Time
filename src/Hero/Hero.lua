@@ -21,36 +21,31 @@ Hero = Class{}
 function Hero:init()
     -- initialize our nearest-neighbor filter
     love.graphics.setDefaultFilter('nearest', 'nearest')
-    -- self.image = gCharFrames['finn'][1]
-
 
     -- Consider adding acceleration and friction
 
+    --THESE ARE ACTUALLY SPRITE DIMENSIONS NOT CHARACTER HIT BOX. PLEASE FIX
     self.width = 32
     self.height = 32
 
+    -- PLAYER SPAWN LOCATION (Will be determined with constructor parameters)
     self.x = 96 + self.width/2
     self.y = 0 + self.height/2
 
-    self.current_frame = 1
-    -- self.dx = 0
-    -- self.dy = 0
-
+    -- Speeds are stored in a table to allow tweening
     self.speeds = {dx = 0, dy = 5}
 
     -- Player starts in an idle state and facing to the right
-    -- Store states in a table or... use a statemachine file... statemachine is probably better
-     self.state = 'idle'
-    -- self.previous state
+    self.state = 'idle'
 
-    self.direction = 1  -- to the right
+     -- Player is initialized facing to the right.
+    self.direction = 1  -- to the right (Will be determined with constructor parameters)
 
-    --
-
+    -- Physics attribute table using love.physics
     self.physics = {}
     self.physics.body = love.physics.newBody(World, self.x, self.y, 'dynamic')
     self.physics.body:setFixedRotation(true)
-    self.physics.shape = love.physics.newRectangleShape(14, 22)
+    self.physics.shape = love.physics.newRectangleShape(14, 22) -- Magic numbers (FIX)
     self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
 
     -- initialize state machine with all state-returning functions
@@ -67,6 +62,8 @@ function Hero:init()
 
 end
 
+-- Syncs hero physics body and image for display
+-- Consider moving into heroPhysics.lua
 function Hero:syncPhysics()
   self.x, self.y = self.physics.body:getPosition()
   self.physics.body:setLinearVelocity(self.speeds.dx,self.speeds.dy)
@@ -74,6 +71,7 @@ end
 
 function Hero:update(dt)
 
+  updateAnimation(heroState.current.animation, dt)
   heroState:update(dt)
 
   self:syncPhysics()
@@ -92,7 +90,6 @@ end
 -- Renders player based on state
 
 function Hero:render()
-
-  heroState:render()
+  renderAnimation(heroState.current.animation, hero.x - hero.width/2, hero.y - hero.height/2, hero.direction)
 
 end
