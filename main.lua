@@ -74,13 +74,16 @@ function love.keypressed(key)
     -- add to our table of keys pressed this frame
     love.keyboard.keysPressed[key] = true
 
-    if key == "f11" then
+    if key == 'f11' then
       fullscreen = not fullscreen
       love.window.setFullscreen(fullscreen, fstype)
       love.resize(love.graphics.getDimensions())
     end
 
     -- Add Debug Keybind?
+    if key == 'tab' then
+      debug_active = not debug_active
+    end
 
     if key == 'escape' then
         love.event.quit()

@@ -14,6 +14,7 @@
       - attack
       - die
       - hurt
+      - fall
 ]]
 
 Hero = Class{}
@@ -29,7 +30,7 @@ function Hero:init()
     self.height = 32
 
     self.body_width = 14
-    self.body_height = 22
+    self.body_height = 19
 
     -- PLAYER SPAWN LOCATION (Will be determined with constructor parameters)
     self.x = 96 + self.width/2
@@ -47,7 +48,7 @@ function Hero:init()
     self.speeds = {dx = 0, dy = 5}
 
     -- Player starts in an idle state and facing to the right
-    self.state = 'idle'
+    --self.state = 'idle'
 
      -- Player is initialized facing to the right.
     self.direction = 1  -- to the right (Will be determined with constructor parameters)
@@ -138,6 +139,8 @@ end
 function Hero:drawCollisionBounds()
   love.graphics.setColor(0, 1, 0, .25)
   love.graphics.rectangle('fill', roundPositionX(self.body_x), roundPositionY(self.body_y), self.body_width, self.body_height)
+  love.graphics.setColor(0, 1, 0, 1)
+  love.graphics.points(roundPositionX(self.physics.body:getX()), roundPositionY(self.physics.body:getY()))
   love.graphics.setColor(1, 1, 1, 1)
 end
 
