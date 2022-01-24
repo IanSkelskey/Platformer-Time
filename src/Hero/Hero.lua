@@ -85,7 +85,7 @@ end
 
 function Hero:update(dt)
 
-  -- Update hero center coordinates
+  -- Update hero origin coordinates
   self.x_origin = self.x - self.width/2
   self.y_origin = self.y - self.height/2
 
