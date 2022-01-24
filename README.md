@@ -25,6 +25,16 @@ Platformer Time is a project I am working on to practice platformer mechanics.
   - Level Design
   - Play Tester
 
+## Libraries
+
+- Class
+
+- Hump
+
+- STI (https://github.com/karai17/Simple-Tiled-Implementation)
+
+- Push
+
 ## Resources:
 
 - Finn Character Sprite and Animations (https://lhteam.itch.io/finn-sprite)
@@ -42,5 +52,3 @@ Platformer Time is a project I am working on to practice platformer mechanics.
 - Love2d
 
 - Tiled (https://www.mapeditor.org/)
-
-- Tiled Implementation (https://github.com/karai17/Simple-Tiled-Implementation)
