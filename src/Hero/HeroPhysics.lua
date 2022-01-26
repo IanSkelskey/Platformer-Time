@@ -2,7 +2,9 @@
 -- Physics constants
 local WALK_SPEED = 40
 local RUN_SPEED = 80
--- local JUMP_SPEED = -4.5  --NOW IN JumpState
+local ACCELERATION = 500
+local FRICTION = 400
+local JUMP_SPEED = -5
 local GRAVITY = 20
 -- Collision boundaries
 local BOUNDING_WIDTH = 12
@@ -35,17 +37,30 @@ function updatePhysics(char, curr_state, dt)
   char.x = roundPositionX(char.x)
   char.y = roundPositionY(char.y)
 
-
-  if curr_state.NAME == 'walk' then
-    char.speeds.dx = char.direction * WALK_SPEED
-  elseif curr_state.NAME == 'idle' then
-    char.speeds.dx = 0
-  elseif curr_state.NAME == 'run' then
-    char.speeds.dx = char.direction * RUN_SPEED
-  elseif curr_state.NAME == 'jump' then
-    -- Apply gravity always
-    char.speeds.dy = char.speeds.dy + GRAVITY * dt -- Above the ground (room to fall)
+  if not hero.grounded then
+    -- Apply gravity when player is off the ground
+    hero.speeds.dy = hero.speeds.dy + GRAVITY * dt -- Above the ground (room to fall)
   end
 
+  statePhysics(char, curr_state.NAME, dt)
 
+
+
+end
+
+function statePhysics(hero, hero_state_name, dt)
+  if hero_state_name == 'walk' then
+    hero.speeds.dx = hero.direction * WALK_SPEED
+  elseif hero_state_name == 'idle' then
+    hero.speeds.dx = 0
+  elseif hero_state_name == 'run' then
+    hero.speeds.dx = hero.direction * RUN_SPEED
+  elseif hero_state_name == 'jump' then
+
+  end
+end
+
+function jump(hero)
+  hero.y = hero.y - 1
+  hero.speeds.dy = JUMP_SPEED
 end

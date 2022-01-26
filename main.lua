@@ -21,9 +21,10 @@ WINDOW_HEIGHT = 720
 
 Map = STI('maps/collision_exam.lua', {'box2d'})
 World = love.physics.newWorld(0,0)
+World:setCallbacks(beginContact, endContact)
 Map:box2d_init(World)
 if debug_active then
-  Map.layers.Solids.visible = false
+  Map.layers.Solids.visible = true
 else
   Map.layers.Solids.visible = false
 end
@@ -130,6 +131,7 @@ function debugMode()
     love.graphics.setColor(1, 0, 0, 1)
     love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 15, 5)
     love.graphics.print('Hero state: ' .. tostring(hero.states.current.NAME), 15, 15)
+    love.graphics.print('grounded?: ' .. tostring(hero.grounded), 15, 25)
 
     love.graphics.print('Hero dx: ' .. tostring(hero.speeds.dx), 108, 5)
     love.graphics.print('Hero dy: ' .. tostring(math.ceil(hero.speeds.dy)), 108, 15)
@@ -155,4 +157,13 @@ function love.draw()
       debugMode()
     end
     push:finish()
+end
+
+function beginContact(a, b, collision)
+  print("attempting to Hero:beginContact()")
+  hero:beginContact(a, b, collision)
+end
+
+function endContact(a, b, collision)
+  hero:endContact(a, b, collision)
 end

@@ -23,6 +23,7 @@ function Hero:init()
     -- initialize our nearest-neighbor filter
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
+    self.grounded = false
     -- Consider adding acceleration and friction
 
     --THESE ARE ACTUALLY SPRITE DIMENSIONS NOT CHARACTER HIT BOX. PLEASE FIX
@@ -33,7 +34,7 @@ function Hero:init()
     self.body_height = 19
 
     -- PLAYER SPAWN LOCATION (Will be determined with constructor parameters)
-    self.x = 96 + self.width/2
+    self.x = 108 + self.width/2
     self.y = 0 + self.height/2
 
     -- Initialize hero origin coordinates, adjusted for box2d
@@ -58,7 +59,7 @@ function Hero:init()
     self.physics = {}
     self.physics.body = love.physics.newBody(World, self.x, self.y, 'dynamic')
     self.physics.body:setFixedRotation(true)
-    self.physics.shape = love.physics.newRectangleShape(self.body_width, self.body_height) -- Magic numbers (FIX)
+    self.physics.shape = love.physics.newRectangleShape(self.body_width, self.body_height)
     self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
 
     -- initialize state machine with all state-returning functions
@@ -146,8 +147,35 @@ end
 
 function Hero:ProtectFromFall()
   if self.y > 256 then
-    self.physics.body:setPosition(96 + self.width/2, 0 + self.height/2)
+    self.physics.body:setPosition(108 + self.width/2, 0 + self.height/2)
     self.states:change('idle')
     self.speeds.dy = 5
   end
+end
+
+function Hero:beginContact(a, b, collision)
+  print("attempting to Hero:beginContact()")
+  if self.grounded == true then return end
+  local nx, ny = collision:getNormal()
+  if a == self.physics.fixture then
+    if ny > 0 then
+      print("landing...")
+      self:land()
+    end
+  elseif b == self.physics.fixture then
+    if ny < 0 then
+      self:land()
+      print("landing...")
+    end
+  end
+end
+
+function Hero:land()
+  self.states.change(self.states.previous)
+  self.speeds.dy = 0
+  self.grounded = true
+end
+
+function Hero:endContact(a, b, collision)
+
 end

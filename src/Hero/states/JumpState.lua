@@ -8,8 +8,6 @@
 
 JumpState = Class{__includes = BaseState}
 
-local JUMP_SPEED = -6
-
 function JumpState:init()
   self.NAME = 'jump'
   self.sounds = {
@@ -22,8 +20,7 @@ function JumpState:enter(params)
   self.sounds['jump']:stop()
   self.sounds['jump']:play()
 
-  hero.y = hero.y - 1
-  hero.speeds.dy = JUMP_SPEED
+  jump(hero)
 end
 
 function JumpState:exit()
