@@ -31,9 +31,11 @@ Platformer Time is a project I am working on to practice platformer mechanics.
 
 - Hump
 
+- Push
+
 - STI (https://github.com/karai17/Simple-Tiled-Implementation)
 
-- Push
+- State Machine
 
 ## Resources:
 
