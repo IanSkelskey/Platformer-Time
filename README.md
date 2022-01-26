@@ -13,7 +13,7 @@ Platformer Time is a project I am working on to practice platformer mechanics.
 ## Dev Team:
 
 - @IanSkelskey
-  - Project Manager
+  - Project Coordinator
   - Lead Coder
   - Creative Director
   - Concept Art
