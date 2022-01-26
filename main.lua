@@ -19,7 +19,7 @@ VIRTUAL_HEIGHT = 144
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 
-Map = STI('maps/collision_exam.lua', {'box2d'})
+Map = STI('maps/ian_test.lua', {'box2d'})
 World = love.physics.newWorld(0,0)
 World:setCallbacks(beginContact, endContact)
 Map:box2d_init(World)
