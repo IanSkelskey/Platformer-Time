@@ -159,22 +159,25 @@ function Hero:beginContact(a, b, collision)
   local nx, ny = collision:getNormal()
   if a == self.physics.fixture then
     if ny > 0 then
+
       print("landing...")
-      self:land()
+      self:land(collision)
       print("landed")
     end
+    self.
     print(b:getCategory())
   elseif b == self.physics.fixture then
     if ny < 0 then
       print("landing...")
-      self:land()
+      self:land(collision)
       print("landed")
     end
     print(a:getCategory())
   end
 end
 
-function Hero:land()
+function Hero:land(collision)
+  self.currentGroundCollision = collision
   print(self.states.previous)
   if self.states.previous.NAME ~= nil then
     self.states:change(self.states.previous.NAME)
@@ -186,5 +189,10 @@ function Hero:land()
 end
 
 function Hero:endContact(a, b, collision)
-  self.grounded = false
+  if a == self.physics.fixture or b == self.physics.fixture then
+    if self.currentGroundCollision == collision then
+      print("left ground")
+      self.grounded = false
+    end
+  end
 end
