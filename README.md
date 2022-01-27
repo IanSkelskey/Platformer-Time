@@ -54,3 +54,7 @@ Platformer Time is a project I am working on to practice platformer mechanics.
 - Love2d
 
 - Tiled (https://www.mapeditor.org/)
+
+## Tutorials
+
+- DevJeeper Love2d Platformer Tutorial Series (https://www.youtube.com/watch?v=XfIDHUyLpQ0)
