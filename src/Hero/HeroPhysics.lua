@@ -4,7 +4,7 @@ local WALK_SPEED = 40
 local RUN_SPEED = 80
 local ACCELERATION = 500
 local FRICTION = 400
-local JUMP_SPEED = -350
+local JUMP_SPEED = -375
 local GRAVITY = 1000
 -- Collision boundaries
 local BOUNDING_WIDTH = 12

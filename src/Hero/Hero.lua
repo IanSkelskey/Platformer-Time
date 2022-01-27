@@ -163,12 +163,14 @@ function Hero:beginContact(a, b, collision)
       self:land()
       print("landed")
     end
+    print(b:getCategory())
   elseif b == self.physics.fixture then
     if ny < 0 then
       print("landing...")
       self:land()
       print("landed")
     end
+    print(a:getCategory())
   end
 end
 

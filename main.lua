@@ -29,10 +29,27 @@ function endContact(a, b, collision)
 end
 
 
-Map = STI('maps/collision_exam.lua', {'box2d'})
+Map = STI('maps/ian_test.lua', {'box2d'})
 World = love.physics.newWorld(0,0)
 World:setCallbacks(beginContact, endContact)
 Map:box2d_init(World)
+
+print("world body count")
+print(World:getBodyCount())
+bodies = World:getBodies()
+
+print("printing world bodies")
+for i in pairs(bodies) do
+  print("body type")
+  print(bodies[i]:getType())
+  print("body x")
+  print(bodies[i]:getX())
+  print(bodies[i]:getY())
+end
+
+for k, object in pairs(Map.objects) do
+  print(object.name)
+end
 
 if debug_active then
   Map.layers.Solids.visible = false
@@ -56,7 +73,7 @@ gSounds = {
 local background = love.graphics.newImage('images/TEST SKY 2.png')
 
 function love.load()
-    --gSounds['theme']:play()
+    gSounds['theme']:play()
     -- initialize our nearest-neighbor filter
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
