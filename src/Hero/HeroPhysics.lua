@@ -4,8 +4,8 @@ local WALK_SPEED = 40
 local RUN_SPEED = 80
 local ACCELERATION = 500
 local FRICTION = 400
-local JUMP_SPEED = -5
-local GRAVITY = 20
+local JUMP_SPEED = -350
+local GRAVITY = 1000
 -- Collision boundaries
 local BOUNDING_WIDTH = 12
 local BOUNDING_HEIGHT = 16
@@ -30,12 +30,12 @@ end
 -- Physics for the hero are defined here.
 function updatePhysics(char, curr_state, dt)
   -- Update x position based on dx and dt
-  char.physics.body:setX(roundPositionX(char.physics.body:getX() + char.speeds.dx*dt))
+  --char.physics.body:setX(roundPositionX(char.physics.body:getX() + char.speeds.dx*dt))
   -- and for y direction
-  char.physics.body:setY(roundPositionY(char.physics.body:getY() + char.speeds.dy))
+  --char.physics.body:setY(roundPositionY(char.physics.body:getY() + char.speeds.dy))
 
-  char.x = roundPositionX(char.x)
-  char.y = roundPositionY(char.y)
+  --char.x = roundPositionX(char.x)
+  --char.y = roundPositionY(char.y)
 
   if not hero.grounded then
     -- Apply gravity when player is off the ground
@@ -56,11 +56,14 @@ function statePhysics(hero, hero_state_name, dt)
   elseif hero_state_name == 'run' then
     hero.speeds.dx = hero.direction * RUN_SPEED
   elseif hero_state_name == 'jump' then
-
+    if hero.speeds.dy == 0 then
+      hero.states:change(hero.states.previous.NAME)
+    end
   end
 end
 
 function jump(hero)
   hero.y = hero.y - 1
   hero.speeds.dy = JUMP_SPEED
+  hero.grounded = false
 end

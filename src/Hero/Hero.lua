@@ -161,21 +161,28 @@ function Hero:beginContact(a, b, collision)
     if ny > 0 then
       print("landing...")
       self:land()
+      print("landed")
     end
   elseif b == self.physics.fixture then
     if ny < 0 then
-      self:land()
       print("landing...")
+      self:land()
+      print("landed")
     end
   end
 end
 
 function Hero:land()
-  self.states.change(self.states.previous)
+  print(self.states.previous)
+  if self.states.previous.NAME ~= nil then
+    self.states:change(self.states.previous.NAME)
+  else
+    self.states:change('idle')
+  end
   self.speeds.dy = 0
   self.grounded = true
 end
 
 function Hero:endContact(a, b, collision)
-
+  self.grounded = false
 end

@@ -13,18 +13,29 @@
 require 'src/Dependencies'
 
 -- virtual resolution dimensions
-VIRTUAL_WIDTH = 256
-VIRTUAL_HEIGHT = 144
+VIRTUAL_WIDTH = 384
+VIRTUAL_HEIGHT = 216
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 
-Map = STI('maps/ian_test.lua', {'box2d'})
+function beginContact(a, b, collision)
+  print("attempting to Hero:beginContact()")
+  hero:beginContact(a, b, collision)
+end
+
+function endContact(a, b, collision)
+  hero:endContact(a, b, collision)
+end
+
+
+Map = STI('maps/collision_exam.lua', {'box2d'})
 World = love.physics.newWorld(0,0)
 World:setCallbacks(beginContact, endContact)
 Map:box2d_init(World)
+
 if debug_active then
-  Map.layers.Solids.visible = true
+  Map.layers.Solids.visible = false
 else
   Map.layers.Solids.visible = false
 end
@@ -157,13 +168,4 @@ function love.draw()
       debugMode()
     end
     push:finish()
-end
-
-function beginContact(a, b, collision)
-  print("attempting to Hero:beginContact()")
-  hero:beginContact(a, b, collision)
-end
-
-function endContact(a, b, collision)
-  hero:endContact(a, b, collision)
 end

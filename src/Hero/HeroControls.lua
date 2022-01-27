@@ -80,10 +80,7 @@ function runControls()
 end
 
 function jumpControls()
-  -- JUMPSTATE KEYBOARD CONTROLS
-  if love.keyboard.wasPressed('up') then
-    hero.states:change(prev_state.NAME)
-  end
+
 end
 
 function handleKeyReleases()
