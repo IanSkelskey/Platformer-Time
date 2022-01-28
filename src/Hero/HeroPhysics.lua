@@ -6,36 +6,9 @@ local ACCELERATION = 500
 local FRICTION = 400
 local JUMP_SPEED = -375
 local GRAVITY = 1000
--- Collision boundaries
-local BOUNDING_WIDTH = 12
-local BOUNDING_HEIGHT = 16
-
--- Rounding functions to avoid weird bluring from fractional x and y values
-function roundPositionX(coordinate)
-  if hero.direction == 1 then
-    return math.ceil(coordinate)
-  else
-    return math.floor(coordinate)
-  end
-end
-
-function roundPositionY(coordinate)
-  if hero.speeds.dy < 0 then
-    return math.ceil(coordinate)
-  else
-    return math.floor(coordinate)
-  end
-end
 
 -- Physics for the hero are defined here.
 function updatePhysics(char, curr_state, dt)
-  -- Update x position based on dx and dt
-  --char.physics.body:setX(roundPositionX(char.physics.body:getX() + char.speeds.dx*dt))
-  -- and for y direction
-  --char.physics.body:setY(roundPositionY(char.physics.body:getY() + char.speeds.dy))
-
-  --char.x = roundPositionX(char.x)
-  --char.y = roundPositionY(char.y)
 
   if not hero.grounded then
     -- Apply gravity when player is off the ground
@@ -43,8 +16,6 @@ function updatePhysics(char, curr_state, dt)
   end
 
   statePhysics(char, curr_state.NAME, dt)
-
-
 
 end
 

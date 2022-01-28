@@ -1,6 +1,9 @@
 local curr_state = nil
 local prev_state = nil
 
+-- a hero should be passed in as a parameter so it can be renamed elsewhere
+-- and for general reusability
+
 function heroControls()
   trackStates()
   if curr_state.NAME == 'idle' then

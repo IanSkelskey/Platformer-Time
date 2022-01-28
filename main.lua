@@ -16,48 +16,9 @@ require 'src/Dependencies'
 VIRTUAL_WIDTH = 384
 VIRTUAL_HEIGHT = 216
 
+-- Default window sizes
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
-
-function beginContact(a, b, collision)
-  print("attempting to Hero:beginContact()")
-  hero:beginContact(a, b, collision)
-end
-
-function endContact(a, b, collision)
-  hero:endContact(a, b, collision)
-end
-
-
-Map = STI('maps/ian_test.lua', {'box2d'})
-World = love.physics.newWorld(0,0)
-World:setCallbacks(beginContact, endContact)
-Map:box2d_init(World)
-
-print("world body count")
-print(World:getBodyCount())
-bodies = World:getBodies()
-
-print("printing world bodies")
-for i in pairs(bodies) do
-  print("body type")
-  print(bodies[i]:getType())
-  print("body x")
-  print(bodies[i]:getX())
-  print(bodies[i]:getY())
-end
-
-for k, object in pairs(Map.objects) do
-  print(object.name)
-end
-
-if debug_active then
-  Map.layers.Solids.visible = false
-else
-  Map.layers.Solids.visible = false
-end
-
-hero = Hero()
 
 -- Table of fonts
 gFonts = {
@@ -66,6 +27,7 @@ gFonts = {
     ['large'] = love.graphics.newFont('fonts/font.ttf', 32)
 }
 
+-- Sounds Table
 gSounds = {
   ['theme'] = love.audio.newSource('sounds/AdventureTime.mp3', 'static')
 }
@@ -73,26 +35,38 @@ gSounds = {
 local background = love.graphics.newImage('images/TEST SKY 2.png')
 
 function love.load()
-    gSounds['theme']:play()
-    -- initialize our nearest-neighbor filter
-    love.graphics.setDefaultFilter('nearest', 'nearest')
 
-    -- app window title
-    love.window.setTitle('Platformer Time')
+  Map = STI('maps/ian_test.lua', {'box2d'})
+  World = love.physics.newWorld(0,0)
+  World:setCallbacks(beginContact, endContact)
+  Map:box2d_init(World)
 
+  Map.layers.Solids.visible = false
 
-    -- initialize our virtual resolution
-    push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
-        vsync = true,
-        fullscreen = false,
-        resizable = true
-    })
+  hero = Hero(50, 50)
 
-    -- initialize input table
-    love.keyboard.keysPressed = {}
+  -- Play the theme song
+  gSounds['theme']:play()
 
-    -- initialize mouse input table
-    love.mouse.buttonsPressed = {}
+  -- initialize our nearest-neighbor filter
+  love.graphics.setDefaultFilter('nearest', 'nearest')
+
+  -- app window title
+  love.window.setTitle('Platformer Time')
+
+  -- initialize our virtual resolution
+  push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
+      vsync = true,
+      fullscreen = false,
+      resizable = true
+  })
+
+  -- initialize input table
+  love.keyboard.keysPressed = {}
+
+  -- initialize mouse input table
+  love.mouse.buttonsPressed = {}
+
 end
 
 function love.resize(w, h)
@@ -156,7 +130,7 @@ end
 function debugMode()
     -- simple FPS display across all states
     love.graphics.setFont(gFonts['small'])
-    love.graphics.setColor(1, 0, 0, 1)
+    love.graphics.setColor(0, 0, 0, 1)
     love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 15, 5)
     love.graphics.print('Hero state: ' .. tostring(hero.states.current.NAME), 15, 15)
     love.graphics.print('grounded?: ' .. tostring(hero.grounded), 15, 25)
@@ -165,8 +139,6 @@ function debugMode()
     love.graphics.print('Hero dy: ' .. tostring(math.ceil(hero.speeds.dy)), 108, 15)
     love.graphics.print('Hero x: ' .. tostring(hero.x), 170, 5)
     love.graphics.print('Hero y: ' .. tostring(hero.y), 170, 15)
-    love.graphics.print('Body x: ' .. tostring(hero.physics.body:getX()), 170, 25)
-    love.graphics.print('Body y: ' .. tostring(hero.physics.body:getY()), 170, 35)
     love.graphics.setColor(1, 1, 1, 1)
 end
 
@@ -178,11 +150,19 @@ function love.draw()
     -- Draw Map on Top of Background
     Map:draw(0, 0, 1, 1)
 
-    --love.graphics.printf('Its Platformer Time!', 0, 52, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf('Its Platformer Time!', 0, 52, VIRTUAL_WIDTH, 'center')
     hero:render()
 
     if debug_active then
       debugMode()
     end
     push:finish()
+end
+
+function beginContact(a, b, collision)
+  hero:beginContact(a, b, collision)
+end
+
+function endContact(a, b, collision)
+  hero:endContact(a, b, collision)
 end

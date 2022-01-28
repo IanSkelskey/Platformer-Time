@@ -30,7 +30,7 @@ end
 -- Supplemental functions written by me and based on material from:
 -- https://love2d.org/wiki/Tutorial:Animation
 function renderAnimation(animation, x, y, direction)
-  --bad. find another way
+  -- slight adjustment for off center sprite... this will need to change
   if direction == -1 then
     x = x + animation.frame_width - 4
   end
