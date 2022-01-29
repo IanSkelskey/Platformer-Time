@@ -32,11 +32,11 @@ gSounds = {
   ['theme'] = love.audio.newSource('sounds/AdventureTime.mp3', 'static')
 }
 
-local background = love.graphics.newImage('images/TEST SKY 2.png')
+local background = love.graphics.newImage('images/test_sky_3.png')
 
 function love.load()
 
-  Map = STI('maps/ian_cam_test.lua', {'box2d'})
+  Map = STI('maps/World1.lua', {'box2d'})
   World = love.physics.newWorld(0,0)
   World:setCallbacks(beginContact, endContact)
   Map:box2d_init(World)

@@ -43,7 +43,7 @@ function Hero:init(x, y)
 
     -- Body info
     self.body_width = 12
-    self.body_height = 19
+    self.body_height = 20
 
      -- Player is initialized facing to the right.
     self.direction = 1  -- to the right (Will be determined with constructor parameters)
@@ -109,6 +109,8 @@ function Hero:update(dt)
   -- Update global timer found in dependencies. This is used for timing and tweening
   Timer.update(dt)
 
+
+
 end
 
 function Hero:render()
@@ -126,7 +128,8 @@ function Hero:debug()
     self:drawCenter()
     self:drawSpriteBounds()
     self:drawCollisionBounds()
-    self:ProtectFromFall()
+
+
   end
 end
 
@@ -150,12 +153,10 @@ function Hero:drawCollisionBounds()
   love.graphics.setColor(1, 1, 1, 1)
 end
 
-function Hero:ProtectFromFall()
-  if self.y > 256 then
+function Hero:respawn()
     self.physics.body:setPosition(SPAWN_X, SPAWN_Y)
     self.states:change('idle')
     self.speeds.dy = 5
-  end
 end
 
 function Hero:beginContact(a, b, collision)
