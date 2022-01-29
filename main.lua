@@ -43,7 +43,7 @@ function love.load()
 
   Map.layers.Solids.visible = false
 
-  hero = Hero(50, 50)
+  hero = Hero(300, 675)
 
   -- Play the theme song
   gSounds['theme']:play()
