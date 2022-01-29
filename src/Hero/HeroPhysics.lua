@@ -38,3 +38,7 @@ function jump(hero)
   hero.speeds.dy = JUMP_SPEED
   hero.grounded = false
 end
+
+function moveX(hero, direction)
+  hero.speeds.dx = hero.direction * WALK_SPEED
+end
