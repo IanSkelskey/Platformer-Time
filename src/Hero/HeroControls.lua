@@ -15,7 +15,7 @@ function heroControls()
   elseif curr_state.NAME == 'jump' then
     jumpControls()
   end
-  if love.keyboard.wasPressed('space') then
+  if love.keyboard.wasPressed('space') and debug_active then
     hero:respawn()
   end
   handleKeyReleases()
