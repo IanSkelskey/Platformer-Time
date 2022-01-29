@@ -39,7 +39,13 @@ Platformer Time is a project I am working on to practice platformer mechanics.
 
 ## Resources:
 
+- Aztec Asset Pack (https://gentoogames.itch.io/aztec-asset-pack)
+
+- Castle Platformer Set (https://rottingpixels.itch.io/castle-platformer-tileset-16x16free)
+
 - Finn Character Sprite and Animations (https://lhteam.itch.io/finn-sprite)
+
+- Animated Coins (https://totuslotus.itch.io/pixel-coins)
 
 - Chest and Candy (https://greatdocbrown.itch.io/coins-gems-etc)
 

@@ -36,7 +36,7 @@ local background = love.graphics.newImage('images/TEST SKY 2.png')
 
 function love.load()
 
-  Map = STI('maps/ian_test.lua', {'box2d'})
+  Map = STI('maps/ian_cam_test.lua', {'box2d'})
   World = love.physics.newWorld(0,0)
   World:setCallbacks(beginContact, endContact)
   Map:box2d_init(World)
@@ -121,6 +121,7 @@ function love.update(dt)
     hero:update(dt)
     love.keyboard.keysPressed = {}
     love.mouse.buttonsPressed = {}
+    HeroCam:setPosition(hero.x, hero.y - VIRTUAL_WIDTH/ 4)
 end
 
 --[[
@@ -147,11 +148,15 @@ function love.draw()
     love.graphics.setFont(gFonts['medium'])
     -- Draw Background Layer
     love.graphics.draw(background, 0, 0)
+
     -- Draw Map on Top of Background
-    Map:draw(0, 0, 1, 1)
+    Map:draw(-HeroCam.x, -HeroCam.y, 1, 1)
 
     love.graphics.printf('Its Platformer Time!', 0, 52, VIRTUAL_WIDTH, 'center')
+
+    HeroCam:apply()
     hero:render()
+    HeroCam:clear()
 
     if debug_active then
       debugMode()

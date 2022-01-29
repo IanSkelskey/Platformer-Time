@@ -40,5 +40,9 @@ function jump(hero)
 end
 
 function moveX(hero, direction)
-  hero.speeds.dx = hero.direction * WALK_SPEED
+  if hero.states.previous.NAME == 'walk' then
+    hero.speeds.dx = hero.direction * WALK_SPEED
+  elseif hero.states.previous.NAME == 'run' then
+    hero.speeds.dx = hero.direction * RUN_SPEED
+  end
 end
