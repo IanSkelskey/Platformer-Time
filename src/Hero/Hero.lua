@@ -19,6 +19,7 @@
 
 Hero = Class{}
 
+-- Declare and initialize spawn variables
 local SPAWN_X = nil
 local SPAWN_Y = nil
 
@@ -75,30 +76,14 @@ function Hero:init(x, y)
 
 end
 
--- Syncs hero physics body and image for display
--- Consider moving into heroPhysics.lua
-function Hero:syncPhysics()
-  self.x, self.y = self.physics.body:getPosition()
-  self.physics.body:setLinearVelocity(self.speeds.dx,self.speeds.dy)
-end
-
 function Hero:update(dt)
 
-  --THIS IS BAD AND I HATE IT
-  -- Update hero origin coordinates
-  self.sprite_x = self.x - self.sprite_width/2 + 2
-  self.sprite_y = self.y - self.sprite_height/2
-
-  -- Update body coordinates (For Debug only!)
-  self.body_x = self.physics.body:getX() - self.body_width/2
-  self.body_y = self.physics.body:getY() - self.body_height/2
+  self:updateSprite()
 
   -- Updates animation frame over time based on current state
   updateAnimation(self.states.current.animation, dt)
 
-  -- Update physics (needs combining/ reorganizing)
-  self:syncPhysics()
-  updatePhysics(hero, self.states.current, dt)
+  updatePhysics(self, self.states.current, dt)
 
   -- Updated controls organization... not a fan still
   heroControls()
@@ -109,8 +94,12 @@ function Hero:update(dt)
   -- Update global timer found in dependencies. This is used for timing and tweening
   Timer.update(dt)
 
+end
 
-
+function Hero:updateSprite()
+  -- Update hero origin coordinates
+  self.sprite_x = self.x - self.sprite_width/2 + 2
+  self.sprite_y = self.y - self.sprite_height/2
 end
 
 function Hero:render()
@@ -125,6 +114,12 @@ end
 
 function Hero:debug()
   if debug_active then
+    --THIS IS BAD AND I HATE IT
+
+    -- Update body coordinates (For Debug only!)
+    self.body_x = self.physics.body:getX() - self.body_width/2
+    self.body_y = self.physics.body:getY() - self.body_height/2
+
     self:drawCenter()
     self:drawSpriteBounds()
     self:drawCollisionBounds()
@@ -153,6 +148,7 @@ function Hero:drawCollisionBounds()
   love.graphics.setColor(1, 1, 1, 1)
 end
 
+
 function Hero:respawn()
     self.physics.body:setPosition(SPAWN_X, SPAWN_Y)
     self.states:change('idle')
@@ -175,8 +171,11 @@ end
 
 function Hero:land(collision)
   self.currentGroundCollision = collision
-  if self.states.previous.NAME ~= nil then
+  if (self.states.previous.NAME ~= nil and self.states.previous.NAME ~= 'jump') or self.states.current.NAME == 'jump' then
+    print('self.states.previous.NAME ~= nil or == jump')
     self.states:change(self.states.previous.NAME)
+  elseif self.states.current.NAME == 'run' or self.states.current.NAME == 'walk' then
+    -- do nothing
   else
     self.states:change('idle')
   end

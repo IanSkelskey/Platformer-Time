@@ -17,6 +17,8 @@ function JumpState:init()
 end
 
 function JumpState:enter(params)
+  print(hero.states.previous.NAME)
+  print("entering jump")
   self.sounds['jump']:stop()
   self.sounds['jump']:play()
 

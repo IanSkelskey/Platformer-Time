@@ -59,7 +59,7 @@ function walkControls()
 
   if love.keyboard.wasPressed('lshift') or love.keyboard.isDown('lshift') then
     hero.states:change('run')
-  elseif love.keyboard.wasPressed('up') then
+  elseif love.keyboard.wasPressed('up') and hero.grounded then
     hero.states:change('jump')
   end
 
@@ -79,7 +79,7 @@ function runControls()
   if love.keyboard.isDown('right') and hero.direction == -1 and not love.keyboard.isDown('left') then
     hero.direction = 1
   end
-  if love.keyboard.wasPressed('up') then
+  if love.keyboard.wasPressed('up') and hero.grounded then
     hero.states:change('jump')
   end
 end
