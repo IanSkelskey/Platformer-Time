@@ -36,12 +36,13 @@ local background = love.graphics.newImage('images/test_sky_3.png')
 
 function love.load()
 
-  Map = STI('maps/World1.lua', {'box2d'})
+  Map = STI('maps/World2.lua', {'box2d'})
   World = love.physics.newWorld(0,0)
   World:setCallbacks(beginContact, endContact)
   Map:box2d_init(World)
 
   Map.layers.Solids.visible = false
+  Map.layers.Entities.visible = false
 
   hero = Hero(300, 675)
 
@@ -67,6 +68,9 @@ function love.load()
   -- initialize mouse input table
   love.mouse.buttonsPressed = {}
 
+  spawnEntities()
+
+  Coin(150, 120)
 end
 
 function love.resize(w, h)
@@ -119,6 +123,8 @@ end
 function love.update(dt)
     World:update(dt)
     hero:update(dt)
+    Coin:updateAll(dt)
+
     love.keyboard.keysPressed = {}
     love.mouse.buttonsPressed = {}
     HeroCam:setPosition(hero.x, hero.y - VIRTUAL_WIDTH/ 4)
@@ -154,9 +160,14 @@ function love.draw()
 
     love.graphics.printf('Its Platformer Time!', 0, 52, VIRTUAL_WIDTH, 'center')
 
+
+
     HeroCam:apply()
     hero:render()
+    Coin:renderAll()
+
     HeroCam:clear()
+
 
     if debug_active then
       debugMode()
@@ -170,4 +181,12 @@ end
 
 function endContact(a, b, collision)
   hero:endContact(a, b, collision)
+end
+
+function spawnEntities()
+  for i, v in ipairs(Map.layers.Entities.objects) do
+    if v.type == 'coin' then
+      Coin(v.x, v.y)
+    end
+  end
 end
