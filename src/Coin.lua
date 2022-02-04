@@ -4,6 +4,8 @@ ActiveCoins = {}
 
 function Coin:init(x, y)
 
+  self.animation = newAnimation(love.graphics.newImage("images/jakoin_spin.png"), 16, 16, 2)
+
   self.x = x
   self.y = y
 
@@ -32,7 +34,8 @@ end
 function Coin:update(dt)
   print(self.x)
   print(self.y)
-  self:spin(dt)
+  --self:spin(dt)
+  updateAnimation(self.animation, dt)
 end
 
 function Coin:updateAll(dt)
@@ -42,7 +45,7 @@ function Coin:updateAll(dt)
 end
 
 function Coin:render()
-  love.graphics.draw(self.image, self.x, self.y, 0, self.scaleX, 1, self.width/2, self.height/2)
+  renderAnimation(self.animation, self.x - self.width/2, self.y-self.height/2, 1)
 end
 
 function Coin:renderAll()
