@@ -70,7 +70,7 @@ function love.load()
 
   spawnEntities()
 
-  Coin(150, 120)
+  
 end
 
 function love.resize(w, h)
