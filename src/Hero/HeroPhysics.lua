@@ -1,7 +1,7 @@
 -- Constants that define a char
 -- Physics constants
 local WALK_SPEED = 60
-local RUN_SPEED = 120
+local RUN_SPEED = 100
 -- local ACCELERATION = 500
 -- local FRICTION = 400
 local JUMP_SPEED = -375
@@ -25,7 +25,7 @@ end
 
 function statePhysics(char, char_state_name, dt)
   if char_state_name == 'walk' or char_state_name == 'run' then
-    moveX(char, char.direction)
+    moveX(char, char.direction) --move to state files?
   elseif char_state_name == 'idle' then
     char.speeds.dx = 0
   elseif char_state_name == 'jump' then

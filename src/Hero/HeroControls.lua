@@ -88,10 +88,10 @@ function jumpControls()
 
   if love.keyboard.isDown('left') then
     hero.direction = -1
-    moveX(hero, hero.direction)
+    moveX(hero, hero.direction) -- move to state files?
   elseif love.keyboard.isDown('right') then
     hero.direction = 1
-    moveX(hero, hero.direction)
+    moveX(hero, hero.direction) -- move to state files?
   end
 end
 

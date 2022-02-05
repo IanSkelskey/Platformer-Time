@@ -14,7 +14,7 @@ function Coin:init(x, y)
   self.height = 16
 
 
-  self.spinOffset = math.random(0,100)
+  -- self.spinOffset = math.random(0,100)
 
   self.scaleX = 1
 
@@ -27,9 +27,9 @@ function Coin:init(x, y)
   table.insert(ActiveCoins, self)
 end
 
-function Coin:spin(dt)
-  self.scaleX = math.sin(love.timer.getTime() * 3 + self.spinOffset)
-end
+-- function Coin:spin(dt)
+--   self.scaleX = math.sin(love.timer.getTime() * 3 + self.spinOffset)
+-- end
 
 function Coin:update(dt)
   print(self.x)

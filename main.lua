@@ -13,8 +13,8 @@
 require 'src/Dependencies'
 
 -- virtual resolution dimensions
-VIRTUAL_WIDTH = 384
-VIRTUAL_HEIGHT = 216
+VIRTUAL_WIDTH = 440
+VIRTUAL_HEIGHT = 248
 
 -- Default window sizes
 WINDOW_WIDTH = 1280
@@ -70,7 +70,7 @@ function love.load()
 
   spawnEntities()
 
-  
+
 end
 
 function love.resize(w, h)
@@ -153,20 +153,16 @@ function love.draw()
     push:start()
     love.graphics.setFont(gFonts['medium'])
     -- Draw Background Layer
-    love.graphics.draw(background, 0, 0)
+    love.graphics.draw(background, 0, 0, 0, 2, 2)
 
     -- Draw Map on Top of Background
     Map:draw(-HeroCam.x, -HeroCam.y, 1, 1)
 
-    love.graphics.printf('Its Platformer Time!', 0, 52, VIRTUAL_WIDTH, 'center')
-
-
-
+    -- Apply the camera to certain objects
     HeroCam:apply()
     hero:render()
     Coin:renderAll()
-
-    HeroCam:clear()
+    HeroCam:clear() -- Deactivate camera
 
 
     if debug_active then

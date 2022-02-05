@@ -10,7 +10,7 @@ FallState = Class{__includes = BaseState}
 
 function FallState:init()
   self.NAME = 'fall'
-  self.animation = newAnimation(love.graphics.newImage("images/finn_idle.png"), 32, 32, 2.5)
+  self.animation = newAnimation(love.graphics.newImage("images/finn_sprites/finn_idle.png"), 32, 32, 2.5)
 end
 
 function FallState:enter(params)

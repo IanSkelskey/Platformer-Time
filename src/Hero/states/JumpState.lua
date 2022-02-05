@@ -13,7 +13,7 @@ function JumpState:init()
   self.sounds = {
     ['jump'] = love.audio.newSource('sounds/jump.wav', 'static')
   }
-  self.animation = newAnimation(love.graphics.newImage("images/finn_jump.png"), 32, 32, 1)
+  self.animation = newAnimation(love.graphics.newImage("images/finn_sprites/finn_jump.png"), 32, 32, 1)
 end
 
 function JumpState:enter(params)
