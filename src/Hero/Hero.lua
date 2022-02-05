@@ -43,7 +43,7 @@ function Hero:init(x, y)
     self.sprite_y = self.y - self.sprite_height/2
 
     -- Body info
-    self.body_width = 12
+    self.body_width = 10
     self.body_height = 20
 
      -- Player is initialized facing to the right.

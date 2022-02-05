@@ -24,6 +24,8 @@ function Coin:init(x, y)
   self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
   self.physics.fixture:setSensor(true)
 
+  self.POINT_VALUE = 10
+
   table.insert(ActiveCoins, self)
 end
 
