@@ -54,3 +54,11 @@ elseif char.states.current.NAME == 'jump' then
     end
   end
 end
+
+function walk(char)
+  char.speeds.dx = char.direction * WALK_SPEED
+end
+
+function run(char)
+  char.speeds.dx = char.direction * RUN_SPEED
+end

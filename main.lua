@@ -22,17 +22,17 @@ WINDOW_HEIGHT = 720
 
 -- Table of fonts
 gFonts = {
-    ['small'] = love.graphics.newFont('fonts/font.ttf', 8),
-    ['medium'] = love.graphics.newFont('fonts/font.ttf', 16),
-    ['large'] = love.graphics.newFont('fonts/font.ttf', 32)
+    ['small'] = love.graphics.newFont('assets/fonts/font.ttf', 8),
+    ['medium'] = love.graphics.newFont('assets/fonts/font.ttf', 16),
+    ['large'] = love.graphics.newFont('assets/fonts/font.ttf', 32)
 }
 
 -- Sounds Table
 gSounds = {
-  ['theme'] = love.audio.newSource('sounds/AdventureTime.mp3', 'static')
+  ['theme'] = love.audio.newSource('assets/sounds/AdventureTime.mp3', 'static')
 }
 
-local background = love.graphics.newImage('images/test_sky_3.png')
+local background = love.graphics.newImage('assets/images/test_sky_3.png')
 
 function love.load()
 

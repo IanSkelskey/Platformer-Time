@@ -10,7 +10,7 @@ SkidState = Class{__includes = BaseState}
 
 function SkidState:init()
   self.NAME = 'skid'
-  self.animation = newAnimation(love.graphics.newImage("images/finn_sprites/finn_turn.png"), 32, 32, .4)
+  self.animation = newAnimation(love.graphics.newImage("assets/images/finn_sprites/finn_turn.png"), 32, 32, .4)
   -- add skid sound?
 end
 

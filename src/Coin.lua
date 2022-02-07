@@ -4,12 +4,12 @@ ActiveCoins = {}
 
 function Coin:init(x, y)
 
-  self.animation = newAnimation(love.graphics.newImage("images/jakoin_spin.png"), 16, 16, 2)
+  self.animation = newAnimation(love.graphics.newImage("assets/images/jakoin_spin.png"), 16, 16, 2)
 
   self.x = x
   self.y = y
 
-  self.image = love.graphics.newImage("images/coin.png")
+  self.image = love.graphics.newImage("assets/images/coin.png")
   self.width = 16
   self.height = 16
 
