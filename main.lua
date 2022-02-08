@@ -172,6 +172,7 @@ function love.draw()
 end
 
 function beginContact(a, b, collision)
+  if Coin:beginContact(a, b, collision) then return end
   hero:beginContact(a, b, collision)
 end
 

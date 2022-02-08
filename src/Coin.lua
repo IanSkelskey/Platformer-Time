@@ -5,6 +5,7 @@ ActiveCoins = {}
 function Coin:init(x, y)
 
   self.animation = newAnimation(love.graphics.newImage("assets/images/jakoin_spin.png"), 16, 16, 2)
+  self.sound = love.audio.newSource('assets/sounds/coin.wav', 'static')
 
   self.x = x
   self.y = y
@@ -13,7 +14,7 @@ function Coin:init(x, y)
   self.width = 16
   self.height = 16
 
-
+  self.toBeRemoved = false
   -- self.spinOffset = math.random(0,100)
 
   self.scaleX = 1
@@ -34,9 +35,10 @@ end
 -- end
 
 function Coin:update(dt)
-  print(self.x)
-  print(self.y)
+  --print(self.x)
+  --print(self.y)
   --self:spin(dt)
+  self:checkRemove()
   updateAnimation(self.animation, dt)
 end
 
@@ -53,5 +55,38 @@ end
 function Coin:renderAll()
   for i, v in ipairs(ActiveCoins) do
     v:render()
+  end
+end
+
+function Coin:remove()
+  for i, instance in ipairs(ActiveCoins) do
+    if instance == self then
+      print("removing coin")
+      self.sound:stop()
+      self.sound:play()
+      self.physics.body:destroy()
+      table.remove(ActiveCoins, i)
+    end
+  end
+end
+
+function Coin:checkRemove()
+
+  if self.toBeRemoved then
+    print("found coin to remove")
+    self:remove()
+  end
+end
+
+function Coin:beginContact(a, b, collision)
+  for i, instance in ipairs(ActiveCoins) do
+    if a == instance.physics.fixture or b == instance.physics.fixture then
+      if a == hero.physics.fixture or b == hero.physics.fixture then
+        print("colliding with coin")
+        instance.toBeRemoved = true
+
+        return true
+      end
+    end
   end
 end
