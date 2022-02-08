@@ -47,7 +47,7 @@ function love.load()
   hero = Hero(300, 675)
 
   -- Play the theme song
-  gSounds['theme']:play()
+  --gSounds['theme']:play()
 
   -- initialize our nearest-neighbor filter
   love.graphics.setDefaultFilter('nearest', 'nearest')
