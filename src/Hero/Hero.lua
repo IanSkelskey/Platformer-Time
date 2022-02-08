@@ -24,6 +24,8 @@ local SPAWN_X = nil
 local SPAWN_Y = nil
 
 function Hero:init(x, y)
+
+    self.coins = 0
     -- PLAYER SPAWN LOCATION from parameters
     SPAWN_X = x
     SPAWN_Y = y
@@ -74,6 +76,10 @@ function Hero:init(x, y)
     -- Hero begins in idle state
     self.states:change('idle')
 
+end
+
+function Hero:incrementCoins()
+  self.coins = self.coins + 1
 end
 
 function Hero:update(dt)

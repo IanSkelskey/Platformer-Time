@@ -20,6 +20,7 @@ require 'src/Hero/HeroPhysics'
 require 'src/Hero/HeroControls'
 
 require 'src/Coin'
+require 'src/HUD'
 
 HeroCam = require 'src/Camera'
 -- Hump.timer library for timer and tweening

@@ -66,6 +66,7 @@ function Coin:remove()
       self.sound:play()
       self.physics.body:destroy()
       table.remove(ActiveCoins, i)
+      hero:incrementCoins()
     end
   end
 end

@@ -46,6 +46,8 @@ function love.load()
 
   hero = Hero(300, 675)
 
+  GUI = HUD()
+
   -- Play the theme song
   --gSounds['theme']:play()
 
@@ -122,8 +124,9 @@ end
 
 function love.update(dt)
     World:update(dt)
-    hero:update(dt)
     Coin:updateAll(dt)
+    hero:update(dt)
+    GUI:update(dt)
 
     love.keyboard.keysPressed = {}
     love.mouse.buttonsPressed = {}
@@ -164,6 +167,7 @@ function love.draw()
     Coin:renderAll()
     HeroCam:clear() -- Deactivate camera
 
+    GUI:render()
 
     if debug_active then
       debugMode()
