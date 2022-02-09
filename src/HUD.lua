@@ -38,7 +38,7 @@ end
 
 function HUD:displayHealth()
   love.graphics.setColor(0,0,0,0.25)
-  love.graphics.draw(self.hearts.image, self.hearts.x + 1, self.hearts.y + 1, 0, self.hearts.scale, self.hearts.scale)
+  love.graphics.draw(self.hearts.image, self.hearts.x + 2, self.hearts.y + 2, 0, self.hearts.scale, self.hearts.scale)
   love.graphics.setColor(1,1,1,1)
   love.graphics.draw(self.hearts.image, self.hearts.x, self.hearts.y, 0, self.hearts.scale, self.hearts.scale)
 end
