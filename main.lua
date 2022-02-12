@@ -13,8 +13,8 @@
 require 'src/Dependencies'
 
 -- virtual resolution dimensions
-VIRTUAL_WIDTH = 384
-VIRTUAL_HEIGHT = 216
+VIRTUAL_WIDTH = 440
+VIRTUAL_HEIGHT = 248
 
 -- Default window sizes
 WINDOW_WIDTH = 1280
@@ -22,17 +22,17 @@ WINDOW_HEIGHT = 720
 
 -- Table of fonts
 gFonts = {
-    ['small'] = love.graphics.newFont('fonts/font.ttf', 8),
-    ['medium'] = love.graphics.newFont('fonts/font.ttf', 16),
-    ['large'] = love.graphics.newFont('fonts/font.ttf', 32)
+    ['small'] = love.graphics.newFont('assets/fonts/font.ttf', 8),
+    ['medium'] = love.graphics.newFont('assets/fonts/font.ttf', 16),
+    ['large'] = love.graphics.newFont('assets/fonts/font.ttf', 32)
 }
 
 -- Sounds Table
 gSounds = {
-  ['theme'] = love.audio.newSource('sounds/AdventureTime.mp3', 'static')
+  ['theme'] = love.audio.newSource('assets/sounds/AdventureTime.mp3', 'static')
 }
 
-local background = love.graphics.newImage('images/test_sky_3.png')
+local background = love.graphics.newImage('assets/images/test_sky_3.png')
 
 function love.load()
 
@@ -46,8 +46,10 @@ function love.load()
 
   hero = Hero(300, 675)
 
+  GUI = HUD()
+
   -- Play the theme song
-  gSounds['theme']:play()
+  --gSounds['theme']:play()
 
   -- initialize our nearest-neighbor filter
   love.graphics.setDefaultFilter('nearest', 'nearest')
@@ -70,7 +72,7 @@ function love.load()
 
   spawnEntities()
 
-  
+
 end
 
 function love.resize(w, h)
@@ -122,8 +124,9 @@ end
 
 function love.update(dt)
     World:update(dt)
-    hero:update(dt)
     Coin:updateAll(dt)
+    hero:update(dt)
+    GUI:update(dt)
 
     love.keyboard.keysPressed = {}
     love.mouse.buttonsPressed = {}
@@ -153,21 +156,18 @@ function love.draw()
     push:start()
     love.graphics.setFont(gFonts['medium'])
     -- Draw Background Layer
-    love.graphics.draw(background, 0, 0)
+    love.graphics.draw(background, 0, 0, 0, 2, 2)
 
     -- Draw Map on Top of Background
     Map:draw(-HeroCam.x, -HeroCam.y, 1, 1)
 
-    love.graphics.printf('Its Platformer Time!', 0, 52, VIRTUAL_WIDTH, 'center')
-
-
-
+    -- Apply the camera to certain objects
     HeroCam:apply()
     hero:render()
     Coin:renderAll()
+    HeroCam:clear() -- Deactivate camera
 
-    HeroCam:clear()
-
+    GUI:render()
 
     if debug_active then
       debugMode()
@@ -176,6 +176,7 @@ function love.draw()
 end
 
 function beginContact(a, b, collision)
+  if Coin:beginContact(a, b, collision) then return end
   hero:beginContact(a, b, collision)
 end
 

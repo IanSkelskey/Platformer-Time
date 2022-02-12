@@ -24,6 +24,9 @@ local SPAWN_X = nil
 local SPAWN_Y = nil
 
 function Hero:init(x, y)
+
+    self.coins = 0
+    self.score = 0
     -- PLAYER SPAWN LOCATION from parameters
     SPAWN_X = x
     SPAWN_Y = y
@@ -43,7 +46,7 @@ function Hero:init(x, y)
     self.sprite_y = self.y - self.sprite_height/2
 
     -- Body info
-    self.body_width = 12
+    self.body_width = 10
     self.body_height = 20
 
      -- Player is initialized facing to the right.
@@ -74,6 +77,11 @@ function Hero:init(x, y)
     -- Hero begins in idle state
     self.states:change('idle')
 
+end
+
+function Hero:incrementCoins()
+  self.coins = self.coins + 1
+  self.score = self.score + 10
 end
 
 function Hero:update(dt)
@@ -115,37 +123,14 @@ end
 function Hero:debug()
   if debug_active then
     --THIS IS BAD AND I HATE IT
-
     -- Update body coordinates (For Debug only!)
     self.body_x = self.physics.body:getX() - self.body_width/2
     self.body_y = self.physics.body:getY() - self.body_height/2
 
-    self:drawCenter()
-    self:drawSpriteBounds()
-    self:drawCollisionBounds()
-
-
+    drawCenter(self)
+    drawSpriteBounds(self)
+    drawCollisionBounds(self)
   end
-end
-
-function Hero:drawCenter()
-  love.graphics.setColor(1, 0, 0) -- Black point.
-  love.graphics.points(self.x, self.y)
-  love.graphics.setColor(1, 1, 1)
-end
-
-function Hero:drawSpriteBounds()
-  love.graphics.setColor(1, 0, 0, .25)
-  love.graphics.rectangle('fill', self.sprite_x, self.sprite_y, self.sprite_width, self.sprite_height)
-  love.graphics.setColor(1, 1, 1, 1)
-end
-
-function Hero:drawCollisionBounds()
-  love.graphics.setColor(0, 1, 0, .25)
-  love.graphics.rectangle('fill', self.body_x, self.body_y, self.body_width, self.body_height)
-  love.graphics.setColor(0, 1, 0, 1)
-  love.graphics.points(self.physics.body:getX(), self.physics.body:getY())
-  love.graphics.setColor(1, 1, 1, 1)
 end
 
 

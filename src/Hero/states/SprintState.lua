@@ -8,7 +8,7 @@
 
 SprintState = Class{__includes = BaseState}
 
-local sprint_anim = newAnimation(love.graphics.newImage("images/finn_run.png"), 32, 32, .6)
+local sprint_anim = newAnimation(love.graphics.newImage("assets/images/finn_sprites/finn_run.png"), 32, 32, .6)
 
 function SprintState:init()
 

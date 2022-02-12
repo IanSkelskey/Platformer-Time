@@ -16,13 +16,12 @@ STI = require 'lib/sti'
 
 -- a few global constants, centralized
 require 'src/Hero/Hero'
+require 'src/Hero/HeroDebug'
 require 'src/Hero/HeroPhysics'
 require 'src/Hero/HeroControls'
 
 require 'src/Coin'
--- utility functions, mainly for splitting our sprite sheet into various Quads
--- of differing sizes for paddles, balls, bricks, etc.
-require 'src/Util'
+require 'src/HUD'
 
 HeroCam = require 'src/Camera'
 -- Hump.timer library for timer and tweening
