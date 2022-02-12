@@ -20,7 +20,7 @@ function Coin:init(x, y)
   self.scaleX = 1
 
   self.physics = {}
-  self.physics.body = love.physics.newBody(World, self.x, self.y, "static")
+  self.physics.body = love.physics.newBody(World, self.x + self.width/2, self.y + self.height/2, "static")
   self.physics.shape = love.physics.newRectangleShape(self.width, self.height)
   self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
   self.physics.fixture:setSensor(true)
@@ -49,7 +49,7 @@ function Coin:updateAll(dt)
 end
 
 function Coin:render()
-  renderAnimation(self.animation, self.x - self.width/2, self.y-self.height/2, 1)
+  renderAnimation(self.animation, self.x, self.y, 1)
 end
 
 function Coin:renderAll()
