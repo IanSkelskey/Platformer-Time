@@ -16,6 +16,7 @@ STI = require 'lib/sti'
 
 -- a few global constants, centralized
 require 'src/Hero/Hero'
+require 'src/Hero/HeroDebug'
 require 'src/Hero/HeroPhysics'
 require 'src/Hero/HeroControls'
 

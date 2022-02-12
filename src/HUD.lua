@@ -21,6 +21,7 @@ end
 function HUD:render()
   self:displayCoins()
   self:displayHealth()
+  self:displayScore()
 end
 
 function HUD:update(dt)
@@ -41,4 +42,11 @@ function HUD:displayHealth()
   love.graphics.draw(self.hearts.image, self.hearts.x + 2, self.hearts.y + 2, 0, self.hearts.scale, self.hearts.scale)
   love.graphics.setColor(1,1,1,1)
   love.graphics.draw(self.hearts.image, self.hearts.x, self.hearts.y, 0, self.hearts.scale, self.hearts.scale)
+end
+
+function HUD:displayScore()
+  love.graphics.setColor(0,0,0,0.25)
+  love.graphics.print("Score : "..hero.score, 9, 33)
+  love.graphics.setColor(1,1,1,1)
+  love.graphics.print("Score : "..hero.score, 8, 32)
 end
