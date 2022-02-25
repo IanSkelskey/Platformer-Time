@@ -13,8 +13,8 @@
 require 'src/Dependencies'
 
 -- virtual resolution dimensions
-VIRTUAL_WIDTH = 660
-VIRTUAL_HEIGHT = 472
+VIRTUAL_WIDTH = 440
+VIRTUAL_HEIGHT = 248
 
 -- Default window sizes
 WINDOW_WIDTH = 1280
