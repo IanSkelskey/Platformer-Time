@@ -16,6 +16,13 @@ end
 function Camera:setPosition(x, y)
   self.x = x - VIRTUAL_WIDTH/2
   self.y = y
+  local RS = self.x + VIRTUAL_WIDTH/2
+
+  if self.x < 0 then
+    self.x = 0
+  elseif RS > MapWidth then
+    self.x = MapWidth - VIRTUAL_WIDTH/2
+  end
 end
 
 return Camera

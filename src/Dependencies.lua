@@ -21,6 +21,8 @@ require 'src/Hero/HeroPhysics'
 require 'src/Hero/HeroControls'
 
 require 'src/Coin'
+require 'src/Spike'
+require 'src/Stone'
 require 'src/HUD'
 
 HeroCam = require 'src/Camera'

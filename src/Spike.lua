@@ -1,4 +1,4 @@
-Spike = Class{}
+Spike = Class{DMG_VALUE = 1}
 
 ActiveSpikes = {}
 
@@ -39,7 +39,8 @@ function Spike:updateAll(dt)
 end
 
 function Spike:render()
-  renderAnimation(self.animation, self.x, self.y, 1)
+  love.graphics.draw(self.image, self.x, self.y, 0, self.scale, self.scale)
+  --renderAnimation(self.animation, self.x, self.y, 1)
 end
 
 function Spike:renderAll()
@@ -53,7 +54,7 @@ function Spike:beginContact(a, b, collision)
     if a == instance.physics.fixture or b == instance.physics.fixture then
       if a == hero.physics.fixture or b == hero.physics.fixture then
         print("colliding with Spike")
-        instance.toBeRemoved = true
+        hero:takeDamage(Spike.DMG_VALUE)
 
         return true
       end
