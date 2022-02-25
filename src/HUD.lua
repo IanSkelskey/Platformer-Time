@@ -14,8 +14,9 @@ function HUD:init()
   self.hearts.width = self.coins.image:getWidth()
   self.hearts.height = self.coins.image:getHeight()
   self.hearts.scale = 2
-  self.hearts.x = VIRTUAL_WIDTH - 24
+  self.hearts.x = VIRTUAL_WIDTH
   self.hearts.y = 8
+  self.hearts.spacing = self.hearts.width * self.hearts.scale
 end
 
 function HUD:render()
@@ -38,10 +39,13 @@ function HUD:displayCoins()
 end
 
 function HUD:displayHealth()
-  love.graphics.setColor(0,0,0,0.25)
-  love.graphics.draw(self.hearts.image, self.hearts.x + 2, self.hearts.y + 2, 0, self.hearts.scale, self.hearts.scale)
-  love.graphics.setColor(1,1,1,1)
-  love.graphics.draw(self.hearts.image, self.hearts.x, self.hearts.y, 0, self.hearts.scale, self.hearts.scale)
+  for i = 1, hero.health.current do
+    local x = self.hearts.x - (self.hearts.spacing) * i
+    love.graphics.setColor(0,0,0,0.25)
+    love.graphics.draw(self.hearts.image, x + 2, self.hearts.y + 2, 0, self.hearts.scale, self.hearts.scale)
+    love.graphics.setColor(1,1,1,1)
+    love.graphics.draw(self.hearts.image, x, self.hearts.y, 0, self.hearts.scale, self.hearts.scale)
+  end
 end
 
 function HUD:displayScore()

@@ -25,6 +25,7 @@ local SPAWN_Y = nil
 
 function Hero:init(x, y)
 
+    self.alive = true
     self.coins = 0
     self.score = 0
     self.health = {current = 3, max = 3}
@@ -34,8 +35,6 @@ function Hero:init(x, y)
     self.x = x
     self.y = y
 
-    self:takeDamage(1)
-    self:takeDamage(2)
 
     -- initialize our nearest-neighbor filter
     love.graphics.setDefaultFilter('nearest', 'nearest')
@@ -67,6 +66,7 @@ function Hero:init(x, y)
     self.physics.shape = love.physics.newRectangleShape(self.body_width, self.body_height) -- By default, the local origin is located at the center of the rectangle as opposed to the top left for graphics.
     self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
     self.physics.fixture:setUserData('Hero')
+    self.physics.body:setGravityScale(0)
 
     -- initialize state machine with all state-returning functions
     self.states = StateMachine {
@@ -95,6 +95,7 @@ end
 
 function Hero:die()
   print("player died")
+  self.alive = false
 end
 
 function Hero:incrementCoins()
@@ -114,6 +115,8 @@ function Hero:update(dt)
   -- Updated controls organization... not a fan still
   heroControls()
 
+  -- Handle respawn
+  self:respawn()
   -- reset keys pressed
   love.keyboard.keysPressed = {}
 
@@ -153,9 +156,13 @@ end
 
 
 function Hero:respawn()
+  if not self.alive then
     self.physics.body:setPosition(SPAWN_X, SPAWN_Y)
+    self.health.current = self.health.max
+    self.alive = true
     self.states:change('idle')
     self.speeds.dy = 5
+  end
 end
 
 function Hero:beginContact(a, b, collision)

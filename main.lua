@@ -36,13 +36,14 @@ local background = love.graphics.newImage('assets/images/test_sky_3.png')
 
 function love.load()
 
-  Map = STI('maps/World2.lua', {'box2d'})
-  World = love.physics.newWorld(0,0)
+  Map = STI('maps/spikes_and_stones.lua', {'box2d'})
+  World = love.physics.newWorld(0,2000)
   World:setCallbacks(beginContact, endContact)
   Map:box2d_init(World)
 
   Map.layers.Solids.visible = false
   Map.layers.Entities.visible = false
+  MapWidth = 160 * 16 -- 160 should be gotten from map later...
 
   hero = Hero(300, 675)
 
@@ -125,6 +126,8 @@ end
 function love.update(dt)
     World:update(dt)
     Coin:updateAll(dt)
+    Spike:updateAll(dt)
+    Stone:updateAll(dt)
     hero:update(dt)
     GUI:update(dt)
 
@@ -165,6 +168,8 @@ function love.draw()
     HeroCam:apply()
     hero:render()
     Coin:renderAll()
+    Spike:renderAll()
+    Stone:renderAll()
     HeroCam:clear() -- Deactivate camera
 
     GUI:render()
@@ -177,6 +182,7 @@ end
 
 function beginContact(a, b, collision)
   if Coin:beginContact(a, b, collision) then return end
+  if Spike:beginContact(a, b, collision) then return end
   hero:beginContact(a, b, collision)
 end
 
@@ -190,4 +196,17 @@ function spawnEntities()
       Coin(v.x, v.y)
     end
   end
+
+  for i, v in ipairs(Map.layers.Entities.objects) do
+    if v.type == 'spike' then
+      Spike(v.x, v.y)
+    end
+  end
+
+  for i, v in ipairs(Map.layers.Entities.objects) do
+    if v.type == 'stone' then
+      Stone(v.x, v.y)
+    end
+  end
+
 end
