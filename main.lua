@@ -10,7 +10,7 @@
 
 
 
-require 'src/Dependencies'
+require 'src/Dependenciess'
 
 -- virtual resolution dimensions
 VIRTUAL_WIDTH = 440
