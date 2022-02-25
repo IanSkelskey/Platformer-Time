@@ -51,6 +51,10 @@ Platformer Time is a project I am working on to practice platformer mechanics.
 
 - Nature Platformer Tileset (https://rottingpixels.itch.io/nature-platformer-tileset)
 
+- Slime Enemies (https://pyroxdev.itch.io/slime-pack-4-slime-variants)
+
+- Spikes (https://omniclause.itch.io/spikes)
+
 ## Tools:
 
 - Aseprite
