@@ -27,11 +27,15 @@ function Hero:init(x, y)
 
     self.coins = 0
     self.score = 0
+    self.health = {current = 3, max = 3}
     -- PLAYER SPAWN LOCATION from parameters
     SPAWN_X = x
     SPAWN_Y = y
     self.x = x
     self.y = y
+
+    self:takeDamage(1)
+    self:takeDamage(2)
 
     -- initialize our nearest-neighbor filter
     love.graphics.setDefaultFilter('nearest', 'nearest')
@@ -77,6 +81,20 @@ function Hero:init(x, y)
     -- Hero begins in idle state
     self.states:change('idle')
 
+end
+
+function Hero:takeDamage(amount)
+  if self.health.current - amount > 0 then
+    self.health.current = self.health.current - amount
+  else
+    self.health.current = 0
+    self:die()
+  end
+  print("Player health: " .. self.health.current)
+end
+
+function Hero:die()
+  print("player died")
 end
 
 function Hero:incrementCoins()
