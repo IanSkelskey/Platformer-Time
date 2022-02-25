@@ -17,9 +17,11 @@ function Stone:init(x, y)
   self.scale = 1
 
   self.physics = {}
-  self.physics.body = love.physics.newBody(World, self.x - self.width/2, self.y - self.height/2, "dynamic")
+  self.physics.body = love.physics.newBody(World, self.x + self.width/2, self.y - self.height/2, "dynamic")
   self.physics.shape = love.physics.newRectangleShape(self.width, self.height)
   self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
+  self.physics.body:setFixedRotation(true)
+  self.physics.body:setMass(1)
 
   table.insert(ActiveStones, self)
 end
@@ -40,7 +42,7 @@ function Stone:updateAll(dt)
 end
 
 function Stone:render()
-  love.graphics.draw(self.image, self.x- self.width/2, self.y - self.height/2, 0, self.scale, self.scale)
+  love.graphics.draw(self.image, self.x - self.width/2, self.y - self.height/2, 0, self.scale, self.scale)
   --renderAnimation(self.animation, self.x, self.y, 1)
 end
 
