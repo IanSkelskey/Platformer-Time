@@ -21,7 +21,7 @@ function Stone:init(x, y)
   self.physics.shape = love.physics.newRectangleShape(self.width, self.height)
   self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
   self.physics.body:setFixedRotation(true)
-  self.physics.body:setMass(1)
+  self.physics.body:setMass(0.5)
 
   table.insert(ActiveStones, self)
 end

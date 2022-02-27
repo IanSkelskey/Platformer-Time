@@ -22,7 +22,7 @@ function Spike:init(x, y)
   self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
   self.physics.fixture:setSensor(true)
 
-  self.DMG_VALUE = 1
+  -- self.DMG_VALUE = 1
 
   table.insert(ActiveSpikes, self)
 end

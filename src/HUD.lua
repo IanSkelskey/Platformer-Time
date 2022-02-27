@@ -1,6 +1,7 @@
 HUD = Class{}
 
 function HUD:init()
+  love.graphics.setDefaultFilter('nearest', 'nearest')
   self.coins = {}
   self.coins.image = love.graphics.newImage("assets/images/jakoin_front.png")
   self.coins.width = self.coins.image:getWidth()

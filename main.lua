@@ -36,7 +36,7 @@ local background = love.graphics.newImage('assets/images/test_sky_3.png')
 
 function love.load()
 
-  Map = STI('maps/spikes_and_stones.lua', {'box2d'})
+  Map = STI('maps/ian_test_map.lua', {'box2d'})
   World = love.physics.newWorld(0,2000)
   World:setCallbacks(beginContact, endContact)
   Map:box2d_init(World)
@@ -45,7 +45,7 @@ function love.load()
   Map.layers.Entities.visible = false
   MapWidth = 160 * 16 -- 160 should be gotten from map later...
 
-  hero = Hero(300, 675)
+  -- hero = Hero(300, 675)
 
   GUI = HUD()
 
@@ -191,6 +191,13 @@ function endContact(a, b, collision)
 end
 
 function spawnEntities()
+
+  for i, v in ipairs(Map.layers.Entities.objects) do
+    if v.type == 'hero_spawn' then
+      hero = Hero(v.x, v.y)
+    end
+  end
+
   for i, v in ipairs(Map.layers.Entities.objects) do
     if v.type == 'coin' then
       Coin(v.x, v.y)
