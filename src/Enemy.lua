@@ -55,6 +55,14 @@ function Enemy:renderAll()
   end
 end
 
+function Enemy:removeAll()
+  for i,v in ipairs(ActiveEnemys) do
+    v.physics.body:destroy()
+  end
+
+  ActiveEnemys = {}
+end
+
 function Enemy:beginContact(a, b, collision)
   for i, instance in ipairs(ActiveEnemys) do
     if a == instance.physics.fixture or b == instance.physics.fixture then

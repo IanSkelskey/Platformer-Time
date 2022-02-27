@@ -13,8 +13,8 @@
 require 'src/Dependencies'
 
 -- virtual resolution dimensions
-VIRTUAL_WIDTH = 440
-VIRTUAL_HEIGHT = 248
+VIRTUAL_WIDTH = 660
+VIRTUAL_HEIGHT = 372
 
 -- Default window sizes
 WINDOW_WIDTH = 1280
@@ -35,16 +35,7 @@ gSounds = {
 local background = love.graphics.newImage('assets/images/test_sky_3.png')
 
 function love.load()
-
-  Map = STI('maps/ian_test_map.lua', {'box2d'})
-  World = love.physics.newWorld(0,2000)
-  World:setCallbacks(beginContact, endContact)
-  Map:box2d_init(World)
-
-  Map.layers.Solids.visible = false
-  Map.layers.Entities.visible = false
-  MapWidth = 160 * 16 -- 160 should be gotten from map later...
-
+  Map:load()
   -- hero = Hero(300, 675)
 
   GUI = HUD()
@@ -70,8 +61,6 @@ function love.load()
 
   -- initialize mouse input table
   love.mouse.buttonsPressed = {}
-
-  spawnEntities()
 
 
 end
@@ -129,6 +118,7 @@ function love.update(dt)
     Spike:updateAll(dt)
     Stone:updateAll(dt)
     Enemy:updateAll(dt)
+    End:updateAll(dt)
     hero:update(dt)
     GUI:update(dt)
 
@@ -163,7 +153,7 @@ function love.draw()
     love.graphics.draw(background, 0, 0, 0, 2, 2)
 
     -- Draw Map on Top of Background
-    Map:draw(-HeroCam.x, -HeroCam.y, 1, 1)
+    Map.level:draw(-HeroCam.x, -HeroCam.y, 1, 1)
 
     -- Apply the camera to certain objects
     HeroCam:apply()
@@ -172,6 +162,7 @@ function love.draw()
     Spike:renderAll()
     Stone:renderAll()
     Enemy:renderAll()
+    End:renderAll()
     HeroCam:clear() -- Deactivate camera
 
     GUI:render()
@@ -184,6 +175,7 @@ end
 
 function beginContact(a, b, collision)
   if Coin:beginContact(a, b, collision) then return end
+  if End:beginContact(a, b, collision) then return end
   if Spike:beginContact(a, b, collision) then return end
   Enemy:beginContact(a, b, collision)
   hero:beginContact(a, b, collision)
@@ -191,38 +183,4 @@ end
 
 function endContact(a, b, collision)
   hero:endContact(a, b, collision)
-end
-
-function spawnEntities()
-
-  for i, v in ipairs(Map.layers.Entities.objects) do
-    if v.type == 'hero_spawn' then
-      hero = Hero(v.x, v.y)
-    end
-  end
-
-  for i, v in ipairs(Map.layers.Entities.objects) do
-    if v.type == 'enemy' then
-      Enemy(v.x, v.y)
-    end
-  end
-
-  for i, v in ipairs(Map.layers.Entities.objects) do
-    if v.type == 'coin' then
-      Coin(v.x, v.y)
-    end
-  end
-
-  for i, v in ipairs(Map.layers.Entities.objects) do
-    if v.type == 'spike' then
-      Spike(v.x, v.y)
-    end
-  end
-
-  for i, v in ipairs(Map.layers.Entities.objects) do
-    if v.type == 'stone' then
-      Stone(v.x, v.y)
-    end
-  end
-
 end

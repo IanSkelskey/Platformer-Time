@@ -25,6 +25,8 @@ require 'src/Spike'
 require 'src/Stone'
 require 'src/Enemy'
 require 'src/HUD'
+require 'src/End'
+Map = require 'src/Map'
 
 HeroCam = require 'src/Camera'
 -- Hump.timer library for timer and tweening

@@ -11,8 +11,8 @@ function Coin:init(x, y)
   self.y = y
 
   self.image = love.graphics.newImage("assets/images/coin.png")
-  self.width = 16
-  self.height = 16
+  self.width = self.image:getWidth()
+  self.height = self.image:getHeight()
 
   self.toBeRemoved = false
   -- self.spinOffset = math.random(0,100)
@@ -69,6 +69,14 @@ function Coin:remove()
       hero:incrementCoins()
     end
   end
+end
+
+function Coin:removeAll()
+  for i,v in ipairs(ActiveCoins) do
+    v.physics.body:destroy()
+  end
+
+  ActiveCoins = {}
 end
 
 function Coin:checkRemove()

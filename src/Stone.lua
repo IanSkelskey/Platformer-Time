@@ -46,6 +46,14 @@ function Stone:render()
   --renderAnimation(self.animation, self.x, self.y, 1)
 end
 
+function Stone:removeAll()
+  for i,v in ipairs(ActiveStones) do
+    v.physics.body:destroy()
+  end
+
+  ActiveStones = {}
+end
+
 function Stone:renderAll()
   for i, v in ipairs(ActiveStones) do
     v:render()
