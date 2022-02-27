@@ -55,6 +55,8 @@ Platformer Time is a project I am working on to practice platformer mechanics.
 
 - Spikes (https://omniclause.itch.io/spikes)
 
+- Ogre Enemy Sprite (https://oisougabo.itch.io/gap-i)
+
 ## Tools:
 
 - Aseprite

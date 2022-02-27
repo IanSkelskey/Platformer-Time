@@ -128,6 +128,7 @@ function love.update(dt)
     Coin:updateAll(dt)
     Spike:updateAll(dt)
     Stone:updateAll(dt)
+    Enemy:updateAll(dt)
     hero:update(dt)
     GUI:update(dt)
 
@@ -170,6 +171,7 @@ function love.draw()
     Coin:renderAll()
     Spike:renderAll()
     Stone:renderAll()
+    Enemy:renderAll()
     HeroCam:clear() -- Deactivate camera
 
     GUI:render()
@@ -183,6 +185,7 @@ end
 function beginContact(a, b, collision)
   if Coin:beginContact(a, b, collision) then return end
   if Spike:beginContact(a, b, collision) then return end
+  Enemy:beginContact(a, b, collision)
   hero:beginContact(a, b, collision)
 end
 
@@ -195,6 +198,12 @@ function spawnEntities()
   for i, v in ipairs(Map.layers.Entities.objects) do
     if v.type == 'hero_spawn' then
       hero = Hero(v.x, v.y)
+    end
+  end
+
+  for i, v in ipairs(Map.layers.Entities.objects) do
+    if v.type == 'enemy' then
+      Enemy(v.x, v.y)
     end
   end
 
