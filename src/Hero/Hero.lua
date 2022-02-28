@@ -90,11 +90,9 @@ function Hero:takeDamage(amount)
     self.health.current = 0
     self:die()
   end
-  print("Player health: " .. self.health.current)
 end
 
 function Hero:die()
-  print("player died")
   self.alive = false
 end
 
@@ -182,7 +180,6 @@ end
 function Hero:land(collision)
   self.currentGroundCollision = collision
   if (self.states.previous.NAME ~= nil and self.states.previous.NAME ~= 'jump') or self.states.current.NAME == 'jump' then
-    print('self.states.previous.NAME ~= nil or == jump')
     self.states:change(self.states.previous.NAME)
   elseif self.states.current.NAME == 'run' or self.states.current.NAME == 'walk' then
     -- do nothing

@@ -61,7 +61,6 @@ end
 function Coin:remove()
   for i, instance in ipairs(ActiveCoins) do
     if instance == self then
-      print("removing coin")
       self.sound:stop()
       self.sound:play()
       self.physics.body:destroy()
@@ -82,7 +81,6 @@ end
 function Coin:checkRemove()
 
   if self.toBeRemoved then
-    print("found coin to remove")
     self:remove()
   end
 end
@@ -91,9 +89,7 @@ function Coin:beginContact(a, b, collision)
   for i, instance in ipairs(ActiveCoins) do
     if a == instance.physics.fixture or b == instance.physics.fixture then
       if a == hero.physics.fixture or b == hero.physics.fixture then
-        print("colliding with coin")
         instance.toBeRemoved = true
-
         return true
       end
     end

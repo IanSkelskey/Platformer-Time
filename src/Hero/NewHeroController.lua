@@ -10,8 +10,20 @@ function heroControls()
   -- Only one direction at a time,
   if love.keyboard.wasPressed('right') then
     active_move_key = 'right'
+    hero.direction = 1
   elseif love.keyboard.wasPressed('left') then
     active_move_key = 'left'
+    hero.direction = -1
+  end
+
+  if love.keyboard.isDown('right') and not love.keyboard.isDown('left') then
+    active_move_key = 'right'
+    hero.direction = 1
+  end
+
+  if love.keyboard.isDown('left') and not love.keyboard.isDown('right') then
+    active_move_key = 'left'
+    hero.direction = -1
   end
 
   if not love.keyboard.isDown('right') and not love.keyboard.isDown('left') then
@@ -24,7 +36,6 @@ function heroControls()
     is_running = false
   end
 
-  trackStates()
 
   chooseStateControls()
 
@@ -40,14 +51,9 @@ end
 function idleControls()
   -- IDLESTATE KEYBOARD CONTROLS
   if active_move_key == 'right' then
-    hero.direction = 1
     hero.states:change('walk')
-
   elseif active_move_key == 'left' then
-
-    hero.direction = -1
     hero.states:change('walk')
-
   end
 
   if love.keyboard.wasPressed('up') then
@@ -58,14 +64,6 @@ end
 
 function walkControls()
   -- WALKSTATE KEYBOARD CONTROLS
-
-  if active_move_key == 'left' then
-    hero.direction = -1
-  end
-
-  if active_move_key == 'right' then
-    hero.direction = 1
-  end
 
   -- if we somehow get to the walk state and neither left or right is pressed,
   -- leave the walk state.
@@ -89,12 +87,6 @@ function runControls()
   if active_move_key == 'none' then
     hero.states:change('idle')
   end
-  if active_move_key == 'left' then
-    hero.direction = -1
-  end
-  if active_move_key == 'right' then
-    hero.direction = 1
-  end
   if love.keyboard.wasPressed('up') and hero.grounded then
     hero.states:change('jump')
   end
@@ -117,6 +109,7 @@ function trackStates()
 end
 
 function chooseStateControls()
+  trackStates()
   if curr_state.NAME == 'idle' then
     idleControls()
   elseif curr_state.NAME == 'walk' then
