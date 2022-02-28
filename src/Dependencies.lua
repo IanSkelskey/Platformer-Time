@@ -18,7 +18,7 @@ STI = require 'lib/sti'
 require 'src/Hero/Hero'
 require 'src/Hero/HeroDebug'
 require 'src/Hero/HeroPhysics'
-require 'src/Hero/HeroControls'
+require 'src/Hero/NewHeroController'
 
 require 'src/Coin'
 require 'src/Spike'
