@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="200" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="30">
  <editorsettings>
-  <export target="../levels/2.lua" format="lua"/>
+  <export target="../levels/1.lua" format="lua"/>
  </editorsettings>
  <tileset firstgid="1" source="../tsx/02-25-2022.tsx"/>
  <layer id="1" name="ground" width="200" height="50">
@@ -59,7 +59,7 @@
 </data>
  </layer>
  <objectgroup id="6" name="Breakables" locked="1"/>
- <objectgroup id="4" name="Entities" locked="1">
+ <objectgroup id="4" name="Entities">
   <object id="4" name="Hero Spawner" type="hero_spawn" x="32" y="448">
    <point/>
   </object>
@@ -95,12 +95,9 @@
   <object id="20" name="Coin" type="coin" x="176" y="416" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="21" name="Enemy" type="enemy" x="256" y="432">
-   <point/>
-  </object>
-  <object id="26" name="Level Endh" type="end" x="624" y="400" width="16" height="16"/>
+  <object id="26" name="Level End" type="end" x="624" y="400" width="16" height="16"/>
  </objectgroup>
- <objectgroup id="5" name="Solids">
+ <objectgroup id="5" name="Solids" locked="1">
   <object id="5" x="0" y="480">
    <properties>
     <property name="collidable" type="bool" value="true"/>

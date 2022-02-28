@@ -306,19 +306,6 @@ return {
           properties = {}
         },
         {
-          id = 21,
-          name = "Enemy",
-          type = "enemy",
-          shape = "point",
-          x = 256,
-          y = 432,
-          width = 0,
-          height = 0,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
           id = 26,
           name = "Level Endh",
           type = "end",
