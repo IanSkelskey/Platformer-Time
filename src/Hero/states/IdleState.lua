@@ -22,7 +22,8 @@ function IdleState:exit()
 end
 
 function IdleState:update(dt)
-
+  heroPhysics:idle()
+  heroController:idle()
 end
 
 function IdleState:render()

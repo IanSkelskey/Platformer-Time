@@ -11,24 +11,8 @@ push = require 'lib/push'
 --
 -- https://github.com/vrld/hump/blob/master/class.lua
 Class = require 'lib/class'
-
 STI = require 'lib/sti'
 
--- a few global constants, centralized
-require 'src/Hero/Hero'
-require 'src/Hero/HeroDebug'
-require 'src/Hero/HeroPhysics'
-require 'src/Hero/NewHeroController'
-
-require 'src/Coin'
-require 'src/Spike'
-require 'src/Stone'
-require 'src/Enemy'
-require 'src/HUD'
-require 'src/End'
-Map = require 'src/Map'
-
-HeroCam = require 'src/Camera'
 -- Hump.timer library for timer and tweening
 -- may require local timers for different objects. For now its here, and global
 -- Research other Hump libraries.
@@ -36,16 +20,34 @@ HeroCam = require 'src/Camera'
 -- https://github.com/vrld/hump/blob/master/timer.lua
 Timer = require 'lib/hump.timer'
 
-require 'src/Animation'
-
-
 -- StateMachine from GD50 Source Materials
 require 'lib/StateMachine'
 
+-- Game Features
+require 'src/HUD'
+Map = require 'src/Map'
+HeroCam = require 'src/Camera'
+require 'src/Animation'
+
+-- Hero and Logic
+require 'src/Hero/Hero'
+require 'src/Hero/HeroDebug'
+require 'src/Hero/NewHeroPhysics'
+require 'src/Hero/NewHeroController'
+
+-- Hero States
 require 'src/Hero/states/BaseState'
 require 'src/Hero/states/IdleState'
 require 'src/Hero/states/JumpState'
 require 'src/Hero/states/RunState'
-require 'src/Hero/states/SkidState'
+require 'src/Hero/states/SkidState' -- Needs implementation
 require 'src/Hero/states/SprintState'
 require 'src/Hero/states/WalkState'
+require 'src/Hero/states/FallState' -- Needs implementation
+
+-- Entites
+require 'src/Entities/Coin'
+require 'src/Entities/Spike'
+require 'src/Entities/Stone'
+require 'src/Entities/Enemy'
+require 'src/Entities/End'

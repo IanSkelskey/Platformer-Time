@@ -20,7 +20,7 @@ function JumpState:enter(params)
   self.sounds['jump']:stop()
   self.sounds['jump']:play()
 
-  jump(hero)
+  heroPhysics:jump()
 end
 
 function JumpState:exit()
@@ -28,7 +28,8 @@ function JumpState:exit()
 end
 
 function JumpState:update(dt)
-
+  heroPhysics:jumping()
+  heroController:jump()
 end
 
 function JumpState:render()

@@ -8,8 +8,6 @@
     Platformer Time is a way for me to practice developing platformers.
 ]]
 
-
-
 require 'src/Dependencies'
 
 -- virtual resolution dimensions
@@ -35,19 +33,18 @@ gSounds = {
 local background = love.graphics.newImage('assets/images/test_sky_3.png')
 
 function love.load()
-  Map:load()
-  -- hero = Hero(300, 675)
-
-  GUI = HUD()
-
-  -- Play the theme song
-  --gSounds['theme']:play()
-
   -- initialize our nearest-neighbor filter
   love.graphics.setDefaultFilter('nearest', 'nearest')
 
   -- app window title
   love.window.setTitle('Platformer Time')
+
+  Map:load()
+
+  GUI = HUD()
+
+  -- Play the theme song
+  --gSounds['theme']:play()
 
   -- initialize our virtual resolution
   push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
@@ -69,9 +66,21 @@ function love.resize(w, h)
     push:resize(w, h)
 end
 
+
+-- Should move a lot of this into a GameController.lua file
 function love.keypressed(key)
     -- add to our table of keys pressed this frame
     love.keyboard.keysPressed[key] = true
+
+    -- TEMPORARY KEYBIND TO BREAK OUT OF STICKY GLITCH
+    if key == 'g' then
+      print("Toggling grounded...")
+      if hero.grounded then
+        hero.grounded = false
+      else
+        hero.grounded = true
+      end
+    end
 
     if key == 'f11' then
       fullscreen = not fullscreen
@@ -114,13 +123,20 @@ end
 
 function love.update(dt)
     World:update(dt)
+    -- Entity updates should be moved into Map.lua
     Coin:updateAll(dt)
     Spike:updateAll(dt)
     Stone:updateAll(dt)
     Enemy:updateAll(dt)
     End:updateAll(dt)
+
     hero:update(dt)
     GUI:update(dt)
+
+    -- Make controller and physics members of Hero and pass these controllers
+    -- through the states as parameters
+    heroController:update()
+    heroPhysics:update(dt)
 
     love.keyboard.keysPressed = {}
     love.mouse.buttonsPressed = {}
@@ -128,6 +144,7 @@ function love.update(dt)
 end
 
 --[[
+    MOVE THIS TO HeroDebug
     Renders the current FPS.
     Renders the current FPS.draw
 ]]
@@ -158,11 +175,14 @@ function love.draw()
     -- Apply the camera to certain objects
     HeroCam:apply()
     hero:render()
+    -- Entity updates should be moved into Map.lua
     Coin:renderAll()
     Spike:renderAll()
     Stone:renderAll()
     Enemy:renderAll()
     End:renderAll()
+
+    -- Consider making hero cam a member of hero
     HeroCam:clear() -- Deactivate camera
 
     GUI:render()

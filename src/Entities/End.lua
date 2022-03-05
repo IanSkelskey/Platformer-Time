@@ -16,6 +16,7 @@ function End:init(x, y)
 
   self.scaleX = 1
 
+  -- Consider breaking out into function initializePhysics(Entity)
   self.physics = {}
   self.physics.body = love.physics.newBody(World, self.x + self.width/2, self.y + self.height/2, "static")
   self.physics.shape = love.physics.newRectangleShape(self.width, self.height)

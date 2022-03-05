@@ -11,6 +11,8 @@ end
 function Map:init()
   World = love.physics.newWorld(0,2000)
   World:setCallbacks(beginContact, endContact)
+
+  -- Create Level.lua to describe levels: name, place in sequence.. etc
   self.level = STI('maps/levels/'..self.currentLevel..'.lua', {'box2d'})
   self.level:box2d_init(World)
   self.level.layers.Solids.visible = false
@@ -39,6 +41,8 @@ function Map:spawnEntities()
   for i, v in ipairs(self.level.layers.Entities.objects) do
     if v.type == 'hero_spawn' then
       hero = Hero(v.x, v.y)
+      heroController = NewHeroController(hero)
+      heroPhysics = NewHeroPhysics(hero)
     end
   end
 

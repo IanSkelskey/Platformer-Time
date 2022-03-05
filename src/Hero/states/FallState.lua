@@ -14,17 +14,17 @@ function FallState:init()
 end
 
 function FallState:enter(params)
-
+  heroPhysics:fall()
 end
 
 function FallState:exit()
-
+  -- Perhaps this is where you call land...
 end
 
 function FallState:update(dt)
-
+  -- Animation as needed
 end
 
 function FallState:render()
-
+  -- Render Animation Here
 end

@@ -35,9 +35,6 @@ end
 -- end
 
 function Coin:update(dt)
-  --print(self.x)
-  --print(self.y)
-  --self:spin(dt)
   self:checkRemove()
   updateAnimation(self.animation, dt)
 end
