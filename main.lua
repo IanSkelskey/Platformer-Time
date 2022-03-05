@@ -8,13 +8,11 @@
     Platformer Time is a way for me to practice developing platformers.
 ]]
 
-
-
 require 'src/Dependencies'
 
 -- virtual resolution dimensions
-VIRTUAL_WIDTH = 440
-VIRTUAL_HEIGHT = 248
+VIRTUAL_WIDTH = 660
+VIRTUAL_HEIGHT = 372
 
 -- Default window sizes
 WINDOW_WIDTH = 1280
@@ -35,28 +33,18 @@ gSounds = {
 local background = love.graphics.newImage('assets/images/test_sky_3.png')
 
 function love.load()
-
-  Map = STI('maps/ian_test_map.lua', {'box2d'})
-  World = love.physics.newWorld(0,2000)
-  World:setCallbacks(beginContact, endContact)
-  Map:box2d_init(World)
-
-  Map.layers.Solids.visible = false
-  Map.layers.Entities.visible = false
-  MapWidth = 160 * 16 -- 160 should be gotten from map later...
-
-  -- hero = Hero(300, 675)
-
-  GUI = HUD()
-
-  -- Play the theme song
-  --gSounds['theme']:play()
-
   -- initialize our nearest-neighbor filter
   love.graphics.setDefaultFilter('nearest', 'nearest')
 
   -- app window title
   love.window.setTitle('Platformer Time')
+
+  Map:load()
+
+  GUI = HUD()
+
+  -- Play the theme song
+  --gSounds['theme']:play()
 
   -- initialize our virtual resolution
   push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
@@ -71,8 +59,6 @@ function love.load()
   -- initialize mouse input table
   love.mouse.buttonsPressed = {}
 
-  spawnEntities()
-
 
 end
 
@@ -80,9 +66,21 @@ function love.resize(w, h)
     push:resize(w, h)
 end
 
+
+-- Should move a lot of this into a GameController.lua file
 function love.keypressed(key)
     -- add to our table of keys pressed this frame
     love.keyboard.keysPressed[key] = true
+
+    -- TEMPORARY KEYBIND TO BREAK OUT OF STICKY GLITCH
+    if key == 'g' then
+      print("Toggling grounded...")
+      if hero.grounded then
+        hero.grounded = false
+      else
+        hero.grounded = true
+      end
+    end
 
     if key == 'f11' then
       fullscreen = not fullscreen
@@ -125,11 +123,20 @@ end
 
 function love.update(dt)
     World:update(dt)
+    -- Entity updates should be moved into Map.lua
     Coin:updateAll(dt)
     Spike:updateAll(dt)
     Stone:updateAll(dt)
+    Enemy:updateAll(dt)
+    End:updateAll(dt)
+
     hero:update(dt)
     GUI:update(dt)
+
+    -- Make controller and physics members of Hero and pass these controllers
+    -- through the states as parameters
+    heroController:update()
+    heroPhysics:update(dt)
 
     love.keyboard.keysPressed = {}
     love.mouse.buttonsPressed = {}
@@ -137,6 +144,7 @@ function love.update(dt)
 end
 
 --[[
+    MOVE THIS TO HeroDebug
     Renders the current FPS.
     Renders the current FPS.draw
 ]]
@@ -162,14 +170,19 @@ function love.draw()
     love.graphics.draw(background, 0, 0, 0, 2, 2)
 
     -- Draw Map on Top of Background
-    Map:draw(-HeroCam.x, -HeroCam.y, 1, 1)
+    Map.level:draw(-HeroCam.x, -HeroCam.y, 1, 1)
 
     -- Apply the camera to certain objects
     HeroCam:apply()
     hero:render()
+    -- Entity updates should be moved into Map.lua
     Coin:renderAll()
     Spike:renderAll()
     Stone:renderAll()
+    Enemy:renderAll()
+    End:renderAll()
+
+    -- Consider making hero cam a member of hero
     HeroCam:clear() -- Deactivate camera
 
     GUI:render()
@@ -182,38 +195,12 @@ end
 
 function beginContact(a, b, collision)
   if Coin:beginContact(a, b, collision) then return end
+  if End:beginContact(a, b, collision) then return end
   if Spike:beginContact(a, b, collision) then return end
+  Enemy:beginContact(a, b, collision)
   hero:beginContact(a, b, collision)
 end
 
 function endContact(a, b, collision)
   hero:endContact(a, b, collision)
-end
-
-function spawnEntities()
-
-  for i, v in ipairs(Map.layers.Entities.objects) do
-    if v.type == 'hero_spawn' then
-      hero = Hero(v.x, v.y)
-    end
-  end
-
-  for i, v in ipairs(Map.layers.Entities.objects) do
-    if v.type == 'coin' then
-      Coin(v.x, v.y)
-    end
-  end
-
-  for i, v in ipairs(Map.layers.Entities.objects) do
-    if v.type == 'spike' then
-      Spike(v.x, v.y)
-    end
-  end
-
-  for i, v in ipairs(Map.layers.Entities.objects) do
-    if v.type == 'stone' then
-      Stone(v.x, v.y)
-    end
-  end
-
 end

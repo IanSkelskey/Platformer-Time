@@ -2,7 +2,7 @@
 
 Platformer Time is a project I am working on to practice platformer mechanics.
 
-![A screenshot of platformer time!](https://github.com/IanSkelskey/Platformer-Time/blob/post_coin_refactor/assets/images/screenshots/demo3_1-26-22.png)
+![A screenshot of platformer time!](https://github.com/IanSkelskey/Platformer-Time/blob/enemies_and_more/assets/images/screenshots/demo_2-28-22.png)
 
 ## Compatibility:
 - Mac, PC, and Linux
@@ -54,6 +54,8 @@ Platformer Time is a project I am working on to practice platformer mechanics.
 - Slime Enemies (https://pyroxdev.itch.io/slime-pack-4-slime-variants)
 
 - Spikes (https://omniclause.itch.io/spikes)
+
+- Ogre Enemy Sprite (https://oisougabo.itch.io/gap-i)
 
 ## Tools:
 

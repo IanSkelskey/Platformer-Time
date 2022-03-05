@@ -23,7 +23,8 @@ function RunState:exit()
 end
 
 function RunState:update(dt)
-
+  heroPhysics:run()
+  heroController:run()
 end
 
 function RunState:render()

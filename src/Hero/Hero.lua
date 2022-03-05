@@ -28,16 +28,13 @@ function Hero:init(x, y)
     self.alive = true
     self.coins = 0
     self.score = 0
-    self.health = {current = 3, max = 3}
+    self.health = {current = 5, max = 5}
+
     -- PLAYER SPAWN LOCATION from parameters
     SPAWN_X = x
     SPAWN_Y = y
     self.x = x
     self.y = y
-
-
-    -- initialize our nearest-neighbor filter
-    love.graphics.setDefaultFilter('nearest', 'nearest')
 
     -- player starts in the air
     self.grounded = false
@@ -56,45 +53,29 @@ function Hero:init(x, y)
     self.direction = 1  -- to the right (Will be determined with constructor parameters)
 
     -- Speeds are stored in a table to allow tweening
-    self.speeds = {dx = 0, dy = 5}
+    self.speeds = {dx = 0, dy = 0}
 
-    -- Need to add guides/outlines as overlays to represent hero sprite and body respectively
-    -- Physics attribute table using love.physics
-    self.physics = {}
-    self.physics.body = love.physics.newBody(World, self.x, self.y, 'dynamic')
-    self.physics.body:setFixedRotation(true)
-    self.physics.shape = love.physics.newRectangleShape(self.body_width, self.body_height) -- By default, the local origin is located at the center of the rectangle as opposed to the top left for graphics.
-    self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
-    self.physics.fixture:setUserData('Hero')
-    self.physics.body:setGravityScale(0)
-
-    -- initialize state machine with all state-returning functions
-    self.states = StateMachine {
-        ['idle'] = function() return IdleState() end,
-        ['walk'] = function() return WalkState() end,
-        ['run'] = function() return RunState() end,
-        ['sprint'] = function() return SprintState() end,
-        ['jump'] = function() return JumpState() end,
-        ['skid'] = function() return SkidState() end
-    }
+    self:initializePhysics()
+    self.states = self:initializeStateMachine()
 
     -- Hero begins in idle state
     self.states:change('idle')
+    -- Consider initializing in fall states
+    -- self.states:change('fall')
 
 end
 
 function Hero:takeDamage(amount)
   if self.health.current - amount > 0 then
     self.health.current = self.health.current - amount
+    -- self.states:change('hurt')
   else
     self.health.current = 0
     self:die()
   end
-  print("Player health: " .. self.health.current)
 end
 
 function Hero:die()
-  print("player died")
   self.alive = false
 end
 
@@ -105,18 +86,16 @@ end
 
 function Hero:update(dt)
 
-  self:updateSprite()
+  self.states:update(dt)
 
   -- Updates animation frame over time based on current state
+  -- Move to state files individually
+  self:updateSprite()
   updateAnimation(self.states.current.animation, dt)
 
-  updatePhysics(self, self.states.current, dt)
-
-  -- Updated controls organization... not a fan still
-  heroControls()
-
-  -- Handle respawn
+  -- Handle respawn on death
   self:respawn()
+
   -- reset keys pressed
   love.keyboard.keysPressed = {}
 
@@ -133,6 +112,8 @@ end
 
 function Hero:render()
   -- Renders correct hero animation based on state.
+  -- self.states:render()
+  -- Move this to individual states. Pass hero through states as param.
   renderAnimation(self.states.current.animation, self.sprite_x, self.sprite_y, self.direction)
 
   self:debug()
@@ -140,7 +121,7 @@ function Hero:render()
 end
 
 
-
+-- Move to hero debug and refactor
 function Hero:debug()
   if debug_active then
     --THIS IS BAD AND I HATE IT
@@ -154,7 +135,8 @@ function Hero:debug()
   end
 end
 
-
+-- Change name to respawn on death
+-- Eventually to be tied to checkpoints
 function Hero:respawn()
   if not self.alive then
     self.physics.body:setPosition(SPAWN_X, SPAWN_Y)
@@ -165,6 +147,8 @@ function Hero:respawn()
   end
 end
 
+
+-- Move the following 3 functions to NewHeroPhysics
 function Hero:beginContact(a, b, collision)
   if self.grounded == true then return end
   local nx, ny = collision:getNormal()
@@ -178,11 +162,10 @@ function Hero:beginContact(a, b, collision)
     end
   end
 end
-
+-- Landing needs refactoring maybe return a boolean?
 function Hero:land(collision)
   self.currentGroundCollision = collision
   if (self.states.previous.NAME ~= nil and self.states.previous.NAME ~= 'jump') or self.states.current.NAME == 'jump' then
-    print('self.states.previous.NAME ~= nil or == jump')
     self.states:change(self.states.previous.NAME)
   elseif self.states.current.NAME == 'run' or self.states.current.NAME == 'walk' then
     -- do nothing
@@ -197,6 +180,33 @@ function Hero:endContact(a, b, collision)
   if a == self.physics.fixture or b == self.physics.fixture then
     if self.currentGroundCollision == collision then
       self.grounded = false
+      -- Consider changing to the falling state when fully implemented
+      -- self.states:change('fall')
     end
   end
+end
+
+function Hero:initializePhysics()
+  -- Physics attribute table using love.physics
+  self.physics = {}
+  self.physics.body = love.physics.newBody(World, self.x, self.y, 'dynamic')
+  self.physics.body:setFixedRotation(true)
+  self.physics.shape = love.physics.newRectangleShape(self.body_width, self.body_height) -- By default, the local origin is located at the center of the rectangle as opposed to the top left for graphics.
+  self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
+  self.physics.fixture:setUserData('Hero')
+  self.physics.body:setGravityScale(0)
+end
+
+function Hero:initializeStateMachine()
+  -- initialize state machine with all state-returning functions
+  local states = StateMachine {
+      ['idle'] = function() return IdleState() end,
+      ['walk'] = function() return WalkState() end,
+      ['run'] = function() return RunState() end,
+      ['sprint'] = function() return SprintState() end,
+      ['jump'] = function() return JumpState() end,
+      ['skid'] = function() return SkidState() end,
+      ['fall'] = function() return FallState() end
+  }
+  return states
 end
