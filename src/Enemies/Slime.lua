@@ -1,4 +1,4 @@
-Slime = Class{DMG_VALUE = 1, JUMP_SPEED = 4, WALK_SPEED = 40}
+Slime = Class{DMG_VALUE = 1, JUMP_SPEED = -4, WALK_SPEED = 40}
 
 ActiveSlimes = {}
 

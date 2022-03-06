@@ -122,6 +122,9 @@ function love.mouse.wasPressed(button)
 end
 
 function love.update(dt)
+  -- Update global timer found in dependencies. This is used for timing and tweening
+    Timer.update(dt)
+
     World:update(dt)
     -- Entity updates should be moved into Map.lua
     Coin:updateAll(dt)
@@ -174,7 +177,7 @@ function love.draw()
 
     -- Apply the camera to certain objects
     HeroCam:apply()
-    hero:render()
+
     -- Entity updates should be moved into Map.lua
     Coin:renderAll()
     Spike:renderAll()
@@ -182,6 +185,7 @@ function love.draw()
     Enemy:renderAll()
     End:renderAll()
 
+    hero:render()
     -- Consider making hero cam a member of hero
     HeroCam:clear() -- Deactivate camera
 

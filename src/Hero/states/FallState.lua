@@ -3,7 +3,7 @@
     Author: Ian Skelskey
     ianskelskey@gmail.com
 
-    Platformer hero's idle state.
+    Platformer hero's falling state.
 ]]
 
 FallState = Class{__includes = BaseState}
@@ -14,7 +14,8 @@ function FallState:init()
 end
 
 function FallState:enter(params)
-  heroPhysics:fall()
+  self.hero = params.hero
+
 end
 
 function FallState:exit()
@@ -23,8 +24,13 @@ end
 
 function FallState:update(dt)
   -- Animation as needed
+  self:physics()
 end
 
 function FallState:render()
-  -- Render Animation Here
+  renderAnimation(self.animation, self.hero.sprite_x, self.hero.sprite_y, self.hero.direction)
+end
+
+function FallState:physics()
+  controlled.grounded = false
 end

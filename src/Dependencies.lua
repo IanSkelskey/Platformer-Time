@@ -44,6 +44,7 @@ require 'src/Hero/states/SkidState' -- Needs implementation
 require 'src/Hero/states/SprintState'
 require 'src/Hero/states/WalkState'
 require 'src/Hero/states/FallState' -- Needs implementation
+require 'src/Hero/states/AttackState'
 
 -- Entites
 require 'src/Entities/Coin'

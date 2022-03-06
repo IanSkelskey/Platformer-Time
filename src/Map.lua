@@ -34,6 +34,7 @@ function Map:clean()
   Enemy:removeAll()
   Stone:removeAll()
   Spike:removeAll()
+  End:removeAll()
 end
 
 function Map:spawnEntities()

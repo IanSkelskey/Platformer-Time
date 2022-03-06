@@ -15,7 +15,7 @@ function SprintState:init()
 end
 
 function SprintState:enter(params)
-
+  self.hero = params.hero
 end
 
 function SprintState:exit()

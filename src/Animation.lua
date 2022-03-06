@@ -31,7 +31,7 @@ end
 -- https://love2d.org/wiki/Tutorial:Animation
 function renderAnimation(animation, x, y, direction)
   -- slight adjustment for off center sprite... this will need to change
-  -- consider adding parameter for offset to replace the hardcoded 4
+  -- consider adding parameter for horizontal-offset to replace the hardcoded 4
   if direction == -1 then
     x = x + animation.frame_width - 4
   end

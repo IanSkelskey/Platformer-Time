@@ -15,7 +15,7 @@ function SkidState:init()
 end
 
 function SkidState:enter(params)
-
+  self.hero = params.hero
 end
 
 function SkidState:exit()

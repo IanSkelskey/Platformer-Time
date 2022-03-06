@@ -55,11 +55,13 @@ function Hero:init(x, y)
     -- Speeds are stored in a table to allow tweening
     self.speeds = {dx = 0, dy = 0}
 
-    self:initializePhysics()
+    self.physics = self:initializePhysics()
     self.states = self:initializeStateMachine()
 
     -- Hero begins in idle state
-    self.states:change('idle')
+    self.states:change('idle', {
+      hero = self
+    })
     -- Consider initializing in fall states
     -- self.states:change('fall')
 
@@ -88,19 +90,14 @@ function Hero:update(dt)
 
   self.states:update(dt)
 
-  -- Updates animation frame over time based on current state
   -- Move to state files individually
   self:updateSprite()
-  updateAnimation(self.states.current.animation, dt)
 
   -- Handle respawn on death
   self:respawn()
 
   -- reset keys pressed
-  love.keyboard.keysPressed = {}
-
-  -- Update global timer found in dependencies. This is used for timing and tweening
-  Timer.update(dt)
+  --love.keyboard.keysPressed = {}
 
 end
 
@@ -112,9 +109,7 @@ end
 
 function Hero:render()
   -- Renders correct hero animation based on state.
-  -- self.states:render()
-  -- Move this to individual states. Pass hero through states as param.
-  renderAnimation(self.states.current.animation, self.sprite_x, self.sprite_y, self.direction)
+  self.states:render()
 
   self:debug()
 
@@ -142,7 +137,9 @@ function Hero:respawn()
     self.physics.body:setPosition(SPAWN_X, SPAWN_Y)
     self.health.current = self.health.max
     self.alive = true
-    self.states:change('idle')
+    self.states:change('idle', {
+      hero = self
+    })
     self.speeds.dy = 5
   end
 end
@@ -166,11 +163,15 @@ end
 function Hero:land(collision)
   self.currentGroundCollision = collision
   if (self.states.previous.NAME ~= nil and self.states.previous.NAME ~= 'jump') or self.states.current.NAME == 'jump' then
-    self.states:change(self.states.previous.NAME)
+    self.states:change(self.states.previous.NAME, {
+      hero = self
+    })
   elseif self.states.current.NAME == 'run' or self.states.current.NAME == 'walk' then
     -- do nothing
   else
-    self.states:change('idle')
+    self.states:change('idle', {
+      hero = self
+    })
   end
   self.speeds.dy = 0
   self.grounded = true
@@ -188,13 +189,14 @@ end
 
 function Hero:initializePhysics()
   -- Physics attribute table using love.physics
-  self.physics = {}
-  self.physics.body = love.physics.newBody(World, self.x, self.y, 'dynamic')
-  self.physics.body:setFixedRotation(true)
-  self.physics.shape = love.physics.newRectangleShape(self.body_width, self.body_height) -- By default, the local origin is located at the center of the rectangle as opposed to the top left for graphics.
-  self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
-  self.physics.fixture:setUserData('Hero')
-  self.physics.body:setGravityScale(0)
+  local physics = {}
+  physics.body = love.physics.newBody(World, self.x, self.y, 'dynamic')
+  physics.body:setFixedRotation(true)
+  physics.shape = love.physics.newRectangleShape(self.body_width, self.body_height) -- By default, the local origin is located at the center of the rectangle as opposed to the top left for graphics.
+  physics.fixture = love.physics.newFixture(physics.body, physics.shape)
+  physics.fixture:setUserData('Hero')
+  physics.body:setGravityScale(0)
+  return physics
 end
 
 function Hero:initializeStateMachine()
@@ -206,7 +208,8 @@ function Hero:initializeStateMachine()
       ['sprint'] = function() return SprintState() end,
       ['jump'] = function() return JumpState() end,
       ['skid'] = function() return SkidState() end,
-      ['fall'] = function() return FallState() end
+      ['fall'] = function() return FallState() end,
+      ['attack'] = function() return AttackState() end
   }
   return states
 end
