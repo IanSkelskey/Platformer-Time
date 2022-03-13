@@ -1,18 +1,17 @@
-Spike = Class{DMG_VALUE = 1}
+Spike = Class{
+  IMAGE = love.graphics.newImage("assets/images/spike.png"),
+  DMG_VALUE = 1
+}
 
 ActiveSpikes = {}
 
 function Spike:init(x, y)
 
-  -- self.animation = newAnimation(love.graphics.newImage("assets/images/jakoin_spin.png"), 16, 16, 2)
-  -- self.sound = love.audio.newSource('assets/sounds/Spike.wav', 'static')
-
   self.x = x
   self.y = y
 
-  self.image = love.graphics.newImage("assets/images/spike.png")
-  self.width = self.image:getWidth()
-  self.height = self.image:getHeight()
+  self.width = self.IMAGE:getWidth()
+  self.height = self.IMAGE:getHeight()
 
   self.scaleX = 1
 
@@ -22,14 +21,11 @@ function Spike:init(x, y)
   self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
   self.physics.fixture:setSensor(true)
 
-  -- self.DMG_VALUE = 1
-
   table.insert(ActiveSpikes, self)
 end
 
 function Spike:update(dt)
 
-  -- updateAnimation(self.animation, dt)
 end
 
 function Spike:updateAll(dt)
@@ -39,8 +35,7 @@ function Spike:updateAll(dt)
 end
 
 function Spike:render()
-  love.graphics.draw(self.image, self.x, self.y, 0, self.scale, self.scale)
-  --renderAnimation(self.animation, self.x, self.y, 1)
+  love.graphics.draw(self.IMAGE, self.x, self.y, 0, self.scale, self.scale)
 end
 
 function Spike:renderAll()

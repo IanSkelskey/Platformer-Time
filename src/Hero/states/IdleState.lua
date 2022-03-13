@@ -3,13 +3,16 @@
     Author: Ian Skelskey
     ianskelskey@gmail.com
 
-    Platformer hero's idle state.
+    Platformer hero's idle state. Occurs when there is no keyboard input and
+    the player is grounded.
 ]]
 
-IdleState = Class{__includes = BaseState}
+IdleState = Class{
+  __includes = BaseState,
+  NAME = 'idle'
+}
 
 function IdleState:init()
-  self.NAME = 'idle'
   self.animation = newAnimation(love.graphics.newImage("assets/images/finn_sprites/finn_idle.png"), 32, 32, 2.5)
 end
 
@@ -32,9 +35,7 @@ function IdleState:render()
 end
 
 function IdleState:controls()
-  -- IDLESTATE KEYBOARD CONTROLS
   if active_move_key == 'right' or active_move_key == 'left' then  -- Consider adding function to track active move key and make hero direction changes in states instead
-    print('changing to walk')
     self.hero.states:change('walk', {
       hero = self.hero
     })
@@ -47,7 +48,6 @@ function IdleState:controls()
   end
 
   if love.keyboard.wasPressed('space') then
-    print('pressed space')
     self.hero.states:change('attack', {
       hero = self.hero
     })
@@ -55,7 +55,6 @@ function IdleState:controls()
 
 end
 
--- Execute continuously in update during idle state
 function IdleState:physics()
   -- controlled.grounded = true
   self.hero.speeds.dx = 0

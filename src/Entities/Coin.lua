@@ -1,21 +1,22 @@
-Coin = Class{}
+Coin = Class{
+  IMAGE = love.graphics.newImage("assets/images/coin.png"),
+  SOUND = love.audio.newSource('assets/sounds/coin.wav', 'static'),
+  SCORE_VALUE = 10
+}
 
 ActiveCoins = {}
 
 function Coin:init(x, y)
 
   self.animation = newAnimation(love.graphics.newImage("assets/images/jakoin_spin.png"), 16, 16, 2)
-  self.sound = love.audio.newSource('assets/sounds/coin.wav', 'static')
 
   self.x = x
   self.y = y
 
-  self.image = love.graphics.newImage("assets/images/coin.png")
-  self.width = self.image:getWidth()
-  self.height = self.image:getHeight()
+  self.width = self.IMAGE:getWidth()
+  self.height = self.IMAGE:getHeight()
 
   self.toBeRemoved = false
-  -- self.spinOffset = math.random(0,100)
 
   self.scaleX = 1
 
@@ -25,14 +26,8 @@ function Coin:init(x, y)
   self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
   self.physics.fixture:setSensor(true)
 
-  self.POINT_VALUE = 10
-
   table.insert(ActiveCoins, self)
 end
-
--- function Coin:spin(dt)
---   self.scaleX = math.sin(love.timer.getTime() * 3 + self.spinOffset)
--- end
 
 function Coin:update(dt)
   self:checkRemove()
@@ -58,8 +53,8 @@ end
 function Coin:remove()
   for i, instance in ipairs(ActiveCoins) do
     if instance == self then
-      self.sound:stop()
-      self.sound:play()
+      self.SOUND:stop()
+      self.SOUND:play()
       self.physics.body:destroy()
       table.remove(ActiveCoins, i)
       hero:incrementCoins()

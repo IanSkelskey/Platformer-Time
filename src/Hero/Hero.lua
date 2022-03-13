@@ -4,67 +4,55 @@
     ianskelskey@gmail.com
 
     The hero is the controllable character in a platformer.
-    A hero can:
-      - idle
-      - walk
-      - run
-      - jump
-      - skid
-      - spin
-      - attack
-      - die
-      - hurt
-      - fall
+
 ]]
 
-Hero = Class{}
-
--- Declare and initialize spawn variables
-local SPAWN_X = nil
-local SPAWN_Y = nil
+Hero = Class{
+  WALK_SPEED = 60,
+  RUN_SPEED = 100,
+  JUMP_SPEED = -375
+}
 
 function Hero:init(x, y)
 
-    self.alive = true
-    self.coins = 0
-    self.score = 0
-    self.health = {current = 5, max = 5}
+  self:setSpawnPoint(x,y)
 
-    -- PLAYER SPAWN LOCATION from parameters
-    SPAWN_X = x
-    SPAWN_Y = y
-    self.x = x
-    self.y = y
+  self.alive = true
+  self.coins = 0
+  self.score = 0
+  self.health = {current = 5, max = 5}
 
-    -- player starts in the air
-    self.grounded = false
+  self.grounded = false
+  self.direction = 1  -- to the right (Will be determined with constructor parameters)
+  self.body_width = 10
+  self.body_height = 20
+  self.body_center_x = x
+  self.body_center_y = y
 
-    -- Sprite information
-    self.sprite_width = 32
-    self.sprite_height = 32
-    self.sprite_x = self.x - self.sprite_width/2 + 2
-    self.sprite_y = self.y - self.sprite_height/2
+  self.sprite_width = 32
+  self.sprite_height = 32
 
-    -- Body info
-    self.body_width = 10
-    self.body_height = 20
+  self.speeds = {dx = 0, dy = 0}
 
-     -- Player is initialized facing to the right.
-    self.direction = 1  -- to the right (Will be determined with constructor parameters)
+  self.physics = self:initializePhysics()
+  self.states = self:initializeStateMachine()
 
-    -- Speeds are stored in a table to allow tweening
-    self.speeds = {dx = 0, dy = 0}
+  self:createControllers()
 
-    self.physics = self:initializePhysics()
-    self.states = self:initializeStateMachine()
+  -- Hero begins in idle state
+  self.states:change('idle', {
+    hero = self
+  })
+  -- Consider initializing in fall states
+  -- self.states:change('fall')
 
-    -- Hero begins in idle state
-    self.states:change('idle', {
-      hero = self
-    })
-    -- Consider initializing in fall states
-    -- self.states:change('fall')
+end
 
+
+function Hero:createControllers()
+  self.debugger = HeroDebugger(self)
+  self.inputController = NewHeroController(self)
+  self.physicsController = NewHeroPhysics(self)
 end
 
 function Hero:takeDamage(amount)
@@ -83,67 +71,40 @@ end
 
 function Hero:incrementCoins()
   self.coins = self.coins + 1
-  self.score = self.score + 10
+  self.score = self.score + Coin.SCORE_VALUE
 end
 
 function Hero:update(dt)
-
   self.states:update(dt)
-
-  -- Move to state files individually
-  self:updateSprite()
-
-  -- Handle respawn on death
-  self:respawn()
-
-  -- reset keys pressed
-  --love.keyboard.keysPressed = {}
-
+  self:matchSpriteLocationToBody()
+  self:respawnOnDeath()
+  self.inputController:update()
+  self.physicsController:update(dt)
 end
 
-function Hero:updateSprite()
-  -- Update hero origin coordinates
-  self.sprite_x = self.x - self.sprite_width/2 + 2
-  self.sprite_y = self.y - self.sprite_height/2
+function Hero:matchSpriteLocationToBody()
+  self.sprite_x = self.body_center_x - self.sprite_width/2
+  self.sprite_y = self.body_center_y - self.sprite_height/2
 end
 
 function Hero:render()
-  -- Renders correct hero animation based on state.
   self.states:render()
-
-  self:debug()
-
-end
-
-
--- Move to hero debug and refactor
-function Hero:debug()
-  if debug_active then
-    --THIS IS BAD AND I HATE IT
-    -- Update body coordinates (For Debug only!)
-    self.body_x = self.physics.body:getX() - self.body_width/2
-    self.body_y = self.physics.body:getY() - self.body_height/2
-
-    drawCenter(self)
-    drawSpriteBounds(self)
-    drawCollisionBounds(self)
+  if (debug_active) then
+    self.debugger:render()
   end
 end
 
--- Change name to respawn on death
 -- Eventually to be tied to checkpoints
-function Hero:respawn()
+function Hero:respawnOnDeath()
   if not self.alive then
-    self.physics.body:setPosition(SPAWN_X, SPAWN_Y)
+    self.physics.body:setPosition(self.last_spawn_location_x, self.last_spawn_location_y)
     self.health.current = self.health.max
     self.alive = true
     self.states:change('idle', {
       hero = self
     })
-    self.speeds.dy = 5
   end
 end
-
 
 -- Move the following 3 functions to NewHeroPhysics
 function Hero:beginContact(a, b, collision)
@@ -166,8 +127,6 @@ function Hero:land(collision)
     self.states:change(self.states.previous.NAME, {
       hero = self
     })
-  elseif self.states.current.NAME == 'run' or self.states.current.NAME == 'walk' then
-    -- do nothing
   else
     self.states:change('idle', {
       hero = self
@@ -187,16 +146,22 @@ function Hero:endContact(a, b, collision)
   end
 end
 
+-- This exists in basically everything with physics. Consider moving to a global physics file
+-- and parameterizing it with physics constants (mass, gravity_scale, user_data, etc)
 function Hero:initializePhysics()
-  -- Physics attribute table using love.physics
   local physics = {}
-  physics.body = love.physics.newBody(World, self.x, self.y, 'dynamic')
+  physics.body = love.physics.newBody(World, self.body_center_x, self.body_center_y, 'dynamic')
   physics.body:setFixedRotation(true)
   physics.shape = love.physics.newRectangleShape(self.body_width, self.body_height) -- By default, the local origin is located at the center of the rectangle as opposed to the top left for graphics.
   physics.fixture = love.physics.newFixture(physics.body, physics.shape)
   physics.fixture:setUserData('Hero')
   physics.body:setGravityScale(0)
   return physics
+end
+
+function Hero:setSpawnPoint(x,y)
+  self.last_spawn_location_x = x
+  self.last_spawn_location_y = y
 end
 
 function Hero:initializeStateMachine()

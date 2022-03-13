@@ -6,18 +6,16 @@
     Platformer hero's run state.
 ]]
 
-RunState = Class{__includes = BaseState}
-
-local RUN_SPEED = 100
+RunState = Class{
+  __includes = BaseState,
+  NAME = 'run'
+}
 
 function RunState:init()
-  self.NAME = 'run'
   self.animation = newAnimation(love.graphics.newImage("assets/images/finn_sprites/finn_run.png"), 32, 32, .7)
-
 end
 
 function RunState:enter(params)
-  print('entering run state')
   self.hero = params.hero
 end
 
@@ -36,7 +34,6 @@ function RunState:render()
 end
 
 function RunState:controls()
-  -- RUNSTATE KEYBOARD CONTROLS
   if not run_toggle then
     self.hero.states:change('walk', {
       hero = self.hero
@@ -64,5 +61,5 @@ end
 -- Execute continuously in update during run state
 function RunState:physics()
   -- controlled.grounded = true
-  self.hero.speeds.dx = self.hero.direction * RUN_SPEED
+  self.hero.speeds.dx = self.hero.direction * self.hero.RUN_SPEED
 end

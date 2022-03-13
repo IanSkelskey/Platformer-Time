@@ -28,10 +28,11 @@ require 'src/HUD'
 Map = require 'src/Map'
 HeroCam = require 'src/Camera'
 require 'src/Animation'
+require 'src/Constants'
 
 -- Hero and Logic
 require 'src/Hero/Hero'
-require 'src/Hero/HeroDebug'
+require 'src/Hero/HeroDebugger'
 require 'src/Hero/NewHeroPhysics'
 require 'src/Hero/NewHeroController'
 
@@ -50,5 +51,8 @@ require 'src/Hero/states/AttackState'
 require 'src/Entities/Coin'
 require 'src/Entities/Spike'
 require 'src/Entities/Stone'
-require 'src/Entities/Enemy'
 require 'src/Entities/End'
+
+-- Enemies
+require 'src/Enemies/Ogre'
+require 'src/Enemies/Slime'

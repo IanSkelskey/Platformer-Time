@@ -1,18 +1,16 @@
-Stone = Class{}
+Stone = Class{
+  IMAGE = love.graphics.newImage("assets/images/stone.png")
+}
 
 ActiveStones = {}
 
 function Stone:init(x, y)
 
-  -- self.animation = newAnimation(love.graphics.newImage("assets/images/jakoin_spin.png"), 16, 16, 2)
-  -- self.sound = love.audio.newSource('assets/sounds/Stone.wav', 'static')
-
   self.x = x
   self.y = y
 
-  self.image = love.graphics.newImage("assets/images/stone.png")
-  self.width = self.image:getWidth()
-  self.height = self.image:getHeight()
+  self.width = self.IMAGE:getWidth()
+  self.height = self.IMAGE:getHeight()
 
   self.scale = 1
 
@@ -28,7 +26,6 @@ end
 
 function Stone:update(dt)
   self:syncPhysics()
-  -- updateAnimation(self.animation, dt)
 end
 
 function Stone:syncPhysics()
@@ -42,8 +39,7 @@ function Stone:updateAll(dt)
 end
 
 function Stone:render()
-  love.graphics.draw(self.image, self.x - self.width/2, self.y - self.height/2, 0, self.scale, self.scale)
-  --renderAnimation(self.animation, self.x, self.y, 1)
+  love.graphics.draw(self.IMAGE, self.x - self.width/2, self.y - self.height/2, 0, self.scale, self.scale)
 end
 
 function Stone:removeAll()

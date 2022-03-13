@@ -1,4 +1,6 @@
-End = Class{}
+End = Class{
+  IMAGE = love.graphics.newImage("assets/images/end.png")
+}
 
 ActiveEnds = {}
 
@@ -7,12 +9,8 @@ function End:init(x, y)
   self.x = x
   self.y = y
 
-  self.image = love.graphics.newImage("assets/images/end.png")
-  self.width = self.image:getWidth()
-  self.height = self.image:getHeight()
-
-  self.toBeRemoved = false
-  -- self.spinOffset = math.random(0,100)
+  self.width = self.IMAGE:getWidth()
+  self.height = self.IMAGE:getHeight()
 
   self.scaleX = 1
 
@@ -28,10 +26,6 @@ function End:init(x, y)
   table.insert(ActiveEnds, self)
 end
 
--- function End:spin(dt)
---   self.scaleX = math.sin(love.timer.getTime() * 3 + self.spinOffset)
--- end
-
 function End:update(dt)
 
 end
@@ -43,7 +37,7 @@ function End:updateAll(dt)
 end
 
 function End:render()
-  love.graphics.draw(self.image, self.x, self.y, 0, self.scale, self.scale)
+  love.graphics.draw(self.IMAGE, self.x, self.y, 0, self.scale, self.scale)
 end
 
 function End:renderAll()
@@ -55,7 +49,6 @@ end
 function End:remove()
   for i, instance in ipairs(ActiveEnds) do
     if instance == self then
-      print("removing End")
       self.physics.body:destroy()
       table.remove(ActiveEnds, i)
     end
@@ -76,7 +69,6 @@ function End:beginContact(a, b, collision)
       if a == hero.physics.fixture or b == hero.physics.fixture then
         print("colliding with End")
         Map:next()
-
         return true
       end
     end

@@ -6,13 +6,18 @@
     Platformer hero's walk state.
 ]]
 
-WalkState = Class{__includes = BaseState}
-
-local WALK_SPEED = 60
+WalkState = Class{
+  __includes = BaseState,
+  NAME = 'walk'
+}
 
 function WalkState:init()
-  self.NAME = 'walk'
-  self.animation = newAnimation(love.graphics.newImage("assets/images/finn_sprites/finn_walk.png"), 32, 32, 1)
+  self.animations = {
+    ['main'] = newAnimation(love.graphics.newImage("assets/images/finn_sprites/finn_walk.png"), 32, 32, 1),
+    ['turning'] = newAnimation(love.graphics.newImage("assets/images/finn_sprites/finn_midturn.png"), 32, 32, .12)
+  }
+
+  self.current_animation = self.animations['main']
 end
 
 function WalkState:enter(params)
@@ -24,19 +29,22 @@ function WalkState:exit()
 end
 
 function WalkState:update(dt)
-  updateAnimation(self.animation, dt)
+  updateAnimation(self.current_animation, dt)
   self:physics()
   self:controls()
 end
 
 function WalkState:render()
-  renderAnimation(self.animation, self.hero.sprite_x, self.hero.sprite_y, self.hero.direction)
+  renderAnimation(self.current_animation, self.hero.sprite_x, self.hero.sprite_y, self.hero.direction)
 end
 
 function WalkState:controls()
-  -- WALKSTATE KEYBOARD CONTROLS
+  if self:turning() then
+    self.current_animation = self.animations['turning']
+    Timer.after(.12, function() self.current_animation = self.animations['main'] end)
+  end
+
   if active_move_key == 'none' then
-    print('returning to idle')
     self.hero.states:change('idle', {
       hero = self.hero
     })
@@ -47,14 +55,12 @@ function WalkState:controls()
       hero = self.hero
     })
   elseif love.keyboard.wasPressed('up') and self.hero.grounded then
-    print('jump from walk')
     self.hero.states:change('jump', {
       hero = self.hero
     })
   end
 
   if love.keyboard.wasPressed('space') then
-    print('pressed space')
     self.hero.states:change('attack', {
       hero = self.hero
     })
@@ -62,10 +68,23 @@ function WalkState:controls()
 
 end
 
+function WalkState:turning()
+  if active_move_key == 'right' and self.hero.direction == -1 then
+      print('changing direction')
+      return true
+  end
+  if active_move_key == 'left' and self.hero.direction == 1 then
+    print('changing direction')
+    return true
+  else
+    return false
+  end
+end
+
 -- Execute continuously in update during walk state
 function WalkState:physics()
   -- This may work to keep the hero grounded once the fall state is implemented.       !!!!
   -- Same goes for idle and run
   -- controlled.grounded = true
-  self.hero.speeds.dx = self.hero.direction * WALK_SPEED
+  self.hero.speeds.dx = self.hero.direction * self.hero.WALK_SPEED
 end

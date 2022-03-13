@@ -1,4 +1,4 @@
-debug_active = false
+debug_active = true
 
 function love.conf(t)
 	if debug_active then

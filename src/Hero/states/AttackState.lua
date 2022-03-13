@@ -6,15 +6,16 @@
     Platformer hero's idle state.
 ]]
 
-AttackState = Class{__includes = BaseState}
+AttackState = Class{
+  __includes = BaseState,
+  NAME = 'attack'
+}
 
 function AttackState:init()
-  self.NAME = 'attack'
   self.animation = newAnimation(love.graphics.newImage("assets/images/finn_sprites/finn_attack.png"), 32, 32, 0.5)
 end
 
 function AttackState:enter(params)
-  print('entering attack state')
   self.hero = params.hero
   if self.hero.states.previous.NAME ~= 'jump' then
     Timer.tween(.4, self.hero.speeds, {dx = 0}, 'quad', function() self.hero.speeds.dx = 0 end)
@@ -27,10 +28,7 @@ function AttackState:exit()
 end
 
 function AttackState:update(dt)
-
   updateAnimation(self.animation, dt)
-
-  -- self:controls()
 end
 
 function AttackState:render()

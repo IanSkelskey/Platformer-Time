@@ -6,26 +6,20 @@
     Platformer hero's jump state.
 ]]
 
-JumpState = Class{__includes = BaseState}
-
-local WALK_SPEED = 60
-local RUN_SPEED = 100
-local JUMP_SPEED = -375
+JumpState = Class{
+  __includes = BaseState,
+  NAME = 'jump',
+  SOUND = love.audio.newSource('assets/sounds/jump.wav', 'static') --https://simon-develop.itch.io/jump-sound-100-free
+}
 
 function JumpState:init()
-  self.NAME = 'jump'
-  self.sounds = {
-    ['jump'] = love.audio.newSource('assets/sounds/jump.wav', 'static')
-  }
   self.animation = newAnimation(love.graphics.newImage("assets/images/finn_sprites/finn_jump.png"), 32, 32, 1)
 end
 
 function JumpState:enter(params)
   self.hero = params.hero
-
-  self.sounds['jump']:stop()
-  self.sounds['jump']:play()
-
+  self.SOUND:stop()
+  self.SOUND:play()
   self:jumpEntryPhysics()
 end
 
@@ -52,7 +46,6 @@ function JumpState:controls()
   end
 
   if love.keyboard.wasPressed('space') then
-    print('pressed space')
     self.hero.states:change('attack', {
       hero = self.hero
     })
@@ -61,8 +54,7 @@ end
 
 -- Execute once when entering the jump state
 function JumpState:jumpEntryPhysics()
-  self.hero.y = self.hero.y - 1
-  self.hero.speeds.dy = JUMP_SPEED
+  self.hero.speeds.dy = self.hero.JUMP_SPEED
   self.hero.grounded = false
 end
 
@@ -70,10 +62,10 @@ end
 function JumpState:midJumpPhysics()
 
   if self.hero.states.previous.NAME == 'idle' then
-
+    if active_move_key ~= 'none' then self.hero.speeds.dx = self.hero.direction * self.hero.WALK_SPEED end
   elseif self.hero.states.previous.NAME == 'walk' then
-    self.hero.speeds.dx = self.hero.direction * WALK_SPEED
+    self.hero.speeds.dx = self.hero.direction * self.hero.WALK_SPEED
   elseif self.hero.states.previous.NAME == 'run' then
-    self.hero.speeds.dx = self.hero.direction * RUN_SPEED
+    self.hero.speeds.dx = self.hero.direction * self.hero.RUN_SPEED
   end
 end
